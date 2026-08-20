@@ -1,0 +1,75 @@
+{
+  "name": "MechanicDesk",
+  "type": "workshop management software (SaaS) for automotive, mechanical and electrical workshops",
+  "tagline": "Intuitive. Comprehensive. Too Easy.",
+  "description": "MechanicDesk is cloud-based workshop management software by Autodeck Pty. Ltd. (Melbourne, Australia). It covers bookings, job management, invoicing/quoting, inventory, service reminders via email or SMS, reporting, multisite management, point of sale and data import/export. More than 20,000 mechanics use it, and it integrates with accounting, parts supplier, EFTPOS, vehicle lookup, CRM and loyalty platforms.",
+  "legal_entity": "Autodeck Pty. Ltd.",
+  "address": "Suite 2, Level 10, 34 Queen Street, Melbourne Victoria 3000, Australia",
+  "phone": "1300 737 100",
+  "phones": {
+    "australia": "1300 737 100",
+    "new_zealand": "0800 110 259",
+    "united_kingdom": "0800 096 8794",
+    "global": "+61 1300 737 100"
+  },
+  "email": "contact@mechanicdesk.com.au",
+  "support_email": "support@mechanicdesk.com.au",
+  "services": [
+    "Booking Diary",
+    "Invoicing/Quoting",
+    "Stock Control",
+    "Service Scheduling",
+    "Reporting",
+    "Multisite Management",
+    "Job Management",
+    "Customer and Vehicle Management",
+    "Supplier Management",
+    "Point of Sales",
+    "Data Import/Export",
+    "Superhero Support"
+  ],
+  "suitable_for": [
+    "Auto Service Centre",
+    "Marine Service Centre",
+    "Heavy Machinery & Equipments",
+    "Bikes & Bicycle Service Centre",
+    "Tyres & Spare Parts Shop"
+  ],
+  "integrations": [
+    "Xero", "MYOB", "Intuit QuickBooks", "Repco Navigator Pro", "Burson EzyParts",
+    "NAPA PROLink", "Autopro", "hsy", "Auto One", "BNT", "Autolign", "MailChimp",
+    "Windcave", "Till Payments", "Australian Vehicle Lookup", "CarJam", "MyCarCheck", "AMS Rewards"
+  ],
+  "pricing": {
+    "trial": "14 days free trial",
+    "australia": { "starter": "$85.00/m + GST", "small": "$115.00/m + GST", "team": "$150.00/m + GST", "large": "$250.00/m + GST" },
+    "new_zealand": { "starter": "NZD $85.00/m", "small": "NZD $115.00/m", "team": "NZD $150.00/m", "large": "NZD $250.00/m" },
+    "united_kingdom": { "starter": "£45/m", "small": "£60/m", "team": "£75/m", "large": "£120/m" },
+    "global": { "starter": "USD $50.00/m", "small": "USD $60.00/m", "team": "USD $85.00/m", "large": "USD $165.00/m" },
+    "addons": ["Customized Templates", "Digital Signatures"]
+  },
+  "social_links": {
+    "facebook": "http://www.facebook.com/mechanicdesk",
+    "twitter": "https://twitter.com/mechanicdesk",
+    "instagram": "",
+    "linkedin": "",
+    "tiktok": ""
+  },
+  "apps": {
+    "ios": "https://apps.apple.com/au/app/mechanicdesk-mobile/id1441067162",
+    "android": "https://play.google.com/store/apps/details?id=mobile.mechanicdesk"
+  },
+  "existing_website_url": "https://www.mechanicdesk.com.au/",
+  "manual_url": "https://mechanicdesk.zendesk.com/hc/en-au",
+  "brand_colors": ["#fc9604", "#0d0d0d", "#ffffff"],
+  "named_customers": [
+    "Mag & Turbo Tyre & Service Centre",
+    "Tyres2go Tyres & Service Centre",
+    "Ironman4x4 & Service Centre"
+  ],
+  "testimonials": [],
+  "opening_hours": {},
+  "rating": "",
+  "review_count": "",
+  "notes": "All data taken from the official website (home, integrations, support, contact pages and js/index.js pricing data) on 2026-08-20. The live testimonials page loads reviews dynamically, so no individual testimonial text was available — the three named customers shown on the home page are used instead. No third-party directory or review site was used."
+}
