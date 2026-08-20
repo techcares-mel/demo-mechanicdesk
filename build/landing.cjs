@@ -8,30 +8,33 @@ const CONCEPTS = [
     n: '01',
     name: 'Blueprint',
     tagline: 'Light · technical · editorial',
-    vi: 'Sáng, kỹ thuật, kiểu tài liệu engineering. Lưới hairline, nhãn monospace, bảng giá dạng bảng so sánh, cam dùng rất tiết chế.',
-    traits: ['Archivo + Inter + IBM Plex Mono', 'Hairline grid, sharp 3px corners', 'Feature index + detail panel', 'Pricing as a comparison table'],
+    en: 'A light engineering document. Hairline grid, monospace spec labels, dimension lines annotating the product tour, and pricing as a comparison table. Orange appears only as a signal colour.',
+    vi: 'Sáng, kỹ thuật, kiểu bản vẽ engineering. Lưới hairline, nhãn monospace, đường ghi kích thước quanh khung sản phẩm, bảng giá dạng bảng so sánh. Cam chỉ dùng làm màu tín hiệu.',
+    traits: ['Archivo + Inter + IBM Plex Mono', 'Dimension lines, hex-bolt corner marks', 'Feature index + one detail panel', 'Pricing as a spec comparison table'],
     swatches: ['#e07b05', '#fbfaf8', '#14171b', '#e4e2db'],
-    best: 'Reads most “software company”: sober, dense, data-first.'
+    best: 'Reads most “engineering company”: sober, precise, spec-driven.'
   },
   {
     key: 'v2',
     n: '02',
     name: 'Graphite',
     tagline: 'Dark · precision · industrial',
-    vi: 'Tối kiểu graphite, cam làm đèn tín hiệu. Nav dạng pill nổi, marquee logo đối tác, feature explorer dạng chip, thẻ giá glow.',
-    traits: ['Space Grotesk + Inter + JetBrains Mono', 'Graphite surfaces, orange signal light', 'Scrolling partner marquee', 'Chip-based feature explorer'],
+    en: 'Graphite dark with orange used as a signal light. Hazard tape, carbon weave, a tyre-tread footer edge, a spec plate on every module, and a full-bleed workshop photo band.',
+    vi: 'Tối kiểu graphite, cam làm đèn tín hiệu. Băng hazard, vân carbon, dải gai lốp, biển spec cho từng module, dải ảnh xưởng full-bleed.',
+    traits: ['Space Grotesk + Inter + JetBrains Mono', 'Hazard tape, carbon weave, tyre-tread edge', 'Scrolling partner marquee', 'Module chips + spec plate panel'],
     swatches: ['#fca311', '#0b0d0f', '#171c21', '#eef1f3'],
-    best: 'Most premium / automotive-tech feel of the three.'
+    best: 'Most premium / performance-workshop feel of the three.'
   },
   {
     key: 'v3',
     n: '03',
     name: 'Torque',
     tagline: 'Warm light · bold · friendly',
-    vi: 'Nền kem ấm, chữ to đậm, khối cam lớn, thẻ bo tròn mềm. 12 feature dạng card mở rộng, bảng giá highlight cam.',
-    traits: ['Plus Jakarta Sans + Inter', 'Warm cream, soft shadows, 18px radius', 'Bento “why” grid + ink stats bar', 'Expandable feature cards'],
+    en: 'Warm cream ground with bold display type, a large orange panel behind the product tour and soft rounded cards. Real workshop photography leads, and the 12 modules open one at a time.',
+    vi: 'Nền kem ấm, chữ to đậm, khối cam lớn sau khung sản phẩm, thẻ bo tròn mềm. Ảnh xưởng thật làm chủ đạo, 12 module dạng card mở rộng từng cái một.',
+    traits: ['Plus Jakarta Sans + Inter', 'Real workshop photography, tread strip', 'Bento “why” grid + ink stats', 'Expandable module cards, one open at a time'],
     swatches: ['#f5860f', '#fffbf5', '#16130f', '#fdf3e6'],
-    best: 'Highest conversion energy — closest to a modern SaaS landing page.'
+    best: 'Warmest and most conversion-forward — closest to a modern SaaS landing page.'
   }
 ];
 
@@ -77,7 +80,8 @@ header.top::after{content:'';position:absolute;top:-60%;right:-10%;width:60vw;he
 .body{padding:1.6rem 1.5rem 1.75rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
 .title-row{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
 .tagline{font-size:.82rem;color:var(--accent);font-weight:500}
-.vi{font-size:.88rem;color:var(--text2)}
+.en{font-size:.88rem;color:var(--text2)}
+.vi{font-size:.82rem;color:var(--muted);border-left:2px solid var(--line2);padding-left:.7rem}
 .traits{display:grid;gap:.4rem;margin-top:.3rem}
 .traits li{display:grid;grid-template-columns:14px 1fr;gap:.55rem;font-size:.82rem;color:var(--muted)}
 .traits li::before{content:'';width:5px;height:5px;margin-top:.55rem;border-radius:50%;background:var(--accent)}
@@ -92,6 +96,7 @@ header.top::after{content:'';position:absolute;top:-60%;right:-10%;width:60vw;he
 .notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
 .note{border:1px solid var(--line);border-radius:14px;padding:1.4rem}
 .note p{font-size:.86rem;color:var(--muted);margin-top:.5rem}
+.note code{font-family:var(--mono);font-size:.78rem;color:var(--text2)}
 footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 @media(max-width:1024px){.grid{grid-template-columns:1fr;gap:1.5rem}.notes-grid{grid-template-columns:1fr}.thumb{aspect-ratio:16/9}}
 `;
@@ -165,6 +170,7 @@ module.exports = () => `<!DOCTYPE html>
           <span class="tagline">${c.tagline}</span>
         </div>
         <div class="sw">${c.swatches.map((s) => `<i style="background:${s}"></i>`).join('')}</div>
+        <p class="en">${c.en}</p>
         <p class="vi">${c.vi}</p>
         <ul class="traits">${c.traits.map((t) => `<li><span>${t}</span></li>`).join('')}</ul>
         <p class="best">${c.best}</p>
@@ -184,15 +190,38 @@ module.exports = () => `<!DOCTYPE html>
         teasers, support channels, all four phone numbers, both email addresses and the About us text.</p>
       </div>
       <div class="note">
+        <p class="mono">The product tour</p>
+        <p>Each hero runs the same ten screens of the real app inside a macOS browser window —
+        dashboard, booking diary, job card, check sheet, timesheets, invoice, tax invoice, printed
+        job card, inventory and reports — crossfading like a video, with the real mobile app on an
+        iPhone in front of it. Frames come from MechanicDesk's own tutorial videos and the App Store
+        listing; nothing is mocked up.</p>
+      </div>
+      <div class="note">
+        <p class="mono">Minimalism by disclosure</p>
+        <p>Nothing long is printed in full. The 18 integration write-ups, every pricing inclusion
+        beyond the headline price, the addons, each module's bullet list, the support numbers and the
+        About us paragraph all sit behind click-to-open blocks, so the page stays quiet until you ask
+        for detail.</p>
+      </div>
+      <div class="note">
+        <p class="mono">Automotive character</p>
+        <p>Automotive iconography (gauge, piston, tyre, oil can, torque wrench, hex bolt), a workshop
+        photo band, and per-concept cues: dimension lines and bolt marks in Blueprint, hazard tape,
+        carbon weave and a tyre-tread edge in Graphite, real workshop photography and a tread strip
+        in Torque.</p>
+      </div>
+      <div class="note">
         <p class="mono">Functionality</p>
         <p>Sticky navigation, mobile menu, scroll progress, back-to-top, scroll reveal, animated
-        counters, region price switcher, feature explorer, integration category filter, Google Maps
+        counters, region price switcher, module explorer, integration category filter, Google Maps
         embed and a working contact form (demo confirmation, no backend).</p>
       </div>
       <div class="note">
-        <p class="mono">Assets</p>
-        <p>The real MechanicDesk logo, the product screenshot, partner logos, service-type photos and
-        customer logos — taken from the current site so the comparison is like-for-like.</p>
+        <p class="mono">Photography</p>
+        <p>The old cut-out category images and the two stock blog covers were replaced with licensed
+        Pexels photography, credited in <code>images/pexels/credits.json</code>. Real brand assets —
+        the MechanicDesk logo, the 17 partner logos and the three customer logos — are untouched.</p>
       </div>
     </div>
   </section>

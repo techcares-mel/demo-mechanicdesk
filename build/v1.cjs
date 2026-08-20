@@ -1,7 +1,11 @@
 /* =========================================================================
    CONCEPT 1 — "BLUEPRINT"
-   Light, technical, editorial. Hairline grid, mono spec labels, numbered
-   sections, table-based pricing, sticky feature index. Minimal use of orange.
+   Light engineering document. Hairline rules, IBM Plex Mono spec labels,
+   Archivo headings, sharp 3px corners, numbered sections 01-09.
+   Automotive dialect: technical drawing — dimension lines with tick ends,
+   hex-bolt corner marks, tyre-tread hairline dividers, gauge tick rulers.
+   Hero: copy first, then the product tour on a full-width drawing sheet.
+   Long reference copy (integrations, addons, phone lists) folds away.
    ========================================================================= */
 const S = require('./shared.cjs');
 const { esc, ico, icons, C, slug } = S;
@@ -9,13 +13,24 @@ const { esc, ico, icons, C, slug } = S;
 const FONTS = '<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">';
 
 const n2 = (i) => String(i + 1).padStart(2, '0');
+const intCount = C.integrations.categories.reduce((n, g) => n + g.items.length, 0);
 
+/* automotive detailing ---------------------------------------------------- */
+const tread = () => '<div class="tread" aria-hidden="true"></div>';
+const bolts = () => ['tl', 'tr', 'bl', 'br']
+  .map((p) => `<span class="bolt bolt-${p}" aria-hidden="true">${icons.bolt}</span>`).join('');
+const dimX = (label) => `
+<div class="dim dim-x" aria-hidden="true">
+  <i class="dim-rule"></i><span class="dim-label">${esc(label)}</span><i class="dim-rule"></i>
+</div>`;
+
+/* section header — the editorial spine of this concept -------------------- */
 const secHead = (num, label, title, sub, extra) => `
 <div class="sec-head reveal">
   <div class="sec-label"><span class="num">${num}</span><span>${esc(label)}</span></div>
   <div class="sec-intro">
     <h2>${title}</h2>
-    ${sub ? `<p>${esc(sub)}</p>` : ''}
+    ${sub ? `<p class="sec-sub">${esc(sub)}</p>` : ''}
     ${extra || ''}
   </div>
 </div>`;
@@ -51,34 +66,41 @@ const navBar = () => `
 </div>`;
 
 /* --------------------------------------------------------------- hero ---- */
+/* Eyebrow + h1 + one sub line + 2 CTAs + 3 facts. The product does the
+   talking: 10 real app screens playing inside a macOS window, phone in front,
+   the whole assembly annotated like a part on a drawing sheet.              */
 const hero = () => `
 <section id="home" class="hero">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="mono-label reveal">${esc(C.brand.name)} <span class="dot"></span> Melbourne, Australia</p>
-      <h1 class="reveal d1">${esc(C.brand.product)}</h1>
-      <p class="hero-lead reveal d2">${esc(C.brand.heroLead)}</p>
-      <p class="hero-sub reveal d3">${esc(C.brand.heroSub)}</p>
-      <div class="hero-cta reveal d4">
-        <a class="btn btn-primary" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
-        <a class="btn btn-ghost" href="#support">Support &amp; demo</a>
+      <div class="hc-lead">
+        <p class="doc-tag reveal">${esc(C.brand.name)}<span class="dot"></span>${esc(C.brand.address.line2)}, Australia</p>
+        <h1 class="reveal d1">${esc(C.brand.product)}</h1>
       </div>
-      <ul class="spec-strip reveal d4">
-        ${C.trustStrip.map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
-      </ul>
+      <div class="hc-aside">
+        <p class="hero-sub reveal d2">${esc(C.brand.heroSub)}</p>
+        <div class="hero-cta reveal d3">
+          <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
+          <a class="btn btn-ghost btn-lg" href="#support">${esc(C.support.items[2].action.label)}</a>
+        </div>
+      </div>
     </div>
-    <figure class="hero-figure reveal d2">
-      <div class="frame">
-        <span class="tick tl"></span><span class="tick tr"></span><span class="tick bl"></span><span class="tick br"></span>
-        <img src="../images/app-presentation.png" alt="MechanicDesk workshop management software on desktop and mobile" loading="eager">
+    <ul class="spec-strip reveal d3">
+      ${C.trustStrip.map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
+    </ul>
+    <div class="hero-art reveal d4">
+      <div class="art-sheet">
+        ${bolts()}
+        ${dimX('Product tour · ' + C.productTour.slides.length + ' app screens')}
+        ${S.productMock({ wide: true })}
+        <p class="art-block"><span class="ab-no">Fig. 01</span><span class="ab-txt">${esc(C.productTour.source)}</span></p>
       </div>
-      <figcaption class="mono-label">Fig. 01 — Job list, unpaid invoices &amp; mobile diary</figcaption>
-    </figure>
+    </div>
   </div>
 </section>`;
 
-/* ------------------------------------------------------------ pillars ---- */
+/* ------------------------------------------------------ 01  pillars ------ */
 const pillars = () => `
 <section id="why" class="sec sec-pillars">
   <div class="wrap">
@@ -86,7 +108,7 @@ const pillars = () => `
     <div class="pillars">
       ${C.pillars.items.map((p, i) => `
       <article class="pillar reveal d${i + 1}">
-        <div class="pillar-top"><span class="mono-label">${n2(i)}</span>${ico(p.icon, 'ico ico-accent')}</div>
+        <div class="pillar-top">${ico(p.icon, 'ico ico-hair')}<span class="mono-label">${n2(i)}</span></div>
         <h3>${esc(p.title)}</h3>
         <p>${esc(p.text)}</p>
       </article>`).join('')}
@@ -94,73 +116,118 @@ const pillars = () => `
   </div>
 </section>`;
 
-/* ------------------------------------------------------- integrations ---- */
+/* ------------------------------------------------------ 02  features ---- */
+/* Sticky index on the left; the open module fills the sheet on the right —
+   lede column plus the full specification, no empty drawing gutter.       */
+const features = () => `
+<section id="features" class="sec sec-features">
+  <div class="wrap">
+    ${secHead('02', C.features.eyebrow, esc(C.features.heading),
+      'Twelve modules. Pick one from the index.')}
+    <div class="feat-wrap reveal">
+      <div class="feat-index" role="tablist" aria-label="Features">
+        ${C.features.items.map((f, i) => `
+        <button class="feat-tab${i === 0 ? ' active' : ''}" role="tab" data-feature-tab="${slug(f.name)}"
+                aria-selected="${i === 0 ? 'true' : 'false'}">
+          <span class="mono-label">${n2(i)}</span>
+          ${ico(f.icon, 'ico ico-hair ico-sm')}
+          <span class="feat-tab-name">${esc(f.name)}</span>
+        </button>`).join('')}
+      </div>
+      <div class="feat-panels">
+        ${C.features.items.map((f, i) => `
+        <article class="feat-panel${i === 0 ? ' active' : ''}" data-feature-panel="${slug(f.name)}" role="tabpanel">
+          <div class="plate">
+            <span class="plate-no">Module ${n2(i)} <span class="sep">/</span> 12</span>
+            <span class="plate-no plate-pts">${f.bullets.length} spec points</span>
+            <span class="plate-bolt">${icons.bolt}</span>
+          </div>
+          <div class="fp-body">
+            <div class="fp-lede">
+              <span class="fp-mark" aria-hidden="true">${icons[f.icon] || ''}</span>
+              <h3>${esc(f.name)}</h3>
+              <p class="feat-blurb">${esc(f.blurb)}</p>
+              ${f.highlight ? `<div class="feat-highlight"><span class="mono-label">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}
+              <a class="link-arrow" href="${f.link.url}" target="_blank" rel="noopener">${esc(f.link.label)}${icons.arrow}</a>
+            </div>
+            <div class="fp-spec">
+              <p class="mono-label fp-spec-label">Specification</p>
+              <ul class="feat-list">${f.bullets.map((b) => `<li>${icons.check}<span>${esc(b)}</span></li>`).join('')}</ul>
+            </div>
+          </div>
+        </article>`).join('')}
+      </div>
+    </div>
+  </div>
+</section>`;
+
+/* ---------------------------------------- 03  suitable for + the numbers - */
+/* One band: the establishing workshop photograph, the five service-centre
+   categories as hairline photo cards, and the four figures on a gauge scale. */
+const bay = () => `
+<section id="suitable" class="sec-bay">
+  <div class="bay-grid" aria-hidden="true"></div>
+  ${tread()}
+  <div class="wrap bay-inner">
+    <div class="sec-head reveal">
+      <div class="sec-label"><span class="num">03</span><span>${esc(C.suitable.eyebrow)}</span></div>
+      <div class="sec-intro"><h2>${esc(C.suitable.heading)}</h2></div>
+    </div>
+    <div class="bay-types">
+      ${C.suitable.items.map((s, i) => `
+      <article class="bay-type reveal d${(i % 4) + 1}">
+        <div class="bay-type-img"><img src="../images/pexels/${s.file}" alt="${esc(s.title)}" loading="lazy"></div>
+        <h3>${esc(s.title)}</h3>
+        <span class="mono-label">${n2(i)}</span>
+      </article>`).join('')}
+    </div>
+    <div class="bay-stats reveal">
+      ${C.proven.stats.map((s) => `
+      <div class="stat">
+        <strong data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</strong>
+        <i class="stat-ticks" aria-hidden="true"></i>
+        <span>${esc(s.label)}</span>
+      </div>`).join('')}
+    </div>
+  </div>
+</section>`;
+
+/* ------------------------------------------------- 04  integrations ----- */
+/* Default view is the logo wall plus one expander. All 18 descriptions live
+   inside collapsed rows behind it.                                         */
 const integrations = () => `
 <section id="integrations" class="sec sec-integrations">
   <div class="wrap">
-    ${secHead('02', C.integrations.eyebrow, esc(C.integrations.heading), C.integrations.sub,
-      `<p class="sec-body">${esc(C.integrations.intro)}</p>
-       <a class="link-arrow" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a>`)}
-    <div class="logo-grid reveal">
+    ${secHead('04', C.integrations.eyebrow, esc(C.integrations.heading), C.integrations.sub,
+      `<a class="link-arrow" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a>`)}
+    <div class="logo-wall reveal">
       ${C.integrations.logos.map((l) => `
       <div class="logo-cell" title="${esc(l.name)}">
         <img src="../images/logos/${l.file}" alt="${esc(l.name)} integration" loading="lazy">
       </div>`).join('')}
     </div>
-    <div class="cat-bar reveal">
-      <button class="chip active" data-cat="all">All</button>
-      ${C.integrations.categories.map((g) => `<button class="chip" data-cat="${slug(g.name)}">${esc(g.name)}</button>`).join('')}
-    </div>
-    <div class="int-groups">
-      ${C.integrations.categories.map((g) => `
-      <div class="int-group" data-cat-group="${slug(g.name)}">
-        <p class="mono-label group-label">${esc(g.name)}</p>
-        <div class="int-rows">
-          ${g.items.map((it) => `
-          <article class="int-row reveal">
-            <div class="int-logo">${it.file ? `<img src="../images/logos/${it.file}" alt="${esc(it.name)} logo" loading="lazy">` : `<span class="int-logo-text">${esc(it.name.split(' ')[0])}</span>`}</div>
-            <div class="int-body">
-              <h4>${esc(it.name)}</h4>
-              ${it.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
-            </div>
-            <div class="int-link">${it.url ? `<a href="${it.url}" target="_blank" rel="noopener">${esc(it.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}${icons.arrow}</a>` : ''}</div>
-          </article>`).join('')}
+    ${S.disclose({
+      mod: 'intx-all reveal',
+      icon: 'obd',
+      label: 'Browse all ' + intCount + ' integrations',
+      meta: C.integrations.categories.length + ' categories',
+      body: `<p class="intx-intro">${esc(C.integrations.intro)}</p>
+        <div class="cat-bar">
+          <button class="chip active" data-cat="all">All</button>
+          ${C.integrations.categories.map((g) => `<button class="chip" data-cat="${slug(g.name)}">${esc(g.name)}</button>`).join('')}
         </div>
-      </div>`).join('')}
-    </div>
+        ${S.integrationList()}`
+    })}
   </div>
 </section>`;
 
-/* ------------------------------------------------------------ suitable --- */
-const suitable = () => `
-<section id="suitable" class="sec sec-suitable">
-  <div class="wrap">
-    ${secHead('03', C.suitable.eyebrow, esc(C.suitable.heading))}
-    <div class="suit-grid">
-      ${C.suitable.items.map((s, i) => `
-      <article class="suit-cell reveal d${(i % 4) + 1}">
-        <span class="mono-label">${n2(i)}</span>
-        <div class="suit-img"><img src="../images/suitable/${s.file}" alt="${esc(s.title)}" loading="lazy"></div>
-        <h3>${esc(s.title)}</h3>
-      </article>`).join('')}
-    </div>
-  </div>
-</section>`;
-
-/* -------------------------------------------------------------- proven --- */
+/* ------------------------------------------------------- 05  proven ----- */
 const proven = () => `
 <section id="proven" class="sec sec-proven">
   <div class="wrap">
-    ${secHead('04', C.proven.eyebrow, esc(C.proven.heading), C.proven.sub,
+    ${secHead('05', C.proven.eyebrow, esc(C.proven.heading), C.proven.sub,
       `<p class="sec-body">${esc(C.proven.note)}</p>
        <a class="link-arrow" href="${C.proven.moreUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a>`)}
-    <div class="stat-row reveal">
-      ${C.proven.stats.map((s) => `
-      <div class="stat">
-        <strong data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</strong>
-        <span>${esc(s.label)}</span>
-      </div>`).join('')}
-    </div>
     <div class="cust-grid">
       ${C.proven.customers.map((c, i) => `
       <figure class="cust-cell reveal d${i + 1}">
@@ -171,44 +238,10 @@ const proven = () => `
   </div>
 </section>`;
 
-/* ------------------------------------------------------------ features --- */
-const features = () => `
-<section id="features" class="sec sec-features">
-  <div class="wrap">
-    ${secHead('05', C.features.eyebrow, esc(C.features.heading))}
-    <div class="feat-wrap reveal">
-      <div class="feat-index" role="tablist" aria-label="Features">
-        ${C.features.items.map((f, i) => `
-        <button class="feat-tab${i === 0 ? ' active' : ''}" role="tab" data-feature-tab="${slug(f.name)}"
-                aria-selected="${i === 0 ? 'true' : 'false'}">
-          <span class="mono-label">${n2(i)}</span>
-          <span class="feat-tab-name">${esc(f.name)}</span>
-          ${icons.arrow}
-        </button>`).join('')}
-      </div>
-      <div class="feat-panels">
-        ${C.features.items.map((f, i) => `
-        <article class="feat-panel${i === 0 ? ' active' : ''}" data-feature-panel="${slug(f.name)}" role="tabpanel">
-          <div class="feat-panel-head">
-            ${ico(f.icon, 'ico ico-accent ico-lg')}
-            <div>
-              <p class="mono-label">Feature ${n2(i)} / 12</p>
-              <h3>${esc(f.name)}</h3>
-            </div>
-          </div>
-          <p class="feat-blurb">${esc(f.blurb)}</p>
-          <ul class="feat-list">
-            ${f.bullets.map((b) => `<li>${icons.check}<span>${esc(b)}</span></li>`).join('')}
-          </ul>
-          ${f.highlight ? `<div class="feat-highlight"><span class="mono-label">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}
-          <a class="link-arrow" href="${f.link.url}" target="_blank" rel="noopener">${esc(f.link.label)}${icons.arrow}</a>
-        </article>`).join('')}
-      </div>
-    </div>
-  </div>
-</section>`;
-
-/* ------------------------------------------------------------- pricing --- */
+/* ------------------------------------------------------ 06  pricing ----- */
+/* The one concept where a comparison table is the right answer. Rows that are
+   identical for every plan (trial, support) are stated once underneath, and
+   the addons fold away.                                                    */
 const pricing = () => {
   const P = C.pricing;
   const au = P.data.australia;
@@ -216,7 +249,7 @@ const pricing = () => {
     { label: 'Monthly price', field: 'cost', big: true },
     { label: 'Included users', field: 'users' },
     { label: 'Extra user / month', field: 'costPerExtraUser' },
-    { label: 'SMS', field: 'costPerSms' },
+    { label: 'Per SMS', field: 'costPerSms' },
     { label: 'Stock items', field: 'stockCountLimit' }
   ];
   return `
@@ -229,11 +262,12 @@ const pricing = () => {
           ${P.regions.map((r) => `<option value="${r.key}">${esc(r.name)}</option>`).join('')}
         </select>
       </div>`)}
+    <p class="price-hint reveal">${icons.arrow}<span>Swipe the table to compare plans</span></p>
     <div class="table-scroll reveal">
       <table class="price-table">
         <thead>
           <tr>
-            <th><span class="mono-label nowrap">Plan <span data-region-name>Australia</span></span></th>
+            <th><span class="plate-no nowrap">PLAN <span class="sep">&middot;</span> <span data-region-name>Australia</span></span></th>
             ${P.plans.map((p) => `<th class="${p.featured ? 'featured' : ''}">
               ${p.featured ? '<span class="badge">Most popular</span>' : ''}
               <span class="plan-name">${esc(p.name)}</span>
@@ -252,14 +286,6 @@ const pricing = () => {
               </td>`;
             }).join('')}
           </tr>`).join('')}
-          <tr>
-            <th scope="row">Free trial</th>
-            ${P.plans.map((p) => `<td class="${p.featured ? 'featured' : ''}">${icons.check} ${esc(P.trial)}</td>`).join('')}
-          </tr>
-          <tr>
-            <th scope="row">Support</th>
-            ${P.plans.map((p) => `<td class="${p.featured ? 'featured' : ''}">${icons.check} ${esc(P.support)}</td>`).join('')}
-          </tr>
           <tr class="row-cta">
             <th scope="row"></th>
             ${P.plans.map((p) => `<td class="${p.featured ? 'featured' : ''}">
@@ -269,24 +295,21 @@ const pricing = () => {
         </tbody>
       </table>
     </div>
-    <div class="addons reveal">
-      <div class="addons-head">
-        <h3>${esc(P.addons.heading)}</h3>
-        <p class="mono-label">${esc(P.addons.note)}</p>
-      </div>
-      <div class="addon-grid">
-        ${P.addons.items.map((a) => `
-        <article class="addon">
-          <h4>${esc(a.name)}</h4>
-          <p>${esc(a.text)}</p>
-        </article>`).join('')}
-      </div>
-    </div>
+    <p class="price-foot reveal">${icons.check}<span>${esc(P.trial)} on every plan</span><span class="dash"></span><span>${esc(P.support)}</span></p>
+    ${S.disclose({
+      mod: 'addons reveal',
+      icon: 'toolbox',
+      label: esc(P.addons.heading),
+      meta: P.addons.items.length + ' available',
+      body: `<div class="addon-grid">
+        ${P.addons.items.map((a) => `<article class="addon"><h4>${esc(a.name)}</h4><p>${esc(a.text)}</p></article>`).join('')}
+      </div><p class="addons-note">${esc(P.addons.note)}</p>`
+    })}
   </div>
 </section>`;
 };
 
-/* ------------------------------------------------------------- support --- */
+/* ------------------------------------------------------ 07  support ----- */
 const support = () => `
 <section id="support" class="sec sec-support">
   <div class="wrap">
@@ -295,17 +318,17 @@ const support = () => `
     <div class="support-grid">
       ${C.support.items.map((s, i) => `
       <article class="support-cell reveal d${i + 1}">
-        <div class="support-top"><span class="mono-label">${n2(i)}</span>${ico(s.icon, 'ico ico-accent')}</div>
+        <div class="support-top">${ico(s.icon, 'ico ico-hair')}<span class="mono-label">${n2(i)}</span></div>
         <h3>${esc(s.title)}</h3>
         <p>${esc(s.text)}</p>
-        ${s.phones ? `<ul class="phone-list">${S.phoneRows()}</ul>` : ''}
+        ${s.phones ? S.phoneDisclosure() : ''}
         ${s.action ? `<a class="link-arrow" href="${s.action.url}"${s.action.url.startsWith('#') ? '' : ' target="_blank" rel="noopener"'}>${esc(s.action.label)}${icons.arrow}</a>` : ''}
       </article>`).join('')}
     </div>
   </div>
 </section>`;
 
-/* ---------------------------------------------------------------- blog --- */
+/* --------------------------------------------------------- 08  blog ----- */
 const blog = () => `
 <section id="blog" class="sec sec-blog">
   <div class="wrap">
@@ -314,7 +337,7 @@ const blog = () => `
       ${C.blog.posts.map((p, i) => `
       <article class="blog-cell reveal d${i + 1}">
         <a class="blog-img" href="${p.url}" target="_blank" rel="noopener">
-          <img src="../images/blog/${p.file}" alt="${esc(p.title)}" loading="lazy">
+          <img src="../images/pexels/${p.file}" alt="${esc(p.title)}" loading="lazy">
         </a>
         <div class="blog-body">
           <h3><a href="${p.url}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
@@ -326,7 +349,35 @@ const blog = () => `
   </div>
 </section>`;
 
-/* ------------------------------------------------------------- contact --- */
+/* ------------------------------------------------------------ cta band --- */
+/* Title-block panel: the one place the trial offer is restated in full.   */
+const ctaBand = () => {
+  const au = C.brand.phones[0];
+  return `
+<section id="cta" class="sec sec-cta">
+  <div class="wrap">
+    <div class="cta-sheet reveal">
+      ${bolts()}
+      <div class="cta-copy">
+        <p class="mono-label">Get started</p>
+        <h2>${esc(C.brand.cta)}</h2>
+        <ul class="cta-specs">
+          <li>${icons.check}<span>${esc(C.pricing.trial)}</span></li>
+          <li>${icons.check}<span>${esc(C.trustStrip[0])}</span></li>
+          <li>${icons.check}<span>${esc(C.pricing.support)}</span></li>
+        </ul>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.signup.label)}</a>
+        <a class="btn btn-ghost btn-lg" href="tel:${au.number.replace(/[^0-9+]/g, '')}">${icons.phone}Call ${esc(au.number)}</a>
+        <p class="cta-note">${esc(C.brand.address.line2)}, ${esc(au.label)} <span class="dash"></span> ${esc(C.brand.legal)}</p>
+      </div>
+    </div>
+  </div>
+</section>`;
+};
+
+/* ------------------------------------------------------ 09  contact ----- */
 const contact = () => `
 <section id="contact" class="sec sec-contact">
   <div class="wrap">
@@ -337,17 +388,11 @@ const contact = () => `
           <p class="mono-label">${esc(C.contact.reachHeading)}</p>
           <p class="info-strong">${esc(C.brand.legal)}</p>
           <p>${esc(C.brand.address.line1)}<br>${esc(C.brand.address.line2)}<br>${esc(C.brand.address.line3)}</p>
-        </div>
-        <div class="info-block">
-          <p class="mono-label">${esc(C.contact.callHeading)}</p>
-          <ul class="phone-list">${S.phoneRows()}</ul>
-        </div>
-        <div class="info-block">
-          <p class="mono-label">Email</p>
-          <p><a href="mailto:${C.brand.email}">${esc(C.brand.email)}</a><br>
+          <p class="info-mail"><a href="mailto:${C.brand.email}">${esc(C.brand.email)}</a><br>
              <a href="mailto:${C.brand.supportEmail}">${esc(C.brand.supportEmail)}</a></p>
         </div>
-        <div class="map">${S.mapsIframe(280)}</div>
+        ${S.phoneDisclosure()}
+        <div class="map">${S.mapsIframe(260)}</div>
       </div>
       <div class="contact-form reveal d2">${S.contactForm()}</div>
     </div>
@@ -357,6 +402,7 @@ const contact = () => `
 /* -------------------------------------------------------------- footer --- */
 const footer = () => `
 <footer class="footer">
+  ${tread()}
   <div class="wrap">
     <div class="foot-top">
       <div class="foot-brand">
@@ -364,8 +410,9 @@ const footer = () => `
           <img src="../images/logo.png" alt="MechanicDesk logo" width="40" height="41">
           <span class="brand-name">Mechanic<em>Desk</em></span>
         </a>
-        <p class="foot-about"><strong>${esc(C.brand.about.heading)}</strong><br>${esc(C.brand.about.body)}</p>
+        <p class="foot-line">${esc(C.brand.legal)}</p>
         ${S.socialLinks()}
+        ${S.disclose({ mod: 'foot-about', label: esc(C.brand.about.heading), body: `<p>${esc(C.brand.about.body)}</p>` })}
       </div>
       ${C.navFull.map((g) => `
       <div class="foot-col">
@@ -373,20 +420,13 @@ const footer = () => `
         <ul>${g.children.map((c) => `<li><a href="${c.href}"${c.href.startsWith('#') ? '' : ' target="_blank" rel="noopener"'}>${esc(c.label)}</a></li>`).join('')}</ul>
       </div>`).join('')}
       <div class="foot-col">
-        <p class="mono-label">Contact</p>
-        <ul>
-          <li>${esc(C.brand.legal)}</li>
-          <li>${esc(C.brand.address.oneLine)}</li>
-          ${C.brand.phones.map((p) => `<li>${esc(p.label)}: <a href="tel:${p.number.replace(/[^0-9+]/g, '')}">${esc(p.number)}</a></li>`).join('')}
-          <li><a href="mailto:${C.brand.email}">${esc(C.brand.email)}</a></li>
-        </ul>
-        <p class="mono-label mt">${esc(C.brand.apps.heading)}</p>
+        <p class="mono-label">${esc(C.brand.apps.heading)}</p>
         ${S.appBadges()}
       </div>
     </div>
     <div class="foot-bottom">
       <p>${esc(C.brand.copyright)}</p>
-      <p class="foot-demo">Redesign concept 1 — “Blueprint” · demo build for review</p>
+      <p class="foot-demo">Concept 1 &ldquo;Blueprint&rdquo; &middot; demo build &middot; app screens from MechanicDesk tutorials &middot; workshop photography: Pexels</p>
     </div>
   </div>
 </footer>`;
@@ -394,7 +434,7 @@ const footer = () => `
 module.exports = () => `<!DOCTYPE html>
 <html lang="en">
 <head>
-${S.head({ fontLinks: FONTS, css: 'styles.css', concept: '1', conceptName: 'Blueprint — light technical editorial' })}
+${S.head({ fontLinks: FONTS, css: 'styles.css', concept: '1', conceptName: 'Blueprint — light technical drawing' })}
 </head>
 <body class="v1">
 ${S.watermark()}
@@ -404,13 +444,14 @@ ${navBar()}
 <main>
 ${hero()}
 ${pillars()}
-${integrations()}
-${suitable()}
-${proven()}
 ${features()}
+${bay()}
+${integrations()}
+${proven()}
 ${pricing()}
 ${support()}
 ${blog()}
+${ctaBand()}
 ${contact()}
 </main>
 ${footer()}

@@ -92,7 +92,7 @@ const pillars = {
   items: [
     { icon: 'cloud', title: 'Truly hassle-free',
       text: 'No installation or manual data backup required. We take care of this so you can focus on your workshop, accessing it anywhere, anytime, on any device.' },
-    { icon: 'layers', title: 'Everything you need',
+    { icon: 'toolbox', title: 'Everything you need',
       text: 'We have it all - from bookings, job management, inventory management, custom invoices to vehicle history and service reminders via email or SMS.' },
     { icon: 'zap', title: 'Simple and easy to use',
       text: 'Intelligent auto-suggest, auto-complete and automatic address verification all mean less typing and a smoother workflow.' }
@@ -187,12 +187,15 @@ const integrations = {
 const suitable = {
   eyebrow: 'Suitable for',
   heading: 'Suitable for any service centers',
+  /* Photos live in images/pexels/ — reference them as ../images/pexels/<file>
+     and display with object-fit: cover (they are real 4:3 photographs, not
+     the cut-outs the live site uses). */
   items: [
-    { title: 'Auto Service Centre', file: 'autoServiceCenter.png' },
-    { title: 'Marine Service Centre', file: 'marineServiceCentre.png' },
-    { title: 'Heavy Machinery & Equipments', file: 'heavyMachinery.png' },
-    { title: 'Bikes & Bicycle Service Centre', file: 'bikes.png' },
-    { title: 'Tyres & Spare Parts Shop', file: 'tyres.png' }
+    { title: 'Auto Service Centre', file: 'type-auto.jpg' },
+    { title: 'Marine Service Centre', file: 'type-marine.jpg' },
+    { title: 'Heavy Machinery & Equipments', file: 'type-machinery.jpg' },
+    { title: 'Bikes & Bicycle Service Centre', file: 'type-bikes.jpg' },
+    { title: 'Tyres & Spare Parts Shop', file: 'type-tyres.jpg' }
   ]
 };
 
@@ -245,7 +248,7 @@ const features = {
       ],
       link: { label: 'Show me more about Invoicing/Quoting', url: u('feature-invoice.html') } },
 
-    { icon: 'box', name: 'Stock Control',
+    { icon: 'piston', name: 'Stock Control',
       blurb: 'Know exactly what your workshop has in stock at all times. Paired with our stock alert and stock reordering helpers, your workshop will never run out of stock again.',
       bullets: [
         'Straightforward stock level control.',
@@ -257,7 +260,7 @@ const features = {
       ],
       link: { label: 'Show me more about Stock Control', url: u('feature-inventory.html') } },
 
-    { icon: 'bell', name: 'Service Scheduling',
+    { icon: 'oilcan', name: 'Service Scheduling',
       blurb: 'Easily know which vehicles are due or overdue for service. Easily send reminders to your customers via both email and SMS.',
       bullets: [
         'We support scheduling for services, registrations and warrant of fitnesses (NZ).',
@@ -266,7 +269,7 @@ const features = {
       ],
       link: { label: 'Show me more about Service Scheduling', url: u('feature-service-schedule.html') } },
 
-    { icon: 'chart', name: 'Reporting',
+    { icon: 'gauge', name: 'Reporting',
       blurb: 'Better understand your business with our reporting system - everything from sales and received payments to stock value and employee efficiency.',
       bullets: [
         'We support Income, Expense, Work in Progress, Employee, Marketing and Stock report categories, each with their own set of reports.'
@@ -284,7 +287,7 @@ const features = {
       ],
       link: { label: 'Show me more about Multisite Management', url: u('feature-multisite.html') } },
 
-    { icon: 'clipboard', name: 'Job Management',
+    { icon: 'jobwrench', name: 'Job Management',
       blurb: 'The essence of MechanicDesk - keeping you up to date with each and every job in your workshop at a glance. Manage jobs with your colleagues centrally and in real time.',
       bullets: [
         'Quickly locate jobs with our powerful search engine.',
@@ -295,7 +298,7 @@ const features = {
       highlight: "MechanicDesk's Job Type functionality helps you save commonly done jobs and services as templates to be used over and over again, drastically cutting down time spent on preparing job cards and/or invoices.",
       link: { label: 'Show me more about Job Management', url: u('feature-job.html') } },
 
-    { icon: 'users', name: 'Customer and Vehicle Management',
+    { icon: 'car', name: 'Customer and Vehicle Management',
       blurb: "Easily store your workshop's customers details for use throughout the system via MechanicDesk's intelligent auto-suggest and auto-complete functions.",
       bullets: [
         'All of your customers information at your fingertips. You will never have to fumble around looking for phone numbers or email addresses ever again.',
@@ -317,7 +320,7 @@ const features = {
       highlight: 'MechanicDesk supports integrations with major automotive supplier platforms such as Repco Navigator Pro, Burson EzyParts, etc. and more.',
       link: { label: 'Show me more about Supplier Management', url: u('feature-supplier.html') } },
 
-    { icon: 'card', name: 'Point of Sales',
+    { icon: 'barcode', name: 'Point of Sales',
       blurb: 'Make lightning quick sales on the spot with only a few clicks. If you have barcode scanners and label printers, even better!',
       bullets: [
         'Most commercial barcode scanners and label printers are supported.',
@@ -425,10 +428,10 @@ const blog = {
   posts: [
     { title: 'Vehicle Visuals: A picture is worth a thousand words',
       excerpt: 'We at MechanicDesk would like to introduce you to our newest integration, Vehicle Visuals!...',
-      file: 'blog1.png', url: 'https://www.mechanicdesk.com.au/blog/' },
+      file: 'blog-vehicle-visuals.jpg', url: 'https://www.mechanicdesk.com.au/blog/' },
     { title: 'Clocking your time has never been easier',
       excerpt: 'With our most recent update we have implemented a new feature called The Workstation...',
-      file: 'blog2.png', url: 'https://www.mechanicdesk.com.au/blog/' }
+      file: 'blog-time-clocking.jpg', url: 'https://www.mechanicdesk.com.au/blog/' }
   ]
 };
 
@@ -450,6 +453,34 @@ const contact = {
   callHeading: 'Please Give us a call'
 };
 
+/* --- Product tour ------------------------------------------------------- */
+/* Desktop screens are frames captured from MechanicDesk's own tutorial videos
+   (Tutorial 3 "Working on a job", plus the Diary, Inventory and Reports
+   tutorials). Phone screens come from the MechanicDesk Mobile App Store
+   listing. shared.cjs drops any slide whose file is not on disk. */
+const productTour = {
+  url: 'mechanicdesk.com.au/auto_workshop/app',
+  slides: [
+    { file: 'diary.png', tab: 'Diary', caption: 'Booking diary with drag and drop scheduling' },
+    { file: 'app-dashboard.png', tab: 'Jobs', caption: 'Current jobs, unpaid invoices and jobs on hold' },
+    { file: 'app-jobcard.png', tab: 'Job #10', caption: 'Job card and invoice side by side' },
+    { file: 'app-checksheet.png', tab: 'Job #10', caption: 'Check sheet, photos and clock on' },
+    { file: 'app-timesheet.png', tab: 'Timesheets', caption: 'Timesheets recorded against the job' },
+    { file: 'app-invoice.png', tab: 'Invoice', caption: 'Invoice lines, discounts and GST' },
+    { file: 'app-taxinvoice.png', tab: 'Print', caption: 'Tax invoice ready to print or email' },
+    { file: 'app-jobcard-print.png', tab: 'Print', caption: 'Printed job card with barcode' },
+    { file: 'inventory.png', tab: 'Inventory', caption: 'Stock control with reorder alerts' },
+    { file: 'reports.png', tab: 'Reports', caption: 'Reports on sales, hours and stock' }
+  ],
+  phone: [
+    { file: 'm1.png', caption: 'MechanicDesk Mobile' },
+    { file: 'm2.png', caption: 'MechanicDesk Mobile' },
+    { file: 'm3.png', caption: 'MechanicDesk Mobile' }
+  ],
+  badge: { title: 'Service reminder sent', text: 'Email and SMS, straight from the job' },
+  source: 'Real screens from the MechanicDesk tutorials and mobile app.'
+};
+
 const trustStrip = [
   'No installation required',
   'Automatic data backup',
@@ -457,4 +488,4 @@ const trustStrip = [
   '14 days free trial'
 ];
 
-module.exports = { brand, nav, navFull, pillars, integrations, suitable, proven, features, pricing, support, blog, contact, trustStrip, SITE, u };
+module.exports = { brand, nav, navFull, pillars, integrations, suitable, proven, features, pricing, support, blog, contact, trustStrip, productTour, SITE, u };

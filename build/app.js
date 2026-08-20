@@ -216,7 +216,74 @@
     });
   }
 
-  /* --- 13. Smooth anchor scrolling with nav offset --------------------- */
+  /* --- 13. Product tour: 10 app screens played like a video ------------- */
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tour = $('[data-tour]');
+  if (tour) {
+    var tSlides = $$('.mb-slide', tour);
+    var tBar = $('[data-tour-bar]', tour);
+    var tCap = $('[data-tour-caption]', tour);
+    var tTab = $('[data-tour-tab]', tour);
+    var tIdx = $('[data-tour-index]', tour);
+    var tBtn = $('[data-tour-toggle]', tour);
+    var HOLD = 3400;           // ms each screen stays up
+    var cur = 0, elapsed = 0, last = 0, playing = !reduced, raf = null, hovering = false;
+
+    var paint = function (i) {
+      tSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
+      var s = tSlides[i];
+      if (tCap) tCap.textContent = s.getAttribute('data-caption') || '';
+      if (tTab) tTab.textContent = s.getAttribute('data-tab') || '';
+      if (tIdx) tIdx.textContent = ('0' + (i + 1)).slice(-2);
+    };
+    var step = function (ts) {
+      if (!last) last = ts;
+      var dt = ts - last; last = ts;
+      if (playing && !hovering) elapsed += dt;
+      var p = Math.min(elapsed / HOLD, 1);
+      if (tBar) tBar.style.width = (p * 100) + '%';
+      if (p >= 1) { elapsed = 0; cur = (cur + 1) % tSlides.length; paint(cur); }
+      raf = requestAnimationFrame(step);
+    };
+    var setPlaying = function (on) {
+      playing = on;
+      tour.classList.toggle('is-paused', !on);
+      if (tBtn) tBtn.setAttribute('aria-label', on ? 'Pause the product tour' : 'Play the product tour');
+    };
+    if (tBtn) tBtn.addEventListener('click', function () { setPlaying(!playing); });
+    tour.addEventListener('mouseenter', function () { hovering = true; });
+    tour.addEventListener('mouseleave', function () { hovering = false; });
+    setPlaying(playing);
+    if (tSlides.length > 1) {
+      // Only run the clock while the mock is on screen.
+      if ('IntersectionObserver' in window) {
+        var tio = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting && !raf) { last = 0; raf = requestAnimationFrame(step); }
+            else if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = null; }
+          });
+        }, { threshold: 0.15 });
+        tio.observe(tour);
+      } else {
+        raf = requestAnimationFrame(step);
+      }
+    }
+  }
+
+  /* --- 13b. Phone screens cycle on their own, offset from the browser --- */
+  var phone = $('[data-phone]');
+  if (phone) {
+    var pSlides = $$('.mp-slide', phone);
+    if (pSlides.length > 1 && !reduced) {
+      var pi = 0;
+      setInterval(function () {
+        pi = (pi + 1) % pSlides.length;
+        pSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === pi); });
+      }, 4600);
+    }
+  }
+
+  /* --- 14. Smooth anchor scrolling with nav offset --------------------- */
   $$('a[href^="#"]').forEach(function (a) {
     a.addEventListener('click', function (e) {
       var id = a.getAttribute('href');
@@ -229,6 +296,6 @@
     });
   });
 
-  /* --- 14. Current year in footers ------------------------------------- */
+  /* --- 15. Current year in footers ------------------------------------- */
   $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();
