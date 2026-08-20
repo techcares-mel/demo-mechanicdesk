@@ -312,7 +312,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   height: 62px; border-radius: var(--radius-sm); background: #fff; display: grid; place-items: center;
   padding: 0.65rem 0.9rem; margin-bottom: 0.5rem; overflow: hidden;
 }
-.plate img { max-height: 38px; width: auto; max-width: 100%; object-fit: contain; }
+.plate img { max-height: 44px; width: auto; max-width: 100%; object-fit: contain; }
 .plate span { font-family: var(--head); font-weight: 700; color: #17130a; font-size: 0.95rem; }
 .plate-photo { height: 138px; background: #f4f4f2; padding: 0.85rem; }
 .plate-photo img { max-height: 112px; width: auto; max-width: 100%; object-fit: contain; }
