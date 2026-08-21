@@ -8,6 +8,32 @@ const C = require('./content.cjs');
 const IMG_DIR = path.resolve(__dirname, '..', 'images');
 const hasImage = (rel) => fs.existsSync(path.join(IMG_DIR, rel));
 
+/* Partner logos with the flat background stripped (build/logos-alpha.cjs), so
+   they can float with no plate behind them and keep their own colours. */
+const alphaLogo = (file) => 'images/logos-alpha/' + String(file).replace(/\.jpe?g$/i, '.png');
+
+/* Optical-size normalisation. A 5:1 wordmark and a 1:1 roundel look wildly
+   different when you cap them by height alone, so each logo is rendered at the
+   height that gives every mark roughly the SAME AREA. Sizes come from the
+   manifest the stripper writes. */
+const ALPHA = (() => {
+  const p = path.join(IMG_DIR, 'logos-alpha', 'manifest.json');
+  if (!fs.existsSync(p)) return {};
+  const out = {};
+  JSON.parse(fs.readFileSync(p, 'utf8')).forEach((m) => {
+    const [w, h] = m.size.split('x').map(Number);
+    out[m.file] = { w, h, ratio: w / h };
+  });
+  return out;
+})();
+
+/* area ≈ target² → height = sqrt(area / ratio), clamped so nothing gets silly */
+const markHeight = (file, area, min, max) => {
+  const key = String(file).replace(/\.jpe?g$/i, '.png');
+  const r = (ALPHA[key] && ALPHA[key].ratio) || 3;
+  return Math.round(Math.min(max, Math.max(min, Math.sqrt(area / r))));
+};
+
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -226,4 +252,4 @@ ${fontLinks}
 <link rel="stylesheet" href="${css}">
 <!-- Concept ${concept}: ${conceptName} — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->`;
 
-module.exports = { esc, slug, ico, icons, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };
+module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };

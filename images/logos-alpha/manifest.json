@@ -1,0 +1,138 @@
+[
+  {
+    "file": "autolign.png",
+    "source": "autolign.png",
+    "action": "background removed (40% of pixels)",
+    "size": "264x54",
+    "meanInkLuminance": 96,
+    "needsLift": true
+  },
+  {
+    "file": "autoone.png",
+    "source": "autoone.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "150x51",
+    "meanInkLuminance": 130,
+    "needsLift": false
+  },
+  {
+    "file": "autopro_logo.png",
+    "source": "autopro_logo.jpg",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "681x227",
+    "meanInkLuminance": 156,
+    "needsLift": false
+  },
+  {
+    "file": "bnt.png",
+    "source": "bnt.png",
+    "action": "background removed (38% of pixels)",
+    "size": "294x133",
+    "meanInkLuminance": 52,
+    "needsLift": true
+  },
+  {
+    "file": "carjam.png",
+    "source": "carjam.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "133x133",
+    "meanInkLuminance": 152,
+    "needsLift": false
+  },
+  {
+    "file": "ezyparts_logo2025.png",
+    "source": "ezyparts_logo2025.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "1599x500",
+    "meanInkLuminance": 88,
+    "needsLift": true
+  },
+  {
+    "file": "hsy.png",
+    "source": "hsy.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "197x79",
+    "meanInkLuminance": 86,
+    "needsLift": true
+  },
+  {
+    "file": "mailchimplogo.png",
+    "source": "mailchimplogo.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "473x148",
+    "meanInkLuminance": 116,
+    "needsLift": true
+  },
+  {
+    "file": "mycarchecklogo.png",
+    "source": "mycarchecklogo.png",
+    "action": "background removed (29% of pixels)",
+    "size": "51x62",
+    "meanInkLuminance": 176,
+    "needsLift": false
+  },
+  {
+    "file": "myob.png",
+    "source": "myob.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "242x100",
+    "meanInkLuminance": 42,
+    "needsLift": true
+  },
+  {
+    "file": "napa_pro_link.png",
+    "source": "napa_pro_link.png",
+    "action": "background removed (39% of pixels)",
+    "size": "452x104",
+    "meanInkLuminance": 131,
+    "needsLift": false
+  },
+  {
+    "file": "quickbooks.png",
+    "source": "quickbooks.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "398x121",
+    "meanInkLuminance": 129,
+    "needsLift": false
+  },
+  {
+    "file": "repco_navigator.png",
+    "source": "repco_navigator.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "264x41",
+    "meanInkLuminance": 111,
+    "needsLift": true
+  },
+  {
+    "file": "till_payments.png",
+    "source": "till_payments.png",
+    "action": "background removed (38% of pixels)",
+    "size": "452x206",
+    "meanInkLuminance": 135,
+    "needsLift": false
+  },
+  {
+    "file": "vehicle_visual.png",
+    "source": "vehicle_visual.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "266x97",
+    "meanInkLuminance": 142,
+    "needsLift": false
+  },
+  {
+    "file": "windcave.png",
+    "source": "windcave.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "287x58",
+    "meanInkLuminance": 106,
+    "needsLift": true
+  },
+  {
+    "file": "xero.png",
+    "source": "xero.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "154x154",
+    "meanInkLuminance": 157,
+    "needsLift": false
+  }
+]

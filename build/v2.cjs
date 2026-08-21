@@ -5,7 +5,7 @@
    Few borders, few boxes; long copy sits behind click-to-open blocks.
    ========================================================================= */
 const S = require('./shared.cjs');
-const { esc, ico, icons, C, slug } = S;
+const { esc, ico, icons, C, slug, alphaLogo, markHeight } = S;
 
 const FONTS = '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">';
 
@@ -70,7 +70,7 @@ const hero = () => `
   <div class="marquee" aria-label="Integration partners">
     <div class="marquee-track">
       ${[0, 1].map(() => C.integrations.logos.map((l) =>
-        `<span class="mq-item"><img src="images/logos/${l.file}" alt="${esc(l.name)}" loading="lazy"></span>`).join('')).join('')}
+        `<span class="mq-item"><img src="${alphaLogo(l.file)}" alt="${esc(l.name)}" loading="lazy" style="--h:${markHeight(l.file, 900, 14, 30)}px"></span>`).join('')).join('')}
     </div>
   </div>
 </section>`;
@@ -158,63 +158,60 @@ const features = () => `
 </section>`;
 
 /* ------------------------------------------------------- integrations ---- */
-/* Every one of the 18 partners is on screen at once, packed like the Apple
-   Watch home screen: honeycomb rows, bubbles shrinking and softening toward
-   the edge of the cluster. Tapping one opens its detail below the cluster. */
-const hive = () => {
+/* Orbit: the eighteen partners circling the MechanicDesk core on three
+   counter-rotating rings, logos floating free — no plate, no ring around
+   them, original brand colours. Hovering the system freezes it; clicking a
+   satellite opens that partner underneath. Reuses the data-hive-* hooks. */
+const orbit = () => {
   const items = [];
   C.integrations.categories.forEach((g) => g.items.forEach((it) => items.push({ ...it, cat: g.name })));
+  const rings = [items.slice(0, 5), items.slice(5, 11), items.slice(11, 18)];
+  const spin = [96, 132, 168];
 
-  const rows = [];
-  const pattern = [4, 5, 4, 5];
-  let i = 0;
-  pattern.forEach((n) => { rows.push(items.slice(i, i + n)); i += n; });
-  while (i < items.length) { rows.push(items.slice(i, i + 5)); i += 5; }
-
-  const rMid = (rows.length - 1) / 2;
-  const bubbles = rows.map((row, r) => {
-    const cMid = (row.length - 1) / 2;
-    const cells = row.map((it, c) => {
-      const dr = rMid ? (r - rMid) / rMid : 0;
-      const dc = cMid ? (c - cMid) / cMid : 0;
-      const d = Math.min(1, Math.sqrt(dr * dr + dc * dc) / Math.SQRT2);
-      const scale = (1 - 0.28 * d).toFixed(3);
-      const dim = (1 - 0.34 * d).toFixed(3);
-      const blur = (d * 0.5).toFixed(2);
-      const key = slug(it.name);
-      return `
-        <button class="bub" data-hive-tab="${key}" style="--s:${scale};--o:${dim};--b:${blur}px"
-                aria-label="${esc(it.name)}">
-          <span class="bub-face">${it.file
-            ? `<img src="images/logos/${it.file}" alt="" loading="lazy">`
-            : `<em>${esc(it.name.split(' ')[0])}</em>`}</span>
-        </button>`;
-    }).join('');
-    return `<div class="hive-row">${cells}</div>`;
-  }).join('');
-
-  const panels = items.map((it, n) => `
-    <article class="hive-panel${n === 0 ? ' active' : ''}" data-hive-panel="${slug(it.name)}">
-      <div class="hive-panel-head">
-        <span class="hive-mark">${it.file ? `<img src="images/logos/${it.file}" alt="${esc(it.name)} logo" loading="lazy">` : `<em>${esc(it.name.split(' ')[0])}</em>`}</span>
-        <span>
-          <span class="eyebrow">${esc(it.cat)}</span>
-          <h3>${esc(it.name)}</h3>
-        </span>
-      </div>
-      ${it.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
-      ${it.url ? `<a class="link-arrow sm" href="${it.url}" target="_blank" rel="noopener">${esc(it.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}${icons.arrow}</a>` : ''}
-    </article>`).join('');
+  const mark = (it, cls, area) => it.file
+    ? `<img class="${cls}" src="${alphaLogo(it.file)}" alt="" loading="lazy"
+           style="--h:${markHeight(it.file, area, 20, 54)}px">`
+    : `<em class="${cls} is-text">${esc(it.name.split(' ')[0])}</em>`;
 
   return `
 <section id="integrations" class="sec sec-integrations">
   <div class="wrap">
     ${secHead(C.integrations.eyebrow, esc(C.integrations.heading), C.integrations.sub,
       `<a class="link-arrow" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a>`, 'centered')}
-    <div class="hive reveal" data-hive>
-      ${bubbles}
+    <div class="orbit reveal">
+      <div class="orb-field" aria-hidden="true">
+        <i class="orb-ring r1"></i><i class="orb-ring r2"></i><i class="orb-ring r3"></i>
+        <i class="orb-sweep"></i>
+      </div>
+      <div class="orb-core">
+        <img src="images/logo.png" alt="MechanicDesk" width="42" height="43">
+        <i class="orb-pulse"></i><i class="orb-pulse d"></i>
+      </div>
+      ${rings.map((ring, r) => `
+      <div class="orb-track t${r + 1}" style="--spin:${spin[r]}s">
+        ${ring.map((it, i) => `
+        <div class="orb-slot" style="--a:${((360 / ring.length) * i).toFixed(2)}deg">
+          <button class="orb-node" data-hive-tab="${slug(it.name)}" style="--spin:${spin[r]}s" aria-label="${esc(it.name)}">
+            ${mark(it, 'orb-mark', 2600)}
+            <span class="orb-name">${esc(it.name)}</span>
+          </button>
+        </div>`).join('')}
+      </div>`).join('')}
     </div>
-    <div class="hive-stage reveal">${panels}</div>
+    <div class="orb-stage reveal">
+      ${items.map((it, n) => `
+      <article class="hive-panel${n === 0 ? ' active' : ''}" data-hive-panel="${slug(it.name)}">
+        <div class="hive-panel-head">
+          ${mark(it, 'hive-mark', 1500)}
+          <span>
+            <span class="eyebrow">${esc(it.cat)}</span>
+            <h3>${esc(it.name)}</h3>
+          </span>
+        </div>
+        ${it.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
+        ${it.url ? `<a class="link-arrow sm" href="${it.url}" target="_blank" rel="noopener">${esc(it.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}${icons.arrow}</a>` : ''}
+      </article>`).join('')}
+    </div>
   </div>
 </section>`;
 };
@@ -437,7 +434,7 @@ ${hero()}
 ${pillars()}
 ${bay()}
 ${features()}
-${hive()}
+${orbit()}
 ${proven()}
 ${pricing()}
 ${support()}

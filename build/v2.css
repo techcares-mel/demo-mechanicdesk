@@ -267,10 +267,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 @keyframes slide { to { transform: translateX(-50%); } }
 .mq-item {
-  display: grid; place-items: center; height: 46px; min-width: 118px; padding: 0.5rem 0.85rem;
-  background: #f4f4f2; border-radius: 9px; opacity: 0.82; transition: opacity 0.3s ease, transform 0.3s ease;
+  display: grid; place-items: center; height: 42px; min-width: 116px; padding: 0 0.9rem;
+  opacity: 0.72; transition: opacity 0.3s ease, transform 0.3s ease;
 }
-.mq-item img { max-height: 26px; width: auto; max-width: 100px; object-fit: contain; }
+.mq-item img { height: var(--h, 22px); width: auto; max-width: 116px; object-fit: contain; filter: brightness(1.1) saturate(1.03); }
 .mq-item:hover { opacity: 1; transform: translateY(-2px); }
 
 /* ----------------------------------------------------------- sec heading -- */
@@ -377,39 +377,76 @@ ul { margin: 0; padding: 0; list-style: none; }
   background: repeating-linear-gradient(90deg, rgba(252,163,17,.55) 0 1px, transparent 1px 7px);
 }
 
-/* --------------------------------------- integrations: Apple-Watch hive --- */
-/* All 18 partners on screen at once. Bubbles shrink, dim and soften toward
-   the edge of the cluster; tapping one opens its detail underneath. */
-.hive {
-  display: flex; flex-direction: column; align-items: center; gap: 0.55rem;
-  --cell: clamp(58px, 6.6vw, 92px);
+/* -------------------------------------------- integrations: the orbit --- */
+/* Logos float free: no plate, no ring around them, original brand colours.
+   Three tracks counter-rotate around the core; every logo counter-rotates by
+   the same amount so it always stays upright. */
+.orbit { position: relative; width: min(820px, 92vw); aspect-ratio: 1; margin: clamp(1rem, 2.5vw, 2.25rem) auto 0; }
+.orb-field { position: absolute; inset: 0; }
+.orb-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid var(--line); }
+.orb-ring.r1 { width: 42%; height: 42%; }
+.orb-ring.r2 { width: 70%; height: 70%; }
+.orb-ring.r3 { width: 94%; height: 94%; }
+.orb-sweep {
+  position: absolute; top: 50%; left: 50%; width: 94%; height: 94%; transform: translate(-50%, -50%);
+  border-radius: 50%; animation: spin 11s linear infinite;
+  background: conic-gradient(from 0deg, rgba(252,163,17,.1), rgba(252,163,17,0) 24%, transparent 100%);
+  mask-image: radial-gradient(circle at 50% 50%, transparent 30%, #000 33%, #000 48%, transparent 50%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 30%, #000 33%, #000 48%, transparent 50%);
 }
-.hive-row { display: flex; gap: 0.55rem; align-items: center; justify-content: center; }
-.hive-row + .hive-row { margin-top: calc(var(--cell) * -0.04); }
-.bub {
-  width: calc(var(--cell) * var(--s)); height: calc(var(--cell) * var(--s));
-  padding: 0; border: 0; background: none; border-radius: 50%;
-  opacity: var(--o); filter: blur(var(--b));
-  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.3s ease, filter 0.3s ease;
+.orb-core {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: clamp(76px, 9vw, 98px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 40% 34%, #1c2126, #0e1215);
+  box-shadow: 0 0 0 1px var(--line-2), 0 18px 50px -18px rgba(0, 0, 0, 0.9);
 }
-.bub-face {
-  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%;
-  background: #f4f4f2; overflow: hidden; padding: 18%;
-  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.65);
+.orb-core img { width: 44%; }
+.orb-pulse { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(252, 163, 17, 0.45); animation: pulse 3.6s ease-out infinite; }
+.orb-pulse.d { animation-delay: 1.8s; }
+.orb-track { position: absolute; border-radius: 50%; animation: spin var(--spin) linear infinite; }
+.orb-track.t1 { inset: 29%; }
+.orb-track.t2 { inset: 15%; animation-direction: reverse; }
+.orb-track.t3 { inset: 3%; }
+.orb-slot { position: absolute; inset: 0; transform: rotate(var(--a)); }
+.orb-node {
+  position: absolute; top: 0; left: 50%; width: clamp(88px, 10.5vw, 132px); padding: 0; border: 0;
+  background: none; display: grid; justify-items: center; gap: 0.35rem;
+  transform: translate(-50%, -50%) rotate(calc(-1 * var(--a)));
+  animation: spin-back var(--spin) linear infinite; cursor: pointer;
 }
-.bub-face img { max-width: 100%; max-height: 100%; width: auto; object-fit: contain; }
-.bub-face em { font-family: var(--head); font-style: normal; font-weight: 700; font-size: 0.74rem; color: #17130a; }
-.bub:hover, .bub:focus-visible { transform: scale(1.14); opacity: 1; filter: none; outline: none; }
-.bub.active { opacity: 1; filter: none; transform: scale(1.1); }
-.bub.active .bub-face { box-shadow: 0 0 0 2px var(--accent), 0 10px 26px -8px rgba(252, 163, 17, 0.45); }
+.orb-track.t2 .orb-node { animation-direction: reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin-back { from { rotate: 0deg; } to { rotate: -360deg; } }
+@keyframes pulse { 0% { transform: scale(1); opacity: .65 } 70% { transform: scale(2); opacity: 0 } 100% { opacity: 0 } }
+.orb-mark {
+  display: block; height: var(--h, 40px); width: auto; max-width: 100%; object-fit: contain;
+  filter: brightness(1.12) saturate(1.04) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+  transition: transform 0.35s cubic-bezier(.34, 1.5, .64, 1), filter 0.35s ease;
+}
+.orb-mark.is-text {
+  font-family: var(--head); font-style: normal; font-weight: 700; font-size: 1.05rem; color: var(--text);
+  letter-spacing: -0.02em;
+}
+.orb-name {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted); opacity: 0; transform: translateY(-3px); transition: all 0.3s ease;
+  white-space: nowrap; max-width: 132px; overflow: hidden; text-overflow: ellipsis;
+}
+.orb-node:hover .orb-mark, .orb-node:focus-visible .orb-mark, .orb-node.active .orb-mark {
+  transform: scale(1.14);
+  filter: brightness(1.25) saturate(1.1) drop-shadow(0 0 16px rgba(252, 163, 17, 0.45));
+}
+.orb-node:hover .orb-name, .orb-node:focus-visible .orb-name, .orb-node.active .orb-name { opacity: 1; transform: none; }
+.orb-node:focus-visible { outline: none; }
+.orb-node.active .orb-name { color: var(--accent); }
+.orbit:hover .orb-track, .orbit:hover .orb-sweep, .orbit:hover .orb-node { animation-play-state: paused; }
 
-.hive-stage { margin-top: clamp(2rem, 4vw, 3rem); max-width: 62ch; margin-left: auto; margin-right: auto; text-align: center; }
+.orb-stage { margin-top: clamp(1rem, 2vw, 2rem); max-width: 62ch; margin-left: auto; margin-right: auto; text-align: center; }
 .hive-panel { display: none; }
 .hive-panel.active { display: block; animation: fadeUp 0.3s ease both; }
-.hive-panel-head { display: inline-flex; align-items: center; gap: 0.9rem; margin-bottom: 0.9rem; text-align: left; }
-.hive-mark { width: 66px; height: 40px; flex: 0 0 auto; display: grid; place-items: center; background: #f4f4f2; border-radius: 8px; padding: 0.3rem; overflow: hidden; }
-.hive-mark img { max-height: 100%; max-width: 100%; width: auto; object-fit: contain; }
-.hive-mark em { font-family: var(--head); font-style: normal; font-weight: 700; font-size: 0.74rem; color: #17130a; }
+.hive-panel-head { display: inline-flex; align-items: center; gap: 1rem; margin-bottom: 0.9rem; text-align: left; }
+.hive-mark { height: var(--h, 30px); width: auto; max-width: 140px; object-fit: contain; filter: brightness(1.12) saturate(1.04); }
+.hive-mark.is-text { font-family: var(--head); font-style: normal; font-weight: 700; font-size: 1rem; color: var(--text); }
 .hive-panel-head h3 { font-size: 1.2rem; margin-top: 0.15rem; }
 .hive-panel p { font-size: 0.97rem; color: var(--text-2); }
 .hive-panel p + p { margin-top: 0.5rem; }
@@ -584,7 +621,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .cols-4 { grid-template-columns: repeat(2, 1fr); }
   .feat-list { grid-template-columns: 1fr; }
   .cta-box { grid-template-columns: 1fr; }
-  .hive { --cell: clamp(56px, 8vw, 76px); }
+  .orb-node { width: clamp(76px, 12vw, 104px); }
 }
 @media (max-width: 860px) {
   .cols-3 { grid-template-columns: 1fr; }
@@ -613,8 +650,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   .mock-phone { width: 34%; right: 2%; }
   .mock-badge { display: none; }
   .mb-cap { display: none; }
-  .hive { --cell: clamp(52px, 13vw, 68px); gap: 0.45rem; }
-  .hive-row { gap: 0.45rem; }
-  .bub { filter: none; }
+  .orbit { width: 90vw; }
+  .orb-track.t1 { inset: 31%; }
+  .orb-track.t2 { inset: 19%; }
+  .orb-track.t3 { inset: 8%; }
+  .orb-node { width: clamp(58px, 17vw, 78px); }
+  .orb-mark { height: calc(var(--h, 40px) * 0.62); }
+  .orb-name { display: none; }
   .hive-panel-head { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
 }

@@ -16,10 +16,3 @@ fs.writeFileSync(path.join(root, 'script.js'), runtime, 'utf8');
 fs.copyFileSync(path.join(__dirname, 'v2.css'), path.join(root, 'styles.css'));
 
 console.log('index.html  ' + (html.length / 1024).toFixed(1) + ' KB  + styles.css + script.js');
-
-/* Design-lab pages: alternative treatments for one section, kept off the main
-   page so the client can compare them at their own URL. */
-const lab = require('./lab.cjs')();
-fs.mkdirSync(path.join(root, 'integrations'), { recursive: true });
-fs.writeFileSync(path.join(root, 'integrations', 'index.html'), lab, 'utf8');
-console.log('integrations/index.html  ' + (lab.length / 1024).toFixed(1) + ' KB  (4 design directions)');
