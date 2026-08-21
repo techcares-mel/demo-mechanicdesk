@@ -132,6 +132,21 @@ Three things are computed at build time in `v2.cjs`:
 The rotating tracks and slots are full-size transparent divs, so they must stay `pointer-events:
 none` or they swallow every click meant for a logo.
 
+### Integrations — the idea lab
+
+`/integrations/` (noindex, not linked from the page) is a comparison page of five directions for
+this section, rendered by `build/lab2.cjs` + `build/lab2-board.cjs`: **01 Nebula drift**,
+**02 Depth of field**, **03 Constellation**, **04 Sonar sweep** and **05 Circuit board** (two
+rounded-rect buses, rounded-elbow vias, light running the traces, MechanicDesk as the chip in the
+middle, and app-to-app chords that light up when a category member is picked). Every variant keeps
+the orbit's rules: all 18 marks on screen, no plates, original colours, one optical area each, click
+for detail. Marks whose own ink is near-black (`needsLift` in the alpha manifest, plus
+`vehicle_visual` by eye) get a white light traced around their letterforms — `shared.cjs markLift()`.
+
+Screenshots: `node build/qa2.cjs brd 980` (or `neb` / `dep` / `cons` / `son` / `all`).
+Hit-testing: `node build/qa3.cjs <probe.js>` runs a script inside the page and prints what it
+reported — the board currently comes back with 18 nodes, 0 blocked.
+
 ### Pricing
 
 A spec-sheet comparison table (the layout from the Blueprint concept) in the graphite palette: one

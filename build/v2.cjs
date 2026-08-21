@@ -330,8 +330,7 @@ const proven = () => {
     <div class="quote-grid">${R.slice(0, 3).map(card).join('')}</div>
     ${S.disclose({
       mod: 'reviews-more reveal',
-      label: 'Read ' + (R.length - 3) + ' more reviews',
-      meta: C.proven.reviewCount + ' on their site',
+      label: 'Read more reviews',
       body: `<div class="quote-grid">${R.slice(3).map(card).join('')}</div>
         <p class="reviews-out"><a class="link-arrow sm" href="${C.proven.reviewsUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a></p>`
     })}

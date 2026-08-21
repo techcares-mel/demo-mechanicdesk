@@ -22,7 +22,7 @@ const ALPHA = (() => {
   const out = {};
   JSON.parse(fs.readFileSync(p, 'utf8')).forEach((m) => {
     const [w, h] = m.size.split('x').map(Number);
-    out[m.file] = { w, h, ratio: w / h };
+    out[m.file] = { w, h, ratio: w / h, lift: !!m.needsLift };
   });
   return out;
 })();
@@ -41,6 +41,16 @@ const markSize = (file, area, min, max) => {
   const r = (ALPHA[key] && ALPHA[key].ratio) || 3;
   const h = markHeight(file, area, min, max);
   return { h, w: Math.round(h * r) };
+};
+
+/* Marks whose ink is too dark to read on a dark background. They keep their
+   own colours — the fix is a soft light behind them, not a plate or a filter.
+   vehicle_visual is added by eye: the stripper measured its light grey text,
+   but the mark itself is near-black navy. */
+const EXTRA_LIFT = new Set(['vehicle_visual.png']);
+const markLift = (file) => {
+  const key = String(file).replace(/\.jpe?g$/i, '.png');
+  return !!((ALPHA[key] && ALPHA[key].lift) || EXTRA_LIFT.has(key));
 };
 
 const esc = (s) => String(s)
@@ -261,4 +271,4 @@ ${fontLinks}
 <link rel="stylesheet" href="${css}">
 <!-- Concept ${concept}: ${conceptName} — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->`;
 
-module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, markSize, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };
+module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, markSize, markLift, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };
