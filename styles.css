@@ -24,7 +24,7 @@
   --radius: 14px;
   --radius-sm: 10px;
   --max: 1240px;
-  --pad: clamp(4rem, 7vw, 7rem);
+  --pad: clamp(2rem, 3.5vw, 3.5rem);   /* half the previous section rhythm */
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --head: 'Space Grotesk', 'Inter', sans-serif;
@@ -465,10 +465,39 @@ ul { margin: 0; padding: 0; list-style: none; }
 .hive-panel .link-arrow { margin-top: 0.9rem; align-self: center; }
 
 /* ---------------------------------------------------------------- proven -- */
-.cust-card { margin: 0; text-align: center; }
-.cust-photo { max-width: 210px; margin: 0 auto 1rem; border-radius: var(--radius-sm); overflow: hidden; background: #f4f4f2; }
+.quote-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 2.5rem); }
+.quote { margin: 0; display: grid; gap: 0.9rem; align-content: start; position: relative; padding-top: 0.5rem; }
+.quote-mark {
+  position: absolute; top: -0.9rem; left: -0.1rem; font-family: var(--head); font-size: 3.2rem;
+  line-height: 1; color: rgba(252, 163, 17, 0.32); pointer-events: none;
+}
+.quote blockquote { margin: 0; font-size: 1rem; line-height: 1.7; color: var(--text-2); }
+.quote figcaption { display: grid; gap: 0.1rem; padding-top: 0.2rem; }
+.quote figcaption strong { font-family: var(--head); font-size: 0.97rem; font-weight: 600; color: var(--text); }
+.quote figcaption span { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.04em; color: var(--muted); }
+
+/* the "read more reviews" disclosure styled as a centred button */
+.reviews-more { border-top: 0; margin-top: clamp(2rem, 4vw, 3rem); }
+.reviews-more > .disc-head {
+  width: auto; margin: 0 auto; padding: 0.72rem 1.5rem; border: 1px solid var(--line-2);
+  border-radius: 999px; gap: 0.6rem;
+}
+.reviews-more > .disc-head:hover { border-color: var(--accent); color: var(--accent); }
+.reviews-more .disc-label { flex: 0 0 auto; }
+.reviews-more .disc-body { padding: clamp(1.75rem, 3.5vw, 2.75rem) 0 0; }
+.reviews-more .quote-grid { grid-template-columns: repeat(3, 1fr); }
+.reviews-out { margin-top: 1.75rem; text-align: center; }
+.reviews-out .link-arrow { display: inline-flex; }
+
+.cust-row {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem); padding-top: clamp(1.75rem, 3vw, 2.5rem); position: relative;
+}
+.cust-row::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background-image: var(--dash); }
+.cust-card { margin: 0; text-align: center; width: clamp(140px, 16vw, 178px); }
+.cust-photo { border-radius: var(--radius-sm); overflow: hidden; background: #f4f4f2; }
 .cust-photo img { width: 100%; height: auto; }
-.cust-card figcaption { font-family: var(--head); font-weight: 600; color: var(--text); font-size: 1.03rem; }
+.cust-card figcaption { margin-top: 0.7rem; font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.04em; color: var(--muted); line-height: 1.5; }
 
 /* ------------------------------------------- pricing: spec-sheet table ---- */
 .segmented {
@@ -637,6 +666,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 @media (max-width: 860px) {
   .cols-3 { grid-template-columns: 1fr; }
+  .quote-grid, .reviews-more .quote-grid { grid-template-columns: 1fr; }
   .bay-types { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }

@@ -309,20 +309,42 @@ const orbit = () => {
 };
 
 /* -------------------------------------------------------------- proven --- */
-const proven = () => `
+/* "Proven. Loved. Relied on." — the real reviews from their own testimonials
+   carousel: three on the page, six more behind a button, and a link out to the
+   full set. The three named customers keep their logo row underneath. */
+const proven = () => {
+  const R = C.proven.reviews;
+  const card = (r) => `
+      <figure class="quote reveal">
+        <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+        <blockquote>${esc(r.text)}</blockquote>
+        <figcaption>
+          <strong>${esc(r.person)}</strong>
+          <span>${esc(r.company)}${r.address ? ' · ' + esc(r.address) : ''}</span>
+        </figcaption>
+      </figure>`;
+  return `
 <section id="proven" class="sec sec-proven">
   <div class="wrap">
-    ${secHead(C.proven.eyebrow, esc(C.proven.heading), null,
-      `<a class="link-arrow" href="${C.proven.moreUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a>`, 'centered')}
-    <div class="card-grid cols-3">
-      ${C.proven.customers.map((c, i) => `
-      <figure class="cust-card reveal d${i + 1}">
+    ${secHead(C.proven.eyebrow, esc(C.proven.heading), C.proven.sub, null, 'centered')}
+    <div class="quote-grid">${R.slice(0, 3).map(card).join('')}</div>
+    ${S.disclose({
+      mod: 'reviews-more reveal',
+      label: 'Read ' + (R.length - 3) + ' more reviews',
+      meta: C.proven.reviewCount + ' on their site',
+      body: `<div class="quote-grid">${R.slice(3).map(card).join('')}</div>
+        <p class="reviews-out"><a class="link-arrow sm" href="${C.proven.reviewsUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a></p>`
+    })}
+    <div class="cust-row reveal">
+      ${C.proven.customers.map((c) => `
+      <figure class="cust-card">
         <div class="cust-photo"><img src="images/proven/${c.file}" alt="${esc(c.name)}" loading="lazy"></div>
         <figcaption>${esc(c.name)}</figcaption>
       </figure>`).join('')}
     </div>
   </div>
 </section>`;
+};
 
 /* ------------------------------------------------------------- pricing --- */
 /* Spec-sheet comparison table (the layout from the Blueprint concept), in the
@@ -525,13 +547,13 @@ ${navBar()}
 <main>
 ${hero()}
 ${pillars()}
-${bay()}
-${features()}
 ${orbit()}
+${bay()}
 ${proven()}
+${features()}
 ${pricing()}
-${support()}
 ${blog()}
+${support()}
 ${ctaBand()}
 ${contact()}
 </main>

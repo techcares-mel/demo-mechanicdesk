@@ -29,8 +29,14 @@ hairlines rather than cards inside cards.
 
 ## Page order
 
-nav → hero (product tour) → Why MechanicDesk → **Suitable for + stats band** → **Features** →
-Integrations cluster → Testimonials → Pricing table → Support → Blog → CTA band → Contact → footer
+Matches the live home page's own order:
+
+nav → hero (product tour) → Why MechanicDesk → Integrations cluster → Suitable for + stats band →
+Testimonials → Features → Pricing table → Blog → **Support → CTA band → Contact** → footer
+
+The last three do not exist on the live home page (Support/Demo and Contact are separate pages
+there); they sit after Blog because this demo is a single page. Section rhythm is
+`--pad: clamp(2rem, 3.5vw, 3.5rem)`.
 
 ## Design system
 
@@ -104,12 +110,27 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
 `data-acc-toggle`, handled by `app.js`). Collapsed by default: each module's bullet list and
 highlight, the optional addons, the support phone numbers and the footer About us paragraph.
 
-### Integrations cluster
+### Integrations — the orbit
 
-All 18 partners are on screen at once, packed like the Apple Watch home screen: honeycomb rows of
-4/5/4/5, each bubble scaled, dimmed and blurred by its normalised distance from the centre of the
-cluster (computed at build time into `--s` / `--o` / `--b`). Tapping a bubble opens that partner's
-category, description and link underneath (`data-hive-tab` / `data-hive-panel`, `app.js` 8b).
+All 18 partners circle the MechanicDesk core on three counter-rotating tracks (96s / 132s reversed /
+168s) over a generated starfield, with a radar sweep and a warm corona on the core. Logos float free:
+no plate, no ring, original brand colours. Hovering the cluster freezes every animation; hovering or
+selecting a mark lifts it, brightens it and shows its name; clicking opens that partner's category,
+description and link underneath (`data-hive-tab` / `data-hive-panel`, `app.js` 8b).
+
+Three things are computed at build time in `v2.cjs`:
+- **backgrounds stripped** — `build/logos-alpha.cjs` flood-fills each logo's background in from the
+  border (so white *inside* a mark survives) and writes `images/logos-alpha/` + a manifest with each
+  mark's size and ink luminance. Logos that are a coloured block, or already transparent, are skipped.
+- **optical-size normalisation** — every mark is rendered at the height that gives it the same AREA
+  (`shared.cjs markSize()`), so a 5:1 wordmark cannot dwarf a 1:1 roundel. AMS Rewards carries a
+  deliberate 1.8x boost.
+- **collision-free layout** — the widest marks are assigned to the outer ring (most circumference),
+  then the three ring phases are chosen by maximising the smallest gap between the real bounding boxes
+  of any two marks on different rings. The build prints the result (currently 14px of clearance).
+
+The rotating tracks and slots are full-size transparent divs, so they must stay `pointer-events:
+none` or they swallow every click meant for a logo.
 
 ### Pricing
 
@@ -125,7 +146,8 @@ images/logo.png              nav/footer logo (gear mark)
 images/logo-with-text.png    original horizontal lockup (spare)
 images/app/*.png             10 product-tour screens, all 1400x743
 images/app-mobile/m1–m3.png  real App Store screens, 560x1215, for the iPhone frame
-images/logos/*               17 partner logos (real brands — never replace these)
+images/logos/*               18 partner logos as supplied (real brands — never replace these)
+images/logos-alpha/*         the same logos with their background stripped, + manifest.json
 images/proven/*              3 customer logos: Mag & Turbo, Tyres2go, Ironman4x4 (real — keep)
 images/pexels/               licensed photography + credits.json
   blog-vehicle-visuals.jpg   blog cover 1 (technician with a diagnostic tablet)
@@ -155,8 +177,10 @@ Live: **https://demo-mechanicdesk.vercel.app**
 
 ## Notes
 
-- The live testimonials page loads reviews through a script, so no quotable testimonial text was
-  available. The page shows the three customers the home page names and links to their testimonials
-  page — it does not invent quotes or star ratings.
+- Testimonials are real. The live site keeps its reviews in `javascripts/testimonials.js` as an
+  `allTestimonials` array (32 entries, `person` / `company` / `address` / `text` / `short_text`) which
+  its carousel shuffles. `content.cjs` carries nine of them verbatim — the shortest, spread across AU
+  and NZ: three on the page, six behind the "Read 6 more reviews" button, plus a link out to their
+  full testimonials page. No quote, author or rating is invented, and there are no star rows.
 - Stats are all from the site itself: 20,000+ mechanics, 14-day trial, 18 integrations, 4 regions.
 - `vercel.json` sets `trailingSlash: true`.

@@ -207,6 +207,34 @@ const proven = {
   note: 'Hear it from those who use MechanicDesk every day',
   moreLabel: 'More happy customers',
   moreUrl: u('testimonials.html'),
+  /* Real reviews, verbatim from the site's own javascripts/testimonials.js
+     (the carousel data behind testimonials.html). 32 exist; these nine are the
+     shortest, spread across AU and NZ. Nothing here is invented. */
+  /* Real reviews, verbatim from the site's own javascripts/testimonials.js —
+     the carousel data behind testimonials.html. 32 exist there; these nine are
+     the shortest, spread across AU and NZ. Nothing here is invented. */
+  reviewCount: 32,
+  reviewsUrl: u('testimonials.html'),
+  reviews: [
+    { text: "The team at MechanicDesk are always improving the software and the integration with Xero makes invoicing and accounting a breeze at work or at home... A must for any vehicle based workshop",
+      person: "Brett Horsfall", company: "Mag & Turbo Tyre & Service Centre", address: "New Zealand" },
+    { text: "I constantly invoice and receipt people through-out the day, I need to be able to do this fast and efficiently and I can with MechanicDesk",
+      person: "Suzi McClure", company: "McClure's Vehicle Maintenance", address: "NSW, Australia" },
+    { text: "Absolutely brilliant. This best describes MechanicDesk. Not just the software, but most importantly the back up service that comes with it. The team are innovative, responsive, and it's a pleasure to receive such great service...",
+      person: "Simon Price", company: "Airlie Auto Electrics & Mechanical", address: "QLD, Australia" },
+    { text: "We trialled several different software packages before deciding on MechanicDesk, and are very happy with our choice. The design is clear and easy to use, which has meant our staff have all learned the program quickly...",
+      person: "James", company: "Gardiners Garage", address: "VIC, Australia" },
+    { text: "Since joining MechanicDesk we are operating more efficiently and productively. Linking MechanicDesk with Xero is the icing on the cake as it has cut our data entry in half. I highly recommended MechanicDesk to anyone looking for mechanical software, nothing comes close to the excellent service, support and functionality from them.",
+      person: "Melissa Sultana", company: "Better Truck Repairs P/L", address: "NSW, Australia" },
+    { text: "We have had experience using 3 Workshop management Add-Ons and after trying and testing MechanicDesk for us it ticks all the boxes. MechanicDesk integrates strongly with Xero and integrates really well with inventory. From an end user point of view the automotive industry has been crying out for a simple to use yet powerful system.",
+      person: "Todd Dunick", company: "Worksmarter", address: "New Zealand" },
+    { text: "For me MechanicDesk has made life much easier, from being able to check and take bookings from my smart phone, easily able to customise invoice and job descriptions. I particular like how quickly I can make an invoice and assign parts where appropriate. MechanicDesk has been well thought and was very easy to make the change without having to take weeks to learn a new system.",
+      person: "Nigel", company: "Aussie Tune Dandenong", address: "VIC, Australia" },
+    { text: "I searched everywhere for a system that would suit our workshop needs and couldn't find one to suit, until I discovered MechanicDesk. It is perfect for our booking diary and the team even customised it to suit our individual needs. Any change we required to our account was implemented almost immediately and was never too much trouble for the team at MechaniDesk to do it for us.",
+      person: "Adam Hurle", company: "Peter Hood Holden", address: "SA, Australia" },
+    { text: "We needed to switch to Mechanic Desk in a hurry as our other system could not keep pace with Xero. Vinh and the team were great. I had a lot of questions and wanted a specific invoice format. They were able to address my questions with patience and design the invoice template we required. Together we looked at how we could best bring the data over from our current system and this was done very quickly",
+      person: "Monique Clow", company: "Truck Alignment Services", address: "Christchurch, New Zealand" }
+  ],
   customers: [
     { name: 'Mag & Turbo Tyre & Service Centre', file: 'mag-turbo.png' },
     { name: 'Tyres2go Tyres & Service Centre', file: 'tyres.png' },
