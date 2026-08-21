@@ -5,7 +5,7 @@
    Few borders, few boxes; long copy sits behind click-to-open blocks.
    ========================================================================= */
 const S = require('./shared.cjs');
-const { esc, ico, icons, C, slug, alphaLogo, markHeight } = S;
+const { esc, ico, icons, C, slug, alphaLogo, markHeight, markSize } = S;
 
 const FONTS = '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">';
 
@@ -168,10 +168,14 @@ const orbit = () => {
   const rings = [items.slice(0, 5), items.slice(5, 11), items.slice(11, 18)];
   const spin = [96, 132, 168];
 
-  const mark = (it, cls, area) => it.file
-    ? `<img class="${cls}" src="${alphaLogo(it.file)}" alt="" loading="lazy"
-           style="--h:${markHeight(it.file, area, 20, 54)}px">`
-    : `<em class="${cls} is-text">${esc(it.name.split(' ')[0])}</em>`;
+  /* AMS Rewards reads small next to the rest, so it gets 1.8x the area. */
+  const BOOST = { 'ams_rewards.png': 1.8 };
+  const size = (it, area) => markSize(it.file, area * (BOOST[it.file] || 1), 20, 72);
+  const mark = (it, cls, area) => {
+    if (!it.file) return `<em class="${cls} is-text">${esc(it.name.split(' ')[0])}</em>`;
+    const m = size(it, area);
+    return `<img class="${cls}" src="${alphaLogo(it.file)}" alt="" loading="lazy" style="--h:${m.h}px">`;
+  };
 
   return `
 <section id="integrations" class="sec sec-integrations">
@@ -191,7 +195,8 @@ const orbit = () => {
       <div class="orb-track t${r + 1}" style="--spin:${spin[r]}s">
         ${ring.map((it, i) => `
         <div class="orb-slot" style="--a:${((360 / ring.length) * i).toFixed(2)}deg">
-          <button class="orb-node" data-hive-tab="${slug(it.name)}" style="--spin:${spin[r]}s" aria-label="${esc(it.name)}">
+          <button class="orb-node" data-hive-tab="${slug(it.name)}"
+                  style="--spin:${spin[r]}s;--w:${size(it, 2600).w}px" aria-label="${esc(it.name)}">
             ${mark(it, 'orb-mark', 2600)}
             <span class="orb-name">${esc(it.name)}</span>
           </button>

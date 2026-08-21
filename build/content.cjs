@@ -177,7 +177,7 @@ const integrations = {
         'My Car Check is a British vehicle history checking company owned by CDL Vehicle Information Services.' ] }
     ]},
     { name: 'Loyalty Programmes', items: [
-      { name: 'AMS Rewards (Australia only)', file: '', url: 'https://amsrewards.com.au/', lines: [
+      { name: 'AMS Rewards (Australia only)', file: 'ams_rewards.png', url: 'https://amsrewards.com.au/', lines: [
         "AMS Rewards, part of Australian Motoring Services (AMS), is the driving force behind the Australian Auto Club's Show Your Card and Save Program, which offers Members high value discounts at a range of retailers and on goods and services throughout Australia." ] }
     ]}
   ]

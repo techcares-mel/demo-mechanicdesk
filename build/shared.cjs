@@ -34,6 +34,15 @@ const markHeight = (file, area, min, max) => {
   return Math.round(Math.min(max, Math.max(min, Math.sqrt(area / r))));
 };
 
+/* the rendered box for a mark: height from the area rule, width from its own
+   aspect ratio — so a wide wordmark is never squeezed by a fixed max-width */
+const markSize = (file, area, min, max) => {
+  const key = String(file).replace(/\.jpe?g$/i, '.png');
+  const r = (ALPHA[key] && ALPHA[key].ratio) || 3;
+  const h = markHeight(file, area, min, max);
+  return { h, w: Math.round(h * r) };
+};
+
 const esc = (s) => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -252,4 +261,4 @@ ${fontLinks}
 <link rel="stylesheet" href="${css}">
 <!-- Concept ${concept}: ${conceptName} — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->`;
 
-module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };
+module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, markSize, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };

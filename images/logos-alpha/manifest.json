@@ -1,5 +1,13 @@
 [
   {
+    "file": "ams_rewards.png",
+    "source": "ams_rewards.png",
+    "action": "kept as-is (coloured block or already transparent)",
+    "size": "938x138",
+    "meanInkLuminance": 130,
+    "needsLift": false
+  },
+  {
     "file": "autolign.png",
     "source": "autolign.png",
     "action": "background removed (40% of pixels)",

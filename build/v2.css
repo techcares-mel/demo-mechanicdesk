@@ -382,7 +382,7 @@ ul { margin: 0; padding: 0; list-style: none; }
    Three tracks counter-rotate around the core; every logo counter-rotates by
    the same amount so it always stays upright. */
 .orbit { position: relative; width: min(820px, 92vw); aspect-ratio: 1; margin: clamp(1rem, 2.5vw, 2.25rem) auto 0; }
-.orb-field { position: absolute; inset: 0; }
+.orb-field { position: absolute; inset: 0; pointer-events: none; }
 .orb-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid var(--line); }
 .orb-ring.r1 { width: 42%; height: 42%; }
 .orb-ring.r2 { width: 70%; height: 70%; }
@@ -395,7 +395,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 30%, #000 33%, #000 48%, transparent 50%);
 }
 .orb-core {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: clamp(76px, 9vw, 98px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
   background: radial-gradient(circle at 40% 34%, #1c2126, #0e1215);
   box-shadow: 0 0 0 1px var(--line-2), 0 18px 50px -18px rgba(0, 0, 0, 0.9);
@@ -403,23 +403,25 @@ ul { margin: 0; padding: 0; list-style: none; }
 .orb-core img { width: 44%; }
 .orb-pulse { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(252, 163, 17, 0.45); animation: pulse 3.6s ease-out infinite; }
 .orb-pulse.d { animation-delay: 1.8s; }
-.orb-track { position: absolute; border-radius: 50%; animation: spin var(--spin) linear infinite; }
+/* the tracks and slots are full-size transparent rotators stacked on top of
+   each other — without this they swallow every click meant for a logo. */
+.orb-track { position: absolute; border-radius: 50%; animation: spin var(--spin) linear infinite; pointer-events: none; }
 .orb-track.t1 { inset: 29%; }
 .orb-track.t2 { inset: 15%; animation-direction: reverse; }
 .orb-track.t3 { inset: 3%; }
-.orb-slot { position: absolute; inset: 0; transform: rotate(var(--a)); }
+.orb-slot { position: absolute; inset: 0; transform: rotate(var(--a)); pointer-events: none; }
 .orb-node {
-  position: absolute; top: 0; left: 50%; width: clamp(88px, 10.5vw, 132px); padding: 0; border: 0;
+  position: absolute; top: 0; left: 50%; width: max(clamp(88px, 10.5vw, 132px), calc(var(--w, 0px) + 12px)); padding: 0; border: 0;
   background: none; display: grid; justify-items: center; gap: 0.35rem;
   transform: translate(-50%, -50%) rotate(calc(-1 * var(--a)));
-  animation: spin-back var(--spin) linear infinite; cursor: pointer;
+  animation: spin-back var(--spin) linear infinite; cursor: pointer; pointer-events: auto;
 }
 .orb-track.t2 .orb-node { animation-direction: reverse; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @keyframes spin-back { from { rotate: 0deg; } to { rotate: -360deg; } }
 @keyframes pulse { 0% { transform: scale(1); opacity: .65 } 70% { transform: scale(2); opacity: 0 } 100% { opacity: 0 } }
 .orb-mark {
-  display: block; height: var(--h, 40px); width: auto; max-width: 100%; object-fit: contain;
+  display: block; height: var(--h, 40px); width: auto; max-width: none; object-fit: contain;
   filter: brightness(1.12) saturate(1.04) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
   transition: transform 0.35s cubic-bezier(.34, 1.5, .64, 1), filter 0.35s ease;
 }
@@ -430,7 +432,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .orb-name {
   font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--muted); opacity: 0; transform: translateY(-3px); transition: all 0.3s ease;
-  white-space: nowrap; max-width: 132px; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
 }
 .orb-node:hover .orb-mark, .orb-node:focus-visible .orb-mark, .orb-node.active .orb-mark {
   transform: scale(1.14);
@@ -654,7 +656,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .orb-track.t1 { inset: 31%; }
   .orb-track.t2 { inset: 19%; }
   .orb-track.t3 { inset: 8%; }
-  .orb-node { width: clamp(58px, 17vw, 78px); }
+  .orb-node { width: max(clamp(58px, 17vw, 78px), calc(var(--w, 0px) * 0.62 + 8px)); }
   .orb-mark { height: calc(var(--h, 40px) * 0.62); }
   .orb-name { display: none; }
   .hive-panel-head { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
