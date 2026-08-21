@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integrations — four design directions</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#fca311;--accent-2:#ff7a2f;--cool:#4a7dff;
+  --bg:#0b0d0f;--bg-2:#0e1114;--surface:#12161a;
+  --line:rgba(255,255,255,.07);--line-2:rgba(255,255,255,.13);
+  --text:#eef1f3;--text-2:#b1bac2;--muted:#7c8792;
+  --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --head:'Space Grotesk','Inter',sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text-2);font-family:var(--sans);font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+h1,h2,h3{font-family:var(--head);color:var(--text);margin:0;font-weight:700;letter-spacing:-.025em}
+h1{font-size:clamp(2rem,3.6vw,2.9rem);line-height:1.06}
+h2{font-size:clamp(1.5rem,2.4vw,2.05rem)}
+h3{font-size:1.16rem;font-weight:600}
+p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
+.eyebrow{display:inline-block;font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+
+header.top{padding:clamp(3rem,6vw,5rem) 0 clamp(2rem,4vw,3rem);position:relative;overflow:hidden}
+header.top::after{content:'';position:absolute;top:-70%;right:-10%;width:60vw;height:150%;background:radial-gradient(circle,rgba(252,163,17,.13),transparent 62%);pointer-events:none}
+.brandline{display:flex;align-items:center;gap:.7rem;margin-bottom:1.8rem}
+.brandline img{width:34px}
+.brandline strong{font-family:var(--head);font-size:1.1rem;color:var(--text)}
+.brandline strong em{font-style:normal;color:var(--accent)}
+.lede{margin-top:1rem;max-width:66ch;font-size:1.06rem}
+.back{margin-top:1.6rem;display:inline-flex;align-items:center;gap:.5rem;font-size:.93rem;font-weight:600;color:var(--accent)}
+.back svg{width:15px;height:15px}
+
+.variant{padding:clamp(3rem,6vw,5.5rem) 0;border-top:1px solid var(--line)}
+.v-head{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:clamp(2rem,4vw,3rem)}
+.v-title{display:flex;align-items:baseline;gap:.9rem}
+.v-title span{font-family:var(--mono);font-size:.82rem;color:var(--accent);letter-spacing:.12em}
+.v-line{max-width:52ch;font-size:.97rem;color:var(--muted)}
+
+/* shared: a logo mark, identical size and treatment everywhere ---------- */
+.mark{display:grid;place-items:center;width:100%;height:100%;overflow:hidden}
+.mark img{max-width:74%;max-height:52%;width:auto;object-fit:contain;filter:grayscale(.92) contrast(.95) brightness(1.08);opacity:.86;transition:filter .35s ease,opacity .35s ease}
+.mark em{font-family:var(--head);font-style:normal;font-weight:700;font-size:.72rem;color:#0b0d0f}
+.node{border:0;background:none;padding:0;color:inherit}
+.node:hover .mark img,.node:focus-visible .mark img,.node.on .mark img{filter:none;opacity:1}
+.node:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* detail panel, shared by all four ------------------------------------- */
+.detail{margin-top:clamp(2rem,4vw,3rem);min-height:132px}
+.detail-inner{max-width:64ch;margin:0 auto;text-align:center;opacity:0;transform:translateY(8px);transition:opacity .35s ease,transform .35s ease}
+.detail-inner.in{opacity:1;transform:none}
+.detail-head{display:inline-flex;align-items:center;gap:.85rem;margin-bottom:.85rem;text-align:left}
+.detail-mark{width:68px;height:42px;flex:0 0 auto;display:grid;place-items:center;background:#f4f4f2;border-radius:9px;padding:.3rem;overflow:hidden}
+.detail-mark img{max-width:100%;max-height:100%;width:auto;object-fit:contain}
+.detail-mark em{font-family:var(--head);font-style:normal;font-weight:700;font-size:.72rem;color:#0b0d0f}
+.detail p{font-size:.97rem;color:var(--text-2)}
+.detail p+p{margin-top:.5rem}
+.detail a{display:inline-flex;align-items:center;gap:.45rem;margin-top:.9rem;font-weight:600;color:var(--accent);font-size:.9rem}
+.detail a svg{width:15px;height:15px}
+.detail-hint{text-align:center;font-family:var(--mono);font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------------------------------------------------------- 01 orbit ---- */
+.orbit{position:relative;width:min(760px,92vw);aspect-ratio:1;margin:0 auto}
+.orbit-field{position:absolute;inset:0}
+.orb-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px solid var(--line)}
+.orb-ring.r1{width:42%;height:42%}
+.orb-ring.r2{width:70%;height:70%}
+.orb-ring.r3{width:98%;height:98%}
+.orb-sweep{position:absolute;top:50%;left:50%;width:98%;height:98%;transform:translate(-50%,-50%);border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(252,163,17,.16),rgba(252,163,17,0) 28%,transparent 100%);
+  animation:spin 9s linear infinite;mask-image:radial-gradient(circle,transparent 34%,#000 36%);-webkit-mask-image:radial-gradient(circle,transparent 34%,#000 36%)}
+.orbit-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:96px;height:96px;border-radius:50%;
+  display:grid;place-items:center;background:radial-gradient(circle at 40% 35%,#1c2126,#0e1215);box-shadow:0 0 0 1px var(--line-2),0 18px 50px -18px rgba(0,0,0,.9)}
+.orbit-core img{width:44px}
+.orb-pulse{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(252,163,17,.5);animation:pulse 3.4s ease-out infinite}
+.orb-pulse.d{animation-delay:1.7s}
+.orb-track{position:absolute;border-radius:50%;animation:spin var(--spin) linear infinite}
+.orb-track.t1{inset:29%}
+.orb-track.t2{inset:15%;animation-direction:reverse}
+.orb-track.t3{inset:1%}
+.orb-slot{position:absolute;inset:0;transform:rotate(var(--a))}
+.orb-slot .node{position:absolute;top:0;left:50%;width:clamp(50px,6.8vw,70px);height:clamp(50px,6.8vw,70px);
+  border-radius:50%;background:#f4f4f2;box-shadow:0 10px 24px -10px rgba(0,0,0,.75);
+  transform:translate(-50%,-50%) rotate(calc(-1 * var(--a)));
+  animation:spin-back var(--spin) linear infinite;transition:box-shadow .3s ease}
+.orb-track.t2 .orb-slot .node{animation-direction:reverse}
+.orb-slot .node:hover,.orb-slot .node.on{box-shadow:0 0 0 2px var(--accent),0 14px 30px -10px rgba(252,163,17,.5)}
+.orbit:hover .orb-track,.orbit:hover .orb-sweep,.orbit:hover .orb-slot .node{animation-play-state:paused}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin-back{from{rotate:0deg}to{rotate:-360deg}}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}70%{transform:scale(2.1);opacity:0}100%{opacity:0}}
+
+/* --------------------------------------------------------- 02 aurora ---- */
+.aurora{position:relative;padding:clamp(1.5rem,3vw,2.5rem) 0;isolation:isolate}
+.au-blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;z-index:-1;pointer-events:none}
+.au-blob.a{width:46%;height:70%;left:4%;top:-10%;background:radial-gradient(circle,rgba(252,163,17,.5),transparent 68%);animation:drift 26s ease-in-out infinite alternate}
+.au-blob.b{width:52%;height:72%;right:2%;bottom:-14%;background:radial-gradient(circle,rgba(74,125,255,.34),transparent 68%);animation:drift 34s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translate3d(-4%,-3%,0) scale(1)}to{transform:translate3d(6%,5%,0) scale(1.14)}}
+.au-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;position:relative}
+.au-grid::before{content:'';position:absolute;inset:-1px;border-radius:16px;pointer-events:none;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,0%),rgba(252,163,17,.16),transparent 70%);
+  opacity:.9;transition:opacity .4s ease}
+.au-cell{position:relative;aspect-ratio:1.35;border-radius:14px;overflow:hidden;
+  background:rgba(255,255,255,.028);box-shadow:inset 0 0 0 1px var(--line);
+  display:grid;grid-template-rows:1fr auto;align-items:center;padding:.9rem .7rem .7rem;
+  transition:transform .35s cubic-bezier(.34,1.4,.64,1),box-shadow .35s ease,background .35s ease}
+.au-cell::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(220px circle at var(--cx,50%) var(--cy,50%),rgba(252,163,17,.16),transparent 72%);opacity:0;transition:opacity .35s ease}
+.au-cell:hover,.au-cell.on{transform:translateY(-4px);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(252,163,17,.45),0 18px 34px -18px rgba(0,0,0,.8)}
+.au-cell:hover::after,.au-cell.on::after{opacity:1}
+.au-cell .mark img{max-height:34px;max-width:78%}
+.au-name{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .3s ease}
+.au-cell:hover .au-name,.au-cell.on .au-name{color:var(--text-2)}
+
+/* --------------------------------------------------------- 03 signal ---- */
+.signal{position:relative;width:100%;aspect-ratio:2.5/1;min-height:400px}
+.sig-wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.wire{fill:none;stroke:rgba(255,255,255,.16);stroke-width:1;stroke-dasharray:4 8;
+  animation:flow 3.2s linear infinite;animation-delay:calc(var(--i) * -.16s)}
+@keyframes flow{to{stroke-dashoffset:-48}}
+.signal:hover .wire{stroke:rgba(252,163,17,.45)}
+.sig-node{position:absolute;transform:translate(-50%,-50%);width:clamp(48px,4.6vw,66px);height:clamp(48px,4.6vw,66px);
+  border-radius:50%;background:#f4f4f2;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 12px 26px -14px rgba(0,0,0,.85);
+  transition:transform .3s cubic-bezier(.34,1.5,.64,1),box-shadow .3s ease}
+.sig-node::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(252,163,17,.4);opacity:0;transition:opacity .3s ease}
+.sig-node:hover,.sig-node.on{transform:translate(-50%,-50%) scale(1.12)}
+.sig-node:hover::before,.sig-node.on::before{opacity:1}
+.sig-node .mark img{max-height:40%;max-width:70%}
+.sig-hub{position:absolute;transform:translate(-50%,-50%);z-index:2;
+  display:flex;align-items:center;gap:.55rem;padding:.6rem 1rem .6rem .7rem;border-radius:999px;white-space:nowrap;
+  background:linear-gradient(#1a2026,#101418);box-shadow:0 0 0 1px var(--line-2),0 0 46px -8px rgba(252,163,17,.5)}
+.sig-hub img{width:26px}
+.sig-hub span{font-family:var(--head);font-weight:600;color:var(--text);font-size:.95rem}
+.sig-halo{position:absolute;inset:-6px;border-radius:999px;border:1px solid rgba(252,163,17,.4);animation:halo 3.6s ease-out infinite}
+@keyframes halo{0%{transform:scale(1);opacity:.65}70%{transform:scale(1.5);opacity:0}100%{opacity:0}}
+
+/* --------------------------------------------------------- 04 ribbon ---- */
+.ribbon{perspective:1200px}
+.rib-stage{display:grid;gap:14px;transform:rotateX(9deg);transform-style:preserve-3d;
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.rib-row{overflow:hidden}
+.rib-track{display:flex;gap:14px;width:max-content;animation:slide var(--dur) linear infinite}
+.rib-row.rev .rib-track{animation-direction:reverse}
+.rib-row:hover .rib-track{animation-play-state:paused}
+@keyframes slide{to{transform:translateX(-50%)}}
+.rib-card{flex:0 0 auto;width:clamp(158px,16vw,204px);height:clamp(72px,7.4vw,88px);border-radius:13px;
+  display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.7rem;padding:0 .95rem;text-align:left;
+  background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line);
+  transition:transform .3s ease,box-shadow .3s ease,background .3s ease}
+.rib-card .mark{width:40px;height:34px}
+.rib-card .mark img{max-height:100%;max-width:100%}
+.rib-card span{font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .3s ease}
+.rib-card:hover,.rib-card.on{transform:translateY(-3px);background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(252,163,17,.45),0 16px 30px -16px rgba(0,0,0,.85)}
+.rib-card:hover span,.rib-card.on span{color:var(--text)}
+
+footer{border-top:1px solid var(--line);padding:2rem 0 4rem;font-family:var(--mono);font-size:.76rem;letter-spacing:.05em;color:var(--muted)}
+
+@media (max-width:1024px){
+  .au-grid{grid-template-columns:repeat(4,1fr)}
+  .signal{aspect-ratio:1.9/1}
+}
+@media (max-width:620px){
+  .au-grid{grid-template-columns:repeat(3,1fr);gap:9px}
+  .au-name{display:none}
+  .signal{aspect-ratio:1.05/1;min-height:520px}
+  .sig-hub span{display:none}
+  .rib-stage{transform:none}
+  .orbit{width:96vw}
+}
+@media (prefers-reduced-motion:reduce){
+  .orb-track,.orb-sweep,.orb-slot .node,.rib-track,.au-blob,.wire,.orb-pulse{animation:none!important}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brandline">
+      <img src="../images/logo.png" alt="MechanicDesk logo" width="34" height="35">
+      <strong>Mechanic<em>Desk</em></strong>
+    </div>
+    <p class="eyebrow">Integrations section · 4 directions</p>
+    <h1>Four ways to show the eighteen partners.</h1>
+    <p class="lede">All eighteen stay on screen in every version, and every one of them opens its own
+      description on click. What changes is the motion and the geometry. One rule runs through all
+      four: identical plates, identical optical logo size, desaturated at rest and full colour on
+      focus — that is what the first attempt was missing.</p>
+    <a class="back" href="../"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Back to the site</a>
+  </div>
+</header>
+
+
+<section class="variant" id="orbit">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>01</span><h2>Orbit</h2></div>
+      <p class="v-line">Three counter-rotating rings around the MechanicDesk core, with a slow radar sweep. Hover anywhere to freeze the system; click a satellite to read it.</p>
+    </div>
+    
+<div class="orbit" data-scope="orbit">
+  <div class="orbit-field" aria-hidden="true">
+    <i class="orb-ring r1"></i><i class="orb-ring r2"></i><i class="orb-ring r3"></i>
+    <i class="orb-sweep"></i>
+  </div>
+  <div class="orbit-core">
+    <img src="../images/logo.png" alt="MechanicDesk" width="44" height="45">
+    <i class="orb-pulse"></i><i class="orb-pulse d"></i>
+  </div>
+  
+  <div class="orb-track t1" style="--spin:86s">
+    
+    <div class="orb-slot" style="--a:0deg">
+      <button class="node" data-node="xero" style="--spin:86s" aria-label="Xero">
+        <span class="mark"><img src="../images/logos/xero.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:72deg">
+      <button class="node" data-node="myob" style="--spin:86s" aria-label="MYOB">
+        <span class="mark"><img src="../images/logos/myob.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:144deg">
+      <button class="node" data-node="intuit-quickbooks" style="--spin:86s" aria-label="Intuit QuickBooks">
+        <span class="mark"><img src="../images/logos/quickbooks.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:216deg">
+      <button class="node" data-node="repco-navigator-pro" style="--spin:86s" aria-label="Repco Navigator Pro">
+        <span class="mark"><img src="../images/logos/repco_navigator.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:288deg">
+      <button class="node" data-node="burson-ezyparts" style="--spin:86s" aria-label="Burson EzyParts">
+        <span class="mark"><img src="../images/logos/ezyparts_logo2025.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+  </div>
+  <div class="orb-track t2" style="--spin:118s">
+    
+    <div class="orb-slot" style="--a:0deg">
+      <button class="node" data-node="napa-prolink" style="--spin:118s" aria-label="NAPA PROLink">
+        <span class="mark"><img src="../images/logos/napa_pro_link.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:60deg">
+      <button class="node" data-node="autopro" style="--spin:118s" aria-label="Autopro">
+        <span class="mark"><img src="../images/logos/autopro_logo.jpg" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:120deg">
+      <button class="node" data-node="hsy" style="--spin:118s" aria-label="hsy">
+        <span class="mark"><img src="../images/logos/hsy.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:180deg">
+      <button class="node" data-node="auto-one" style="--spin:118s" aria-label="Auto One">
+        <span class="mark"><img src="../images/logos/autoone.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:240deg">
+      <button class="node" data-node="bnt" style="--spin:118s" aria-label="BNT">
+        <span class="mark"><img src="../images/logos/bnt.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:300deg">
+      <button class="node" data-node="autolign" style="--spin:118s" aria-label="Autolign">
+        <span class="mark"><img src="../images/logos/autolign.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+  </div>
+  <div class="orb-track t3" style="--spin:152s">
+    
+    <div class="orb-slot" style="--a:0deg">
+      <button class="node" data-node="mailchimp" style="--spin:152s" aria-label="MailChimp">
+        <span class="mark"><img src="../images/logos/mailchimplogo.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:51.42857142857143deg">
+      <button class="node" data-node="windcave" style="--spin:152s" aria-label="Windcave">
+        <span class="mark"><img src="../images/logos/windcave.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:102.85714285714286deg">
+      <button class="node" data-node="till-payments" style="--spin:152s" aria-label="Till Payments">
+        <span class="mark"><img src="../images/logos/till_payments.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:154.28571428571428deg">
+      <button class="node" data-node="australian-vehicle-lookup" style="--spin:152s" aria-label="Australian Vehicle Lookup">
+        <span class="mark"><img src="../images/logos/vehicle_visual.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:205.71428571428572deg">
+      <button class="node" data-node="carjam-new-zealand-only" style="--spin:152s" aria-label="CarJam (New Zealand only)">
+        <span class="mark"><img src="../images/logos/carjam.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:257.14285714285717deg">
+      <button class="node" data-node="mycarcheck-united-kingdom-only" style="--spin:152s" aria-label="MyCarCheck (United Kingdom only)">
+        <span class="mark"><img src="../images/logos/mycarchecklogo.png" alt="" loading="lazy"></span>
+      </button>
+    </div>
+    <div class="orb-slot" style="--a:308.57142857142856deg">
+      <button class="node" data-node="ams-rewards-australia-only" style="--spin:152s" aria-label="AMS Rewards (Australia only)">
+        <span class="mark"><em>AMS</em></span>
+      </button>
+    </div>
+  </div>
+</div>
+    
+<div class="detail" data-detail="orbit">
+  <div class="detail-inner"></div>
+</div>
+  </div>
+</section>
+<section class="variant" id="aurora">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>02</span><h2>Aurora grid</h2></div>
+      <p class="v-line">A calm 6-column grid over two drifting light fields. The cursor carries a spotlight that lifts the tile under it — idle, the light keeps moving on its own.</p>
+    </div>
+    
+<div class="aurora" data-scope="aurora">
+  <i class="au-blob a" aria-hidden="true"></i><i class="au-blob b" aria-hidden="true"></i>
+  <div class="au-grid" data-spot>
+    
+    <button class="au-cell node" data-node="xero" aria-label="Xero">
+      <span class="mark"><img src="../images/logos/xero.png" alt="" loading="lazy"></span>
+      <span class="au-name">Xero</span>
+    </button>
+    <button class="au-cell node" data-node="myob" aria-label="MYOB">
+      <span class="mark"><img src="../images/logos/myob.png" alt="" loading="lazy"></span>
+      <span class="au-name">MYOB</span>
+    </button>
+    <button class="au-cell node" data-node="intuit-quickbooks" aria-label="Intuit QuickBooks">
+      <span class="mark"><img src="../images/logos/quickbooks.png" alt="" loading="lazy"></span>
+      <span class="au-name">Intuit QuickBooks</span>
+    </button>
+    <button class="au-cell node" data-node="repco-navigator-pro" aria-label="Repco Navigator Pro">
+      <span class="mark"><img src="../images/logos/repco_navigator.png" alt="" loading="lazy"></span>
+      <span class="au-name">Repco Navigator Pro</span>
+    </button>
+    <button class="au-cell node" data-node="burson-ezyparts" aria-label="Burson EzyParts">
+      <span class="mark"><img src="../images/logos/ezyparts_logo2025.png" alt="" loading="lazy"></span>
+      <span class="au-name">Burson EzyParts</span>
+    </button>
+    <button class="au-cell node" data-node="napa-prolink" aria-label="NAPA PROLink">
+      <span class="mark"><img src="../images/logos/napa_pro_link.png" alt="" loading="lazy"></span>
+      <span class="au-name">NAPA PROLink</span>
+    </button>
+    <button class="au-cell node" data-node="autopro" aria-label="Autopro">
+      <span class="mark"><img src="../images/logos/autopro_logo.jpg" alt="" loading="lazy"></span>
+      <span class="au-name">Autopro</span>
+    </button>
+    <button class="au-cell node" data-node="hsy" aria-label="hsy">
+      <span class="mark"><img src="../images/logos/hsy.png" alt="" loading="lazy"></span>
+      <span class="au-name">hsy</span>
+    </button>
+    <button class="au-cell node" data-node="auto-one" aria-label="Auto One">
+      <span class="mark"><img src="../images/logos/autoone.png" alt="" loading="lazy"></span>
+      <span class="au-name">Auto One</span>
+    </button>
+    <button class="au-cell node" data-node="bnt" aria-label="BNT">
+      <span class="mark"><img src="../images/logos/bnt.png" alt="" loading="lazy"></span>
+      <span class="au-name">BNT</span>
+    </button>
+    <button class="au-cell node" data-node="autolign" aria-label="Autolign">
+      <span class="mark"><img src="../images/logos/autolign.png" alt="" loading="lazy"></span>
+      <span class="au-name">Autolign</span>
+    </button>
+    <button class="au-cell node" data-node="mailchimp" aria-label="MailChimp">
+      <span class="mark"><img src="../images/logos/mailchimplogo.png" alt="" loading="lazy"></span>
+      <span class="au-name">MailChimp</span>
+    </button>
+    <button class="au-cell node" data-node="windcave" aria-label="Windcave">
+      <span class="mark"><img src="../images/logos/windcave.png" alt="" loading="lazy"></span>
+      <span class="au-name">Windcave</span>
+    </button>
+    <button class="au-cell node" data-node="till-payments" aria-label="Till Payments">
+      <span class="mark"><img src="../images/logos/till_payments.png" alt="" loading="lazy"></span>
+      <span class="au-name">Till Payments</span>
+    </button>
+    <button class="au-cell node" data-node="australian-vehicle-lookup" aria-label="Australian Vehicle Lookup">
+      <span class="mark"><img src="../images/logos/vehicle_visual.png" alt="" loading="lazy"></span>
+      <span class="au-name">Australian Vehicle Lookup</span>
+    </button>
+    <button class="au-cell node" data-node="carjam-new-zealand-only" aria-label="CarJam (New Zealand only)">
+      <span class="mark"><img src="../images/logos/carjam.png" alt="" loading="lazy"></span>
+      <span class="au-name">CarJam (New Zealand only)</span>
+    </button>
+    <button class="au-cell node" data-node="mycarcheck-united-kingdom-only" aria-label="MyCarCheck (United Kingdom only)">
+      <span class="mark"><img src="../images/logos/mycarchecklogo.png" alt="" loading="lazy"></span>
+      <span class="au-name">MyCarCheck (United Kingdom only)</span>
+    </button>
+    <button class="au-cell node" data-node="ams-rewards-australia-only" aria-label="AMS Rewards (Australia only)">
+      <span class="mark"><em>AMS</em></span>
+      <span class="au-name">AMS Rewards (Australia only)</span>
+    </button>
+  </div>
+</div>
+    
+<div class="detail" data-detail="aurora">
+  <div class="detail-inner"></div>
+</div>
+  </div>
+</section>
+<section class="variant" id="signal">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>03</span><h2>Signal hub</h2></div>
+      <p class="v-line">Every partner wired into MechanicDesk, with data pulses running down the lines. Shows what an integration actually is, not just who it is.</p>
+    </div>
+    
+<div class="signal" data-scope="signal">
+  <svg class="sig-wires" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path class="wire" vector-effect="non-scaling-stroke" style="--i:0"
+      d="M 7.00 52 C 7.00 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:1"
+      d="M 17.75 52 C 17.75 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:2"
+      d="M 28.50 52 C 28.50 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:3"
+      d="M 39.25 52 C 39.25 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:4"
+      d="M 50.00 52 C 50.00 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:5"
+      d="M 60.75 52 C 60.75 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:6"
+      d="M 71.50 52 C 71.50 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:7"
+      d="M 82.25 52 C 82.25 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:8"
+      d="M 93.00 52 C 93.00 31.50, 50 31.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:9"
+      d="M 7.00 88 C 7.00 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:10"
+      d="M 17.75 88 C 17.75 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:11"
+      d="M 28.50 88 C 28.50 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:12"
+      d="M 39.25 88 C 39.25 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:13"
+      d="M 50.00 88 C 50.00 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:14"
+      d="M 60.75 88 C 60.75 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:15"
+      d="M 71.50 88 C 71.50 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:16"
+      d="M 82.25 88 C 82.25 49.50, 50 49.50, 50 11"></path><path class="wire" vector-effect="non-scaling-stroke" style="--i:17"
+      d="M 93.00 88 C 93.00 49.50, 50 49.50, 50 11"></path>
+  </svg>
+  <div class="sig-hub" style="left:50%;top:11%">
+    <img src="../images/logo.png" alt="MechanicDesk" width="30" height="31">
+    <span>MechanicDesk</span>
+    <i class="sig-halo"></i>
+  </div>
+  
+  <button class="sig-node node" data-node="xero" style="left:7.00%;top:52%" aria-label="Xero">
+    <span class="mark"><img src="../images/logos/xero.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="myob" style="left:17.75%;top:52%" aria-label="MYOB">
+    <span class="mark"><img src="../images/logos/myob.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="intuit-quickbooks" style="left:28.50%;top:52%" aria-label="Intuit QuickBooks">
+    <span class="mark"><img src="../images/logos/quickbooks.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="repco-navigator-pro" style="left:39.25%;top:52%" aria-label="Repco Navigator Pro">
+    <span class="mark"><img src="../images/logos/repco_navigator.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="burson-ezyparts" style="left:50.00%;top:52%" aria-label="Burson EzyParts">
+    <span class="mark"><img src="../images/logos/ezyparts_logo2025.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="napa-prolink" style="left:60.75%;top:52%" aria-label="NAPA PROLink">
+    <span class="mark"><img src="../images/logos/napa_pro_link.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="autopro" style="left:71.50%;top:52%" aria-label="Autopro">
+    <span class="mark"><img src="../images/logos/autopro_logo.jpg" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="hsy" style="left:82.25%;top:52%" aria-label="hsy">
+    <span class="mark"><img src="../images/logos/hsy.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="auto-one" style="left:93.00%;top:52%" aria-label="Auto One">
+    <span class="mark"><img src="../images/logos/autoone.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="bnt" style="left:7.00%;top:88%" aria-label="BNT">
+    <span class="mark"><img src="../images/logos/bnt.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="autolign" style="left:17.75%;top:88%" aria-label="Autolign">
+    <span class="mark"><img src="../images/logos/autolign.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="mailchimp" style="left:28.50%;top:88%" aria-label="MailChimp">
+    <span class="mark"><img src="../images/logos/mailchimplogo.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="windcave" style="left:39.25%;top:88%" aria-label="Windcave">
+    <span class="mark"><img src="../images/logos/windcave.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="till-payments" style="left:50.00%;top:88%" aria-label="Till Payments">
+    <span class="mark"><img src="../images/logos/till_payments.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="australian-vehicle-lookup" style="left:60.75%;top:88%" aria-label="Australian Vehicle Lookup">
+    <span class="mark"><img src="../images/logos/vehicle_visual.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="carjam-new-zealand-only" style="left:71.50%;top:88%" aria-label="CarJam (New Zealand only)">
+    <span class="mark"><img src="../images/logos/carjam.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="mycarcheck-united-kingdom-only" style="left:82.25%;top:88%" aria-label="MyCarCheck (United Kingdom only)">
+    <span class="mark"><img src="../images/logos/mycarchecklogo.png" alt="" loading="lazy"></span>
+  </button>
+  <button class="sig-node node" data-node="ams-rewards-australia-only" style="left:93.00%;top:88%" aria-label="AMS Rewards (Australia only)">
+    <span class="mark"><em>AMS</em></span>
+  </button>
+</div>
+    
+<div class="detail" data-detail="signal">
+  <div class="detail-inner"></div>
+</div>
+  </div>
+</section>
+<section class="variant" id="ribbon">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>04</span><h2>Drifting ribbons</h2></div>
+      <p class="v-line">Three ribbons gliding at different speeds on a slight tilt. All eighteen stay on screen; hovering a ribbon stops it.</p>
+    </div>
+    
+<div class="ribbon" data-scope="ribbon">
+  <div class="rib-stage">
+    
+    <div class="rib-row" style="--dur:64s">
+      <div class="rib-track">
+        
+        <button class="rib-card node" data-node="xero" aria-label="Xero">
+          <span class="mark"><img src="../images/logos/xero.png" alt="" loading="lazy"></span><span>Xero</span>
+        </button>
+        <button class="rib-card node" data-node="myob" aria-label="MYOB">
+          <span class="mark"><img src="../images/logos/myob.png" alt="" loading="lazy"></span><span>MYOB</span>
+        </button>
+        <button class="rib-card node" data-node="intuit-quickbooks" aria-label="Intuit QuickBooks">
+          <span class="mark"><img src="../images/logos/quickbooks.png" alt="" loading="lazy"></span><span>Intuit QuickBooks</span>
+        </button>
+        <button class="rib-card node" data-node="repco-navigator-pro" aria-label="Repco Navigator Pro">
+          <span class="mark"><img src="../images/logos/repco_navigator.png" alt="" loading="lazy"></span><span>Repco Navigator Pro</span>
+        </button>
+        <button class="rib-card node" data-node="burson-ezyparts" aria-label="Burson EzyParts">
+          <span class="mark"><img src="../images/logos/ezyparts_logo2025.png" alt="" loading="lazy"></span><span>Burson EzyParts</span>
+        </button>
+        <button class="rib-card node" data-node="napa-prolink" aria-label="NAPA PROLink">
+          <span class="mark"><img src="../images/logos/napa_pro_link.png" alt="" loading="lazy"></span><span>NAPA PROLink</span>
+        </button>
+        <button class="rib-card node" data-node="xero" aria-label="Xero">
+          <span class="mark"><img src="../images/logos/xero.png" alt="" loading="lazy"></span><span>Xero</span>
+        </button>
+        <button class="rib-card node" data-node="myob" aria-label="MYOB">
+          <span class="mark"><img src="../images/logos/myob.png" alt="" loading="lazy"></span><span>MYOB</span>
+        </button>
+        <button class="rib-card node" data-node="intuit-quickbooks" aria-label="Intuit QuickBooks">
+          <span class="mark"><img src="../images/logos/quickbooks.png" alt="" loading="lazy"></span><span>Intuit QuickBooks</span>
+        </button>
+        <button class="rib-card node" data-node="repco-navigator-pro" aria-label="Repco Navigator Pro">
+          <span class="mark"><img src="../images/logos/repco_navigator.png" alt="" loading="lazy"></span><span>Repco Navigator Pro</span>
+        </button>
+        <button class="rib-card node" data-node="burson-ezyparts" aria-label="Burson EzyParts">
+          <span class="mark"><img src="../images/logos/ezyparts_logo2025.png" alt="" loading="lazy"></span><span>Burson EzyParts</span>
+        </button>
+        <button class="rib-card node" data-node="napa-prolink" aria-label="NAPA PROLink">
+          <span class="mark"><img src="../images/logos/napa_pro_link.png" alt="" loading="lazy"></span><span>NAPA PROLink</span>
+        </button>
+      </div>
+    </div>
+    <div class="rib-row rev" style="--dur:78s">
+      <div class="rib-track">
+        
+        <button class="rib-card node" data-node="autopro" aria-label="Autopro">
+          <span class="mark"><img src="../images/logos/autopro_logo.jpg" alt="" loading="lazy"></span><span>Autopro</span>
+        </button>
+        <button class="rib-card node" data-node="hsy" aria-label="hsy">
+          <span class="mark"><img src="../images/logos/hsy.png" alt="" loading="lazy"></span><span>hsy</span>
+        </button>
+        <button class="rib-card node" data-node="auto-one" aria-label="Auto One">
+          <span class="mark"><img src="../images/logos/autoone.png" alt="" loading="lazy"></span><span>Auto One</span>
+        </button>
+        <button class="rib-card node" data-node="bnt" aria-label="BNT">
+          <span class="mark"><img src="../images/logos/bnt.png" alt="" loading="lazy"></span><span>BNT</span>
+        </button>
+        <button class="rib-card node" data-node="autolign" aria-label="Autolign">
+          <span class="mark"><img src="../images/logos/autolign.png" alt="" loading="lazy"></span><span>Autolign</span>
+        </button>
+        <button class="rib-card node" data-node="mailchimp" aria-label="MailChimp">
+          <span class="mark"><img src="../images/logos/mailchimplogo.png" alt="" loading="lazy"></span><span>MailChimp</span>
+        </button>
+        <button class="rib-card node" data-node="autopro" aria-label="Autopro">
+          <span class="mark"><img src="../images/logos/autopro_logo.jpg" alt="" loading="lazy"></span><span>Autopro</span>
+        </button>
+        <button class="rib-card node" data-node="hsy" aria-label="hsy">
+          <span class="mark"><img src="../images/logos/hsy.png" alt="" loading="lazy"></span><span>hsy</span>
+        </button>
+        <button class="rib-card node" data-node="auto-one" aria-label="Auto One">
+          <span class="mark"><img src="../images/logos/autoone.png" alt="" loading="lazy"></span><span>Auto One</span>
+        </button>
+        <button class="rib-card node" data-node="bnt" aria-label="BNT">
+          <span class="mark"><img src="../images/logos/bnt.png" alt="" loading="lazy"></span><span>BNT</span>
+        </button>
+        <button class="rib-card node" data-node="autolign" aria-label="Autolign">
+          <span class="mark"><img src="../images/logos/autolign.png" alt="" loading="lazy"></span><span>Autolign</span>
+        </button>
+        <button class="rib-card node" data-node="mailchimp" aria-label="MailChimp">
+          <span class="mark"><img src="../images/logos/mailchimplogo.png" alt="" loading="lazy"></span><span>MailChimp</span>
+        </button>
+      </div>
+    </div>
+    <div class="rib-row" style="--dur:58s">
+      <div class="rib-track">
+        
+        <button class="rib-card node" data-node="windcave" aria-label="Windcave">
+          <span class="mark"><img src="../images/logos/windcave.png" alt="" loading="lazy"></span><span>Windcave</span>
+        </button>
+        <button class="rib-card node" data-node="till-payments" aria-label="Till Payments">
+          <span class="mark"><img src="../images/logos/till_payments.png" alt="" loading="lazy"></span><span>Till Payments</span>
+        </button>
+        <button class="rib-card node" data-node="australian-vehicle-lookup" aria-label="Australian Vehicle Lookup">
+          <span class="mark"><img src="../images/logos/vehicle_visual.png" alt="" loading="lazy"></span><span>Australian Vehicle Lookup</span>
+        </button>
+        <button class="rib-card node" data-node="carjam-new-zealand-only" aria-label="CarJam (New Zealand only)">
+          <span class="mark"><img src="../images/logos/carjam.png" alt="" loading="lazy"></span><span>CarJam (New Zealand only)</span>
+        </button>
+        <button class="rib-card node" data-node="mycarcheck-united-kingdom-only" aria-label="MyCarCheck (United Kingdom only)">
+          <span class="mark"><img src="../images/logos/mycarchecklogo.png" alt="" loading="lazy"></span><span>MyCarCheck (United Kingdom only)</span>
+        </button>
+        <button class="rib-card node" data-node="ams-rewards-australia-only" aria-label="AMS Rewards (Australia only)">
+          <span class="mark"><em>AMS</em></span><span>AMS Rewards (Australia only)</span>
+        </button>
+        <button class="rib-card node" data-node="windcave" aria-label="Windcave">
+          <span class="mark"><img src="../images/logos/windcave.png" alt="" loading="lazy"></span><span>Windcave</span>
+        </button>
+        <button class="rib-card node" data-node="till-payments" aria-label="Till Payments">
+          <span class="mark"><img src="../images/logos/till_payments.png" alt="" loading="lazy"></span><span>Till Payments</span>
+        </button>
+        <button class="rib-card node" data-node="australian-vehicle-lookup" aria-label="Australian Vehicle Lookup">
+          <span class="mark"><img src="../images/logos/vehicle_visual.png" alt="" loading="lazy"></span><span>Australian Vehicle Lookup</span>
+        </button>
+        <button class="rib-card node" data-node="carjam-new-zealand-only" aria-label="CarJam (New Zealand only)">
+          <span class="mark"><img src="../images/logos/carjam.png" alt="" loading="lazy"></span><span>CarJam (New Zealand only)</span>
+        </button>
+        <button class="rib-card node" data-node="mycarcheck-united-kingdom-only" aria-label="MyCarCheck (United Kingdom only)">
+          <span class="mark"><img src="../images/logos/mycarchecklogo.png" alt="" loading="lazy"></span><span>MyCarCheck (United Kingdom only)</span>
+        </button>
+        <button class="rib-card node" data-node="ams-rewards-australia-only" aria-label="AMS Rewards (Australia only)">
+          <span class="mark"><em>AMS</em></span><span>AMS Rewards (Australia only)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+<div class="detail" data-detail="ribbon">
+  <div class="detail-inner"></div>
+</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Demo · pick one and it replaces the integrations section on the main page</div>
+</footer>
+<script>
+const DATA = {"xero":{"name":"Xero","cat":"Accounting","file":"xero.png","lines":["Xero is an easy-to-use but powerful online accounting software designed for the cloud. Xero accounting software is made for small business owners.","MechanicDesk currently integrates with all versions of Xero."],"url":"http://www.xero.com/"},"myob":{"name":"MYOB","cat":"Accounting","file":"myob.png","lines":["MYOB, Mind Your Own Business, is an Australian multinational corporation that provides tax, accounting and other services to small and medium businesses.","MechanicDesk currently integrates with MYOB AccountRight and MYOB Essentials (online versions only)."],"url":"http://www.myob.com/"},"intuit-quickbooks":{"name":"Intuit QuickBooks","cat":"Accounting","file":"quickbooks.png","lines":["QuickBooks is Intuit's set of software solutions designed to manage payroll, inventory, sales and other needs of a small business. The software features marketing tools, merchant services, product and supplies, as well as training solutions.","MechanicDesk currently integrates with QuickBooks Online."],"url":"http://www.intuit.com.au/"},"repco-navigator-pro":{"name":"Repco Navigator Pro","cat":"Supplier","file":"repco_navigator.png","lines":["Navigator Pro is Repco's Online parts ordering solution available for trade account customers so you can order parts without picking up the phone, saving you time, effort and money in your workshop."],"url":"http://www.repcotrade.com.au"},"burson-ezyparts":{"name":"Burson EzyParts","cat":"Supplier","file":"ezyparts_logo2025.png","lines":["Burson EzyParts is Burson's Online parts ordering solution available for trade account customers so you can order parts without picking up the phone, saving you time, effort and money in your workshop."],"url":"http://www.burson.com.au/trade-centre/ezyparts/"},"napa-prolink":{"name":"NAPA PROLink","cat":"Supplier","file":"napa_pro_link.png","lines":["NAPA PROLink streamlines the parts buying process by providing a real-time, online connection between a local shop's computer system and the nearest NAPA Auto Parts store that dispatches the parts"],"url":"https://www.napaparts.com.au/"},"autopro":{"name":"Autopro","cat":"Supplier","file":"autopro_logo.jpg","lines":["Autopro is the online ordering platform for Autopro Parts Professionals, Australia's oldest and largest independent automotive aftermarket parts and accessories retailer."],"url":"http://www.autopro.com.au/"},"hsy":{"name":"hsy","cat":"Supplier","file":"hsy.png","lines":["hsy Autoparts is Australia's leading distributor and supplier to the independent repairers. Specialising in BMW, Mercedes, Audi, VW, Mini, Porsche, Volvo, Skoda, Peugeot, Citroen and Renault. Providing you with a comprehensive range of new OEM and quality aftermarket spare parts for both passenger vehicles and light commercials."],"url":"http://www.hsy.com.au/"},"auto-one":{"name":"Auto One","cat":"Supplier","file":"autoone.png","lines":["Established in 1988, Auto One is an independently owned Australian business whose shareholders are the members who serve and give you professional advice at your local Auto One store."],"url":"http://www.autoone.com.au/"},"bnt":{"name":"BNT","cat":"Supplier","file":"bnt.png","lines":["BNT Automotive has been a supplier to the New Zealand aftermarket for over 60 years. BNT prides itself on offering superior service to our customers and offering an extensive range of products that service New Zealands diverse automotive marketplace. With 60 branches BNT's geographic reach has stores located throughout all major centres over the country."],"url":"https://bntnz.co.nz/"},"autolign":{"name":"Autolign","cat":"Supplier","file":"autolign.png","lines":["Autolign is New Zealand's largest Specialised Steering and Suspension Importers and Distributors. The company specialises in the supply of suspension components to wholesalers, resellers and the trade with its supply of leading brands from around the world."],"url":"https://www.autolign.co.nz/"},"mailchimp":{"name":"MailChimp","cat":"Mass Mail/CRM","file":"mailchimplogo.png","lines":["MailChimp is a marketing automation platform and an email marketing service. MailChimp's operator is the American based company Rocket Science Group."],"url":"http://www.mailchimp.com/"},"windcave":{"name":"Windcave","cat":"EFTPOS Terminals","file":"windcave.png","lines":["Windcave (previously Payment Express) is a high growth, innovative global leader in payment technology. Providing PCI DSS compliant payment solutions, we're certified with all major card schemes. A global end to end platform for ecommerce, retail and unattended that facilitates payments seamlessly in real time.","MechanicDesk currently integrates with Windcave EFTPOS terminals to streamline EFTPOS payment processes in MechanicDesk."],"url":"http://www.windcave.com/"},"till-payments":{"name":"Till Payments","cat":"EFTPOS Terminals","file":"till_payments.png","lines":["Till Payments is an integrated payment solutions provider committed to accelerating growth for businesses around the world.","MechanicDesk currently integrates with Till Payments EFTPOS terminals to streamline EFTPOS payment processes in MechanicDesk."],"url":"https://tillpayments.com/"},"australian-vehicle-lookup":{"name":"Australian Vehicle Lookup","cat":"Vehicle Look Up","file":"vehicle_visual.png","lines":["This is a vehicle information lookup service for vehicles based in Australia."],"url":""},"carjam-new-zealand-only":{"name":"CarJam (New Zealand only)","cat":"Vehicle Look Up","file":"carjam.png","lines":["CarJam is a New Zealand based online service offering automotive information and history look up services."],"url":"http://www.carjam.co.nz/"},"mycarcheck-united-kingdom-only":{"name":"MyCarCheck (United Kingdom only)","cat":"Vehicle Look Up","file":"mycarchecklogo.png","lines":["My Car Check is a British vehicle history checking company owned by CDL Vehicle Information Services."],"url":"http://www.mycarcheck.com/"},"ams-rewards-australia-only":{"name":"AMS Rewards (Australia only)","cat":"Loyalty Programmes","file":"","lines":["AMS Rewards, part of Australian Motoring Services (AMS), is the driving force behind the Australian Auto Club's Show Your Card and Save Program, which offers Members high value discounts at a range of retailers and on goods and services throughout Australia."],"url":"https://amsrewards.com.au/"}};
+const ICON_ARROW = '<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>';
+
+function fill(scope, key) {
+  const wrap = document.querySelector('[data-detail="' + scope + '"] .detail-inner');
+  const it = DATA[key];
+  if (!wrap || !it) return;
+  wrap.classList.remove('in');
+  setTimeout(function () {
+    wrap.innerHTML =
+      '<div class="detail-head">' +
+        '<span class="detail-mark">' + (it.file
+          ? '<img src="../images/logos/' + it.file + '" alt="">'
+          : '<em>' + it.name.split(' ')[0] + '</em>') + '</span>' +
+        '<span><span class="eyebrow">' + it.cat + '</span><h3>' + it.name + '</h3></span>' +
+      '</div>' +
+      it.lines.map(function (l) { return '<p>' + l + '</p>'; }).join('') +
+      (it.url ? '<a href="' + it.url + '" target="_blank" rel="noopener">' +
+        it.url.replace(/^https?:\/\//, '').replace(/\/$/, '') + ICON_ARROW + '</a>' : '');
+    requestAnimationFrame(function () { wrap.classList.add('in'); });
+  }, 120);
+}
+
+document.querySelectorAll('[data-scope]').forEach(function (scope) {
+  const name = scope.getAttribute('data-scope');
+  const nodes = Array.prototype.slice.call(scope.querySelectorAll('[data-node]'));
+  nodes.forEach(function (n) {
+    n.addEventListener('click', function () {
+      nodes.forEach(function (o) { o.classList.toggle('on', o === n); });
+      fill(name, n.getAttribute('data-node'));
+    });
+  });
+  if (nodes.length) { nodes[0].classList.add('on'); fill(name, nodes[0].getAttribute('data-node')); }
+});
+
+/* cursor spotlight for the aurora grid */
+const spot = document.querySelector('[data-spot]');
+if (spot) {
+  let idle = true, t = 0;
+  const set = function (x, y) { spot.style.setProperty('--mx', x + '%'); spot.style.setProperty('--my', y + '%'); };
+  spot.addEventListener('pointermove', function (e) {
+    idle = false;
+    const r = spot.getBoundingClientRect();
+    set(((e.clientX - r.left) / r.width * 100).toFixed(2), ((e.clientY - r.top) / r.height * 100).toFixed(2));
+    const cell = e.target.closest('.au-cell');
+    if (cell) {
+      const c = cell.getBoundingClientRect();
+      cell.style.setProperty('--cx', ((e.clientX - c.left) / c.width * 100).toFixed(2) + '%');
+      cell.style.setProperty('--cy', ((e.clientY - c.top) / c.height * 100).toFixed(2) + '%');
+    }
+  });
+  spot.addEventListener('pointerleave', function () { idle = true; });
+  (function loop() {
+    if (idle) { t += 0.006; set((50 + Math.cos(t) * 34).toFixed(2), (46 + Math.sin(t * 1.3) * 40).toFixed(2)); }
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
+</body>
+</html>
