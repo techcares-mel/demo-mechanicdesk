@@ -1,33 +1,18 @@
-/* Renders the three concept pages from the shared content model.
-   Run from the MechanicDesk folder:  node build/build.cjs            */
+/* Renders the chosen design (Graphite) as the site root.
+   Run from the MechanicDesk folder:  node build/build.cjs
+
+   The two alternative concepts that were presented alongside it live in
+   build/archive/ and are no longer rendered — the client picked Graphite. */
 const fs = require('fs');
 const path = require('path');
 
 const root = path.resolve(__dirname, '..');
+const render = require('./v2.cjs');
 const runtime = fs.readFileSync(path.join(__dirname, 'app.js'), 'utf8');
 
-const concepts = [
-  { dir: 'v1', tpl: './v1.cjs' },
-  { dir: 'v2', tpl: './v2.cjs' },
-  { dir: 'v3', tpl: './v3.cjs' }
-];
+const html = render();
+fs.writeFileSync(path.join(root, 'index.html'), html, 'utf8');
+fs.writeFileSync(path.join(root, 'script.js'), runtime, 'utf8');
+fs.copyFileSync(path.join(__dirname, 'v2.css'), path.join(root, 'styles.css'));
 
-concepts.forEach(({ dir, tpl }) => {
-  const tplPath = path.join(__dirname, tpl.replace('./', ''));
-  if (!fs.existsSync(tplPath)) { console.log('skip ' + dir + ' (no template yet)'); return; }
-  const render = require(tpl);
-  const out = path.join(root, dir);
-  fs.mkdirSync(out, { recursive: true });
-  const html = render();
-  fs.writeFileSync(path.join(out, 'index.html'), html, 'utf8');
-  fs.writeFileSync(path.join(out, 'script.js'), runtime, 'utf8');
-  const css = path.join(__dirname, dir + '.css');
-  if (fs.existsSync(css)) fs.copyFileSync(css, path.join(out, 'styles.css'));
-  console.log(dir + '/index.html  ' + (html.length / 1024).toFixed(1) + ' KB' + (fs.existsSync(css) ? '  + styles.css' : '  (no css yet)'));
-});
-
-if (fs.existsSync(path.join(__dirname, 'landing.cjs'))) {
-  const landing = require('./landing.cjs');
-  fs.writeFileSync(path.join(root, 'index.html'), landing(), 'utf8');
-  console.log('index.html (concept chooser)');
-}
+console.log('index.html  ' + (html.length / 1024).toFixed(1) + ' KB  + styles.css + script.js');

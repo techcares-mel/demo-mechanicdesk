@@ -1,8 +1,8 @@
 /* =========================================================================
-   CONCEPT 2 — "GRAPHITE"
-   Dark, precision-engineered. Graphite surfaces, orange as a signal light,
-   hazard tape and tyre-tread details, and a workshop photo band.
-   Minimalist by disclosure: long copy lives behind click-to-open blocks.
+   MECHANICDESK — "GRAPHITE" (the chosen design, rendered as the site root)
+   Dark, precision-engineered. Graphite surfaces, orange as a signal light.
+   Automotive cues: hazard tape, carbon weave, tyre-tread edge, spec plates.
+   Few borders, few boxes; long copy sits behind click-to-open blocks.
    ========================================================================= */
 const S = require('./shared.cjs');
 const { esc, ico, icons, C, slug } = S;
@@ -26,7 +26,7 @@ const navBar = () => `
 <header class="nav" data-nav>
   <div class="nav-inner">
     <a class="brand" href="#home">
-      <img src="../images/logo.png" alt="MechanicDesk logo" width="34" height="35">
+      <img src="images/logo.png" alt="MechanicDesk logo" width="34" height="35">
       <span class="brand-name">Mechanic<em>Desk</em></span>
     </a>
     <nav class="nav-links" aria-label="Main">
@@ -62,9 +62,6 @@ const hero = () => `
         <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
         <a class="btn btn-outline btn-lg" href="#support">Book a demo</a>
       </div>
-      <ul class="facts reveal d4">
-        ${C.trustStrip.map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
-      </ul>
     </div>
     <div class="hero-art reveal d2">
       ${S.productMock({})}
@@ -73,7 +70,7 @@ const hero = () => `
   <div class="marquee" aria-label="Integration partners">
     <div class="marquee-track">
       ${[0, 1].map(() => C.integrations.logos.map((l) =>
-        `<span class="mq-item"><img src="../images/logos/${l.file}" alt="${esc(l.name)}" loading="lazy"></span>`).join('')).join('')}
+        `<span class="mq-item"><img src="images/logos/${l.file}" alt="${esc(l.name)}" loading="lazy"></span>`).join('')).join('')}
     </div>
   </div>
 </section>`;
@@ -89,8 +86,38 @@ const pillars = () => `
         <div class="card-ico">${ico(p.icon, 'ico')}</div>
         <h3>${esc(p.title)}</h3>
         <p>${esc(p.text)}</p>
-        <span class="card-num">${n2(i)}</span>
       </article>`).join('')}
+    </div>
+  </div>
+</section>`;
+
+/* ------------------------------------------------- workshop photo band --- */
+/* "Suitable for" and the four numbers in one automotive band. */
+const bay = () => `
+<section id="suitable" class="sec-bay">
+  <div class="bay-media" aria-hidden="true">
+    <img src="images/pexels/auto-workshop-wide.jpg" alt="" loading="lazy">
+  </div>
+  ${tape()}
+  <div class="wrap bay-inner">
+    <div class="bay-head reveal">
+      <span class="eyebrow">${esc(C.suitable.eyebrow)}</span>
+      <h2>${esc(C.suitable.heading)}</h2>
+    </div>
+    <div class="bay-types">
+      ${C.suitable.items.map((s, i) => `
+      <article class="bay-type reveal d${(i % 4) + 1}">
+        <div class="bay-type-img"><img src="images/pexels/${s.file}" alt="${esc(s.title)}" loading="lazy"></div>
+        <h3>${esc(s.title)}</h3>
+      </article>`).join('')}
+    </div>
+    <div class="bay-stats reveal">
+      ${C.proven.stats.map((s) => `
+      <div class="stat">
+        <strong data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</strong>
+        <span>${esc(s.label)}</span>
+        <i class="stat-ticks" aria-hidden="true"></i>
+      </div>`).join('')}
     </div>
   </div>
 </section>`;
@@ -130,61 +157,67 @@ const features = () => `
   </div>
 </section>`;
 
-/* ------------------------------------------------- workshop photo band --- */
-/* Merges "Suitable for" and the stats strip into one automotive band. */
-const bay = () => `
-<section id="suitable" class="sec-bay">
-  <div class="bay-media" aria-hidden="true">
-    <img src="../images/pexels/auto-workshop-wide.jpg" alt="" loading="lazy">
-  </div>
-  ${tape()}
-  <div class="wrap bay-inner">
-    <div class="bay-head reveal">
-      <span class="eyebrow">${esc(C.suitable.eyebrow)}</span>
-      <h2>${esc(C.suitable.heading)}</h2>
-    </div>
-    <div class="bay-types">
-      ${C.suitable.items.map((s, i) => `
-      <article class="bay-type reveal d${(i % 4) + 1}">
-        <div class="bay-type-img"><img src="../images/pexels/${s.file}" alt="${esc(s.title)}" loading="lazy"></div>
-        <h3>${esc(s.title)}</h3>
-      </article>`).join('')}
-    </div>
-    <div class="bay-stats reveal">
-      ${C.proven.stats.map((s) => `
-      <div class="stat">
-        <strong data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</strong>
-        <span>${esc(s.label)}</span>
-        <i class="stat-ticks" aria-hidden="true"></i>
-      </div>`).join('')}
-    </div>
-  </div>
-</section>`;
-
 /* ------------------------------------------------------- integrations ---- */
-const integrations = () => `
+/* Every one of the 18 partners is on screen at once, packed like the Apple
+   Watch home screen: honeycomb rows, bubbles shrinking and softening toward
+   the edge of the cluster. Tapping one opens its detail below the cluster. */
+const hive = () => {
+  const items = [];
+  C.integrations.categories.forEach((g) => g.items.forEach((it) => items.push({ ...it, cat: g.name })));
+
+  const rows = [];
+  const pattern = [4, 5, 4, 5];
+  let i = 0;
+  pattern.forEach((n) => { rows.push(items.slice(i, i + n)); i += n; });
+  while (i < items.length) { rows.push(items.slice(i, i + 5)); i += 5; }
+
+  const rMid = (rows.length - 1) / 2;
+  const bubbles = rows.map((row, r) => {
+    const cMid = (row.length - 1) / 2;
+    const cells = row.map((it, c) => {
+      const dr = rMid ? (r - rMid) / rMid : 0;
+      const dc = cMid ? (c - cMid) / cMid : 0;
+      const d = Math.min(1, Math.sqrt(dr * dr + dc * dc) / Math.SQRT2);
+      const scale = (1 - 0.28 * d).toFixed(3);
+      const dim = (1 - 0.34 * d).toFixed(3);
+      const blur = (d * 0.5).toFixed(2);
+      const key = slug(it.name);
+      return `
+        <button class="bub" data-hive-tab="${key}" style="--s:${scale};--o:${dim};--b:${blur}px"
+                aria-label="${esc(it.name)}">
+          <span class="bub-face">${it.file
+            ? `<img src="images/logos/${it.file}" alt="" loading="lazy">`
+            : `<em>${esc(it.name.split(' ')[0])}</em>`}</span>
+        </button>`;
+    }).join('');
+    return `<div class="hive-row">${cells}</div>`;
+  }).join('');
+
+  const panels = items.map((it, n) => `
+    <article class="hive-panel${n === 0 ? ' active' : ''}" data-hive-panel="${slug(it.name)}">
+      <div class="hive-panel-head">
+        <span class="hive-mark">${it.file ? `<img src="images/logos/${it.file}" alt="${esc(it.name)} logo" loading="lazy">` : `<em>${esc(it.name.split(' ')[0])}</em>`}</span>
+        <span>
+          <span class="eyebrow">${esc(it.cat)}</span>
+          <h3>${esc(it.name)}</h3>
+        </span>
+      </div>
+      ${it.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
+      ${it.url ? `<a class="link-arrow sm" href="${it.url}" target="_blank" rel="noopener">${esc(it.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}${icons.arrow}</a>` : ''}
+    </article>`).join('');
+
+  return `
 <section id="integrations" class="sec sec-integrations">
   <div class="wrap">
     ${secHead(C.integrations.eyebrow, esc(C.integrations.heading), C.integrations.sub,
       `<a class="link-arrow" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a>`, 'centered')}
-    <div class="plate-grid reveal">
-      ${C.integrations.logos.map((l) => `
-      <div class="plate" title="${esc(l.name)}"><img src="../images/logos/${l.file}" alt="${esc(l.name)} integration" loading="lazy"></div>`).join('')}
+    <div class="hive reveal" data-hive>
+      ${bubbles}
     </div>
-    ${S.disclose({
-      mod: 'intx-all reveal',
-      icon: 'obd',
-      label: 'Browse all ' + C.integrations.categories.reduce((n, g) => n + g.items.length, 0) + ' integrations',
-      meta: C.integrations.categories.length + ' categories',
-      body: `<p class="intx-intro">${esc(C.integrations.intro)}</p>
-        <div class="cat-bar">
-          <button class="chip-btn active" data-cat="all">All</button>
-          ${C.integrations.categories.map((g) => `<button class="chip-btn" data-cat="${slug(g.name)}">${esc(g.name)}</button>`).join('')}
-        </div>
-        ${S.integrationList()}`
-    })}
+    <div class="hive-stage reveal">${panels}</div>
   </div>
 </section>`;
+};
 
 /* -------------------------------------------------------------- proven --- */
 const proven = () => `
@@ -195,7 +228,7 @@ const proven = () => `
     <div class="card-grid cols-3">
       ${C.proven.customers.map((c, i) => `
       <figure class="cust-card reveal d${i + 1}">
-        <div class="plate plate-photo"><img src="../images/proven/${c.file}" alt="${esc(c.name)}" loading="lazy"></div>
+        <div class="cust-photo"><img src="images/proven/${c.file}" alt="${esc(c.name)}" loading="lazy"></div>
         <figcaption>${esc(c.name)}</figcaption>
       </figure>`).join('')}
     </div>
@@ -203,9 +236,19 @@ const proven = () => `
 </section>`;
 
 /* ------------------------------------------------------------- pricing --- */
+/* Spec-sheet comparison table (the layout from the Blueprint concept), in the
+   graphite palette: one row per attribute, plans as columns, first column
+   sticky so the table stays readable while it scrolls on small screens. */
 const pricing = () => {
   const P = C.pricing;
   const au = P.data.australia;
+  const rows = [
+    { label: 'Monthly price', field: 'cost', big: true },
+    { label: 'Included users', field: 'users' },
+    { label: 'Extra user / month', field: 'costPerExtraUser' },
+    { label: 'Per SMS', field: 'costPerSms' },
+    { label: 'Stock items', field: 'stockCountLimit' }
+  ];
   return `
 <section id="pricing" class="sec sec-pricing">
   <div class="wrap">
@@ -216,21 +259,49 @@ const pricing = () => {
       <select id="regionSelect" class="region-select" aria-label="Select region">
         ${P.regions.map((r) => `<option value="${r.key}">${esc(r.name)}</option>`).join('')}
       </select>`, 'centered')}
-    <div class="plan-grid">
-      ${P.plans.map((p, i) => `
-      <article class="plan${p.featured ? ' featured' : ''} reveal d${i + 1}">
-        ${p.featured ? '<span class="plan-badge">Most popular</span>' : ''}
-        <h3>${esc(p.name)}</h3>
-        <p class="plan-price"><span data-price-cell data-plan="${p.key}" data-field="cost">${esc(au[p.key].cost)}</span></p>
-        <p class="plan-unit" data-month-unit>${esc(P.regions[0].monthUnit)}</p>
-        <p class="plan-users">${icons.users}${esc(p.users)}</p>
-        <a class="btn ${p.featured ? 'btn-primary' : 'btn-outline'}" href="${P.signupUrl}">${esc(P.signupLabel)}</a>
-        ${S.planIncludes(p)}
-      </article>`).join('')}
+    <div class="table-scroll reveal">
+      <table class="price-table">
+        <thead>
+          <tr>
+            <th><span class="mono-plate">Plan · <span data-region-name>Australia</span></span></th>
+            ${P.plans.map((p) => `<th class="${p.featured ? 'featured' : ''}">
+              ${p.featured ? '<span class="badge">Most popular</span>' : ''}
+              <span class="plan-name">${esc(p.name)}</span>
+            </th>`).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${rows.map((r) => `
+          <tr>
+            <th scope="row">${esc(r.label)}</th>
+            ${P.plans.map((p) => {
+              const val = r.field === 'users' ? p.users : au[p.key][r.field];
+              const attrs = r.field === 'users' ? '' : ` data-price-cell data-plan="${p.key}" data-field="${r.field}"`;
+              return `<td class="${p.featured ? 'featured' : ''}${r.big ? ' cell-price' : ''}">
+                <span${attrs}>${esc(val)}</span>${r.big ? `<em class="per" data-month-unit>${esc(P.regions[0].monthUnit)}</em>` : ''}
+              </td>`;
+            }).join('')}
+          </tr>`).join('')}
+          <tr>
+            <th scope="row">Free trial</th>
+            ${P.plans.map((p) => `<td class="${p.featured ? 'featured' : ''}">${icons.check} ${esc(P.trial)}</td>`).join('')}
+          </tr>
+          <tr>
+            <th scope="row">Support</th>
+            ${P.plans.map((p) => `<td class="${p.featured ? 'featured' : ''}">${icons.check} ${esc(P.support)}</td>`).join('')}
+          </tr>
+          <tr class="row-cta">
+            <th scope="row"></th>
+            ${P.plans.map((p) => `<td class="${p.featured ? 'featured' : ''}">
+              <a class="btn ${p.featured ? 'btn-primary' : 'btn-outline'} btn-sm" href="${P.signupUrl}">${esc(P.signupLabel)}</a>
+            </td>`).join('')}
+          </tr>
+        </tbody>
+      </table>
     </div>
     ${S.disclose({
       mod: 'addons reveal',
-      icon: 'plus',
+      icon: 'toolbox',
       label: esc(P.addons.heading),
       meta: P.addons.items.length + ' available',
       body: `<div class="addon-grid">
@@ -267,7 +338,7 @@ const blog = () => `
     <div class="blog-grid">
       ${C.blog.posts.map((p, i) => `
       <article class="blog-card reveal d${i + 1}">
-        <a class="blog-img" href="${p.url}" target="_blank" rel="noopener"><img src="../images/pexels/${p.file}" alt="${esc(p.title)}" loading="lazy"></a>
+        <a class="blog-img" href="${p.url}" target="_blank" rel="noopener"><img src="images/pexels/${p.file}" alt="${esc(p.title)}" loading="lazy"></a>
         <div class="blog-body">
           <h3><a href="${p.url}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
           <a class="link-arrow sm" href="${p.url}" target="_blank" rel="noopener">${esc(C.blog.moreLabel)}${icons.arrow}</a>
@@ -323,7 +394,7 @@ const footer = () => `
     <div class="foot-top">
       <div class="foot-brand">
         <a class="brand" href="#home">
-          <img src="../images/logo.png" alt="MechanicDesk logo" width="38" height="39">
+          <img src="images/logo.png" alt="MechanicDesk logo" width="38" height="39">
           <span class="brand-name">Mechanic<em>Desk</em></span>
         </a>
         <p class="foot-line">${esc(C.brand.legal)} · ${esc(C.brand.address.oneLine)}</p>
@@ -347,7 +418,7 @@ const footer = () => `
     </div>
     <div class="foot-bottom">
       <p>${esc(C.brand.copyright)}</p>
-      <p>Concept 2 “Graphite” · demo build · app screens from MechanicDesk tutorials · workshop photography: Pexels</p>
+      <p>Demo build · app screens from MechanicDesk tutorials · workshop photography: Pexels</p>
     </div>
   </div>
 </footer>`;
@@ -355,19 +426,18 @@ const footer = () => `
 module.exports = () => `<!DOCTYPE html>
 <html lang="en">
 <head>
-${S.head({ fontLinks: FONTS, css: 'styles.css', concept: '2', conceptName: 'Graphite — dark precision industrial' })}
+${S.head({ fontLinks: FONTS, css: 'styles.css', concept: 'Graphite', conceptName: 'dark precision industrial — redesign demo of mechanicdesk.com.au' })}
 </head>
 <body class="v2">
 ${S.watermark()}
 ${S.chrome()}
-${S.conceptSwitch('v2')}
 ${navBar()}
 <main>
 ${hero()}
 ${pillars()}
-${features()}
 ${bay()}
-${integrations()}
+${features()}
+${hive()}
 ${proven()}
 ${pricing()}
 ${support()}

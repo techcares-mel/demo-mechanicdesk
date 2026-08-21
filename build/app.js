@@ -140,6 +140,20 @@
     });
   }
 
+  /* --- 8b. Integration cluster: tap a bubble, open its detail ----------- */
+  var hiveTabs = $$('[data-hive-tab]');
+  var hivePanels = $$('[data-hive-panel]');
+  if (hiveTabs.length && hivePanels.length) {
+    var pickInt = function (key) {
+      hiveTabs.forEach(function (t) { t.classList.toggle('active', t.getAttribute('data-hive-tab') === key); });
+      hivePanels.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-hive-panel') === key); });
+    };
+    hiveTabs.forEach(function (t) {
+      t.addEventListener('click', function () { pickInt(t.getAttribute('data-hive-tab')); });
+    });
+    hiveTabs[0].classList.add('active');
+  }
+
   /* --- 9. Accordion (mobile features / v3 cards) ------------------------ */
   $$('[data-acc-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {

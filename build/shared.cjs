@@ -4,7 +4,7 @@ const path = require('path');
 const { icons } = require('./icons.cjs');
 const C = require('./content.cjs');
 
-/* Assets live in MechanicDesk/images; concepts reference them as ../images/... */
+/* Assets live in MechanicDesk/images; concepts reference them as images/... */
 const IMG_DIR = path.resolve(__dirname, '..', 'images');
 const hasImage = (rel) => fs.existsSync(path.join(IMG_DIR, rel));
 
@@ -95,7 +95,7 @@ const productMock = (opts) => {
   const n = String(slides.length).padStart(2, '0');
 
   const slideEls = slides.map((s, i) => `
-      <img class="mb-slide${i === 0 ? ' is-active' : ''}" src="../images/app/${s.file}"
+      <img class="mb-slide${i === 0 ? ' is-active' : ''}" src="images/app/${s.file}"
            alt="MechanicDesk — ${esc(s.caption)}" width="1400" height="743"
            data-caption="${esc(s.caption)}" data-tab="${esc(s.tab)}"
            ${i === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'}>`).join('');
@@ -106,7 +106,7 @@ const productMock = (opts) => {
       <span class="mp-btn mp-silent"></span><span class="mp-btn mp-up"></span>
       <span class="mp-btn mp-down"></span><span class="mp-btn mp-power"></span>
       <div class="mp-screen">
-        ${phones.map((p, i) => `<img class="mp-slide${i === 0 ? ' is-active' : ''}" src="../images/app-mobile/${p.file}" alt="${esc(p.caption)} app screen" loading="lazy">`).join('')}
+        ${phones.map((p, i) => `<img class="mp-slide${i === 0 ? ' is-active' : ''}" src="images/app-mobile/${p.file}" alt="${esc(p.caption)} app screen" loading="lazy">`).join('')}
         <span class="mp-island"></span>
       </div>
     </div>
@@ -169,7 +169,7 @@ const integrationList = () => C.integrations.categories.map((g) => `
     <div class="intx-row" data-acc>
       <button class="intx-head" data-acc-toggle aria-expanded="false">
         <span class="intx-logo">${it.file
-          ? `<img src="../images/logos/${it.file}" alt="${esc(it.name)} logo" loading="lazy">`
+          ? `<img src="images/logos/${it.file}" alt="${esc(it.name)} logo" loading="lazy">`
           : `<em>${esc(it.name.split(' ')[0])}</em>`}</span>
         <span class="intx-name">${esc(it.name)}</span>
         <span class="intx-plus">${icons.plus}</span>
@@ -219,23 +219,11 @@ const head = ({ fontLinks, css, concept, conceptName }) => `<meta charset="UTF-8
 <meta name="robots" content="noindex">
 <meta property="og:title" content="${esc(C.brand.name)} — ${esc(C.brand.product)}">
 <meta property="og:description" content="${esc(C.brand.heroSub)}">
-<link rel="icon" type="image/png" href="../images/logo.png">
+<link rel="icon" type="image/png" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ${fontLinks}
 <link rel="stylesheet" href="${css}">
 <!-- Concept ${concept}: ${conceptName} — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->`;
 
-const conceptSwitch = (active) => {
-  const items = [
-    { key: 'v1', label: 'Blueprint' },
-    { key: 'v2', label: 'Graphite' },
-    { key: 'v3', label: 'Torque' }
-  ];
-  return `<div class="concept-switch" aria-label="Switch design concept">
-  <a class="cs-home" href="../index.html" title="All concepts">All concepts</a>
-  ${items.map((i) => `<a class="cs-item${i.key === active ? ' active' : ''}" href="../${i.key}/index.html">${i.label}</a>`).join('')}
-</div>`;
-};
-
-module.exports = { esc, slug, ico, icons, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, conceptSwitch, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };
+module.exports = { esc, slug, ico, icons, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };

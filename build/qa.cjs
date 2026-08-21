@@ -9,7 +9,7 @@ const { execFileSync } = require('child_process');
 const CH = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const SP = 'C:/Users/hueyn/AppData/Local/Temp/claude/c--Users-hueyn-Claude-Projects-Auto-Create-Demo-Websites/29e04439-e4e2-4391-a0f0-a406f1be1a6c/scratchpad';
 
-const dir = process.argv[2] || 'v1';
+const dir = process.argv[2] || '.';
 const shots = process.argv.slice(3);
 const src = path.join(__dirname, '..', dir, 'index.html');
 const base0 = fs.readFileSync(src, 'utf8');
@@ -30,7 +30,8 @@ for (const spec of shots) {
   const html = base0.replace('</head>', css + '</head>');
   const qa = path.join(__dirname, '..', dir, '_qa.html');
   fs.writeFileSync(qa, html, 'utf8');
-  const out = SP + '/' + dir + '-' + name + (ww ? '-w' + ww : '') + '.png';
+  const tag = dir === '.' ? 'md' : dir;
+  const out = SP + '/' + tag + '-' + name + (ww ? '-w' + ww : '') + '.png';
   try {
     execFileSync(CH, ['--headless=new', '--disable-gpu', '--no-sandbox',
       '--user-data-dir=' + SP + '/chrome-profile', '--hide-scrollbars',
