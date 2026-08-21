@@ -115,7 +115,7 @@ const productMock = (opts) => {
   const badgeEl = o.badge === false ? '' : `
   <div class="mock-badge">
     <span class="mba-ico">${icons.bell}</span>
-    <span class="mba-txt"><strong>${esc(T.badge.title)}</strong><small>${esc(T.badge.text)}</small></span>
+    <span class="mba-txt"><strong>${esc(T.badge.title)}</strong></span>
   </div>`;
 
   return `

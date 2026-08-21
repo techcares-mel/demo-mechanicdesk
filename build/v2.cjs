@@ -56,7 +56,6 @@ const hero = () => `
   <div class="hero-grid-lines" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <span class="pill reveal">${icons.star}<span>${esc(C.proven.sub)}</span></span>
       <h1 class="reveal d1">Workshop <em>Management</em> Software</h1>
       <p class="hero-sub reveal d2">${esc(C.brand.heroSub)}</p>
       <div class="hero-cta reveal d3">
@@ -64,7 +63,7 @@ const hero = () => `
         <a class="btn btn-outline btn-lg" href="#support">Book a demo</a>
       </div>
       <ul class="facts reveal d4">
-        ${[C.trustStrip[0], C.trustStrip[2], C.trustStrip[3]].map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
+        ${C.trustStrip.map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
       </ul>
     </div>
     <div class="hero-art reveal d2">
@@ -83,7 +82,7 @@ const hero = () => `
 const pillars = () => `
 <section id="why" class="sec">
   <div class="wrap">
-    ${secHead(C.pillars.eyebrow, esc(C.pillars.heading), C.pillars.sub, null, 'centered')}
+    ${secHead(C.pillars.eyebrow, esc(C.pillars.heading), null, null, 'centered')}
     <div class="card-grid cols-3">
       ${C.pillars.items.map((p, i) => `
       <article class="card reveal d${i + 1}">
@@ -100,7 +99,7 @@ const pillars = () => `
 const features = () => `
 <section id="features" class="sec sec-features">
   <div class="wrap">
-    ${secHead(C.features.eyebrow, esc(C.features.heading), 'Pick a module to see exactly what it does.', null, 'centered')}
+    ${secHead(C.features.eyebrow, esc(C.features.heading), null, null, 'centered')}
     <div class="feat-rail reveal" role="tablist" aria-label="Features">
       ${C.features.items.map((f, i) => `
       <button class="feat-chip${i === 0 ? ' active' : ''}" role="tab" data-feature-tab="${slug(f.name)}" aria-selected="${i === 0 ? 'true' : 'false'}">
@@ -191,7 +190,7 @@ const integrations = () => `
 const proven = () => `
 <section id="proven" class="sec sec-proven">
   <div class="wrap">
-    ${secHead(C.proven.eyebrow, esc(C.proven.heading), C.proven.note,
+    ${secHead(C.proven.eyebrow, esc(C.proven.heading), null,
       `<a class="link-arrow" href="${C.proven.moreUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a>`, 'centered')}
     <div class="card-grid cols-3">
       ${C.proven.customers.map((c, i) => `
@@ -246,7 +245,7 @@ const pricing = () => {
 const support = () => `
 <section id="support" class="sec sec-support">
   <div class="wrap">
-    ${secHead(C.support.eyebrow, esc(C.support.heading), C.support.sub, null, 'centered')}
+    ${secHead(C.support.eyebrow, esc(C.support.heading), null, null, 'centered')}
     <div class="card-grid cols-4">
       ${C.support.items.map((s, i) => `
       <article class="card reveal d${i + 1}">
@@ -257,7 +256,6 @@ const support = () => `
         ${s.action ? `<a class="link-arrow sm" href="${s.action.url}"${s.action.url.startsWith('#') ? '' : ' target="_blank" rel="noopener"'}>${esc(s.action.label)}${icons.arrow}</a>` : ''}
       </article>`).join('')}
     </div>
-    <p class="support-note reveal">${esc(C.support.tutorialsNote)}</p>
   </div>
 </section>`;
 
@@ -272,7 +270,6 @@ const blog = () => `
         <a class="blog-img" href="${p.url}" target="_blank" rel="noopener"><img src="../images/pexels/${p.file}" alt="${esc(p.title)}" loading="lazy"></a>
         <div class="blog-body">
           <h3><a href="${p.url}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
-          <p>${esc(p.excerpt)}</p>
           <a class="link-arrow sm" href="${p.url}" target="_blank" rel="noopener">${esc(C.blog.moreLabel)}${icons.arrow}</a>
         </div>
       </article>`).join('')}
@@ -302,7 +299,7 @@ const ctaBand = () => `
 const contact = () => `
 <section id="contact" class="sec sec-contact">
   <div class="wrap">
-    ${secHead(C.contact.eyebrow, esc(C.contact.heading), C.contact.sub, null, 'centered')}
+    ${secHead(C.contact.eyebrow, esc(C.contact.heading), null, null, 'centered')}
     <div class="contact-grid">
       <div class="contact-info reveal">
         <div class="info-card">

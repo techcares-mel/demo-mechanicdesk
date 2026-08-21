@@ -226,7 +226,7 @@
     var tTab = $('[data-tour-tab]', tour);
     var tIdx = $('[data-tour-index]', tour);
     var tBtn = $('[data-tour-toggle]', tour);
-    var HOLD = 3400;           // ms each screen stays up
+    var HOLD = 2600;           // ms each screen stays up
     var cur = 0, elapsed = 0, last = 0, playing = !reduced, raf = null, hovering = false;
 
     var paint = function (i) {
@@ -279,7 +279,7 @@
       setInterval(function () {
         pi = (pi + 1) % pSlides.length;
         pSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === pi); });
-      }, 4600);
+      }, 3800);
     }
   }
 

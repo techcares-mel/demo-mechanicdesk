@@ -4,7 +4,7 @@
    Archivo headings, sharp 3px corners, numbered sections 01-09.
    Automotive dialect: technical drawing — dimension lines with tick ends,
    hex-bolt corner marks, tyre-tread hairline dividers, gauge tick rulers.
-   Hero: copy first, then the product tour on a full-width drawing sheet.
+   Hero: two columns — copy left, product tour on a drawing sheet right.
    Long reference copy (integrations, addons, phone lists) folds away.
    ========================================================================= */
 const S = require('./shared.cjs');
@@ -66,35 +66,32 @@ const navBar = () => `
 </div>`;
 
 /* --------------------------------------------------------------- hero ---- */
-/* Eyebrow + h1 + one sub line + 2 CTAs + 3 facts. The product does the
-   talking: 10 real app screens playing inside a macOS window, phone in front,
-   the whole assembly annotated like a part on a drawing sheet.              */
+/* Two columns, vertically centred: the title block, one sub line, 2 CTAs and
+   the four trust chips on the left; on the right the product tour on a drawing
+   sheet that bleeds toward the viewport edge so the window stays as large as
+   the composition allows. Phone hangs below the window, badge on the frame.  */
 const hero = () => `
 <section id="home" class="hero">
   <div class="grid-bg" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <div class="hc-lead">
-        <p class="doc-tag reveal">${esc(C.brand.name)}<span class="dot"></span>${esc(C.brand.address.line2)}, Australia</p>
-        <h1 class="reveal d1">${esc(C.brand.product)}</h1>
+      <p class="doc-tag reveal">${esc(C.brand.name)}<span class="dot"></span>${esc(C.brand.address.line2)}, Australia</p>
+      <h1 class="reveal d1">${esc(C.brand.product)}</h1>
+      <p class="hero-sub reveal d2">${esc(C.brand.heroSub)}</p>
+      <div class="hero-cta reveal d3">
+        <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
+        <a class="btn btn-ghost btn-lg" href="#support">${esc(C.support.items[2].action.label)}</a>
       </div>
-      <div class="hc-aside">
-        <p class="hero-sub reveal d2">${esc(C.brand.heroSub)}</p>
-        <div class="hero-cta reveal d3">
-          <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
-          <a class="btn btn-ghost btn-lg" href="#support">${esc(C.support.items[2].action.label)}</a>
-        </div>
-      </div>
+      <ul class="spec-strip reveal d4">
+        ${C.trustStrip.map((t) => `<li>${icons.check}<span>${esc(t)}</span></li>`).join('')}
+      </ul>
     </div>
-    <ul class="spec-strip reveal d3">
-      ${C.trustStrip.map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
-    </ul>
-    <div class="hero-art reveal d4">
+    <div class="hero-art reveal d2">
       <div class="art-sheet">
         ${bolts()}
         ${dimX('Product tour · ' + C.productTour.slides.length + ' app screens')}
-        ${S.productMock({ wide: true })}
-        <p class="art-block"><span class="ab-no">Fig. 01</span><span class="ab-txt">${esc(C.productTour.source)}</span></p>
+        ${S.productMock({})}
+        <p class="art-block"><span class="ab-no">Fig. 01</span><span class="ab-txt">Real screens from the MechanicDesk app</span></p>
       </div>
     </div>
   </div>
@@ -104,7 +101,7 @@ const hero = () => `
 const pillars = () => `
 <section id="why" class="sec sec-pillars">
   <div class="wrap">
-    ${secHead('01', C.pillars.eyebrow, esc(C.pillars.heading), C.pillars.sub)}
+    ${secHead('01', C.pillars.eyebrow, esc(C.pillars.heading))}
     <div class="pillars">
       ${C.pillars.items.map((p, i) => `
       <article class="pillar reveal d${i + 1}">
@@ -117,13 +114,12 @@ const pillars = () => `
 </section>`;
 
 /* ------------------------------------------------------ 02  features ---- */
-/* Sticky index on the left; the open module fills the sheet on the right —
-   lede column plus the full specification, no empty drawing gutter.       */
+/* Sticky index on the left; the open module on the right — mark, name, one
+   blurb, the highlight, then the specification behind its own expander.   */
 const features = () => `
 <section id="features" class="sec sec-features">
   <div class="wrap">
-    ${secHead('02', C.features.eyebrow, esc(C.features.heading),
-      'Twelve modules. Pick one from the index.')}
+    ${secHead('02', C.features.eyebrow, esc(C.features.heading))}
     <div class="feat-wrap reveal">
       <div class="feat-index" role="tablist" aria-label="Features">
         ${C.features.items.map((f, i) => `
@@ -139,21 +135,20 @@ const features = () => `
         <article class="feat-panel${i === 0 ? ' active' : ''}" data-feature-panel="${slug(f.name)}" role="tabpanel">
           <div class="plate">
             <span class="plate-no">Module ${n2(i)} <span class="sep">/</span> 12</span>
-            <span class="plate-no plate-pts">${f.bullets.length} spec points</span>
             <span class="plate-bolt">${icons.bolt}</span>
           </div>
           <div class="fp-body">
-            <div class="fp-lede">
-              <span class="fp-mark" aria-hidden="true">${icons[f.icon] || ''}</span>
-              <h3>${esc(f.name)}</h3>
-              <p class="feat-blurb">${esc(f.blurb)}</p>
-              ${f.highlight ? `<div class="feat-highlight"><span class="mono-label">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}
-              <a class="link-arrow" href="${f.link.url}" target="_blank" rel="noopener">${esc(f.link.label)}${icons.arrow}</a>
-            </div>
-            <div class="fp-spec">
-              <p class="mono-label fp-spec-label">Specification</p>
-              <ul class="feat-list">${f.bullets.map((b) => `<li>${icons.check}<span>${esc(b)}</span></li>`).join('')}</ul>
-            </div>
+            <span class="fp-mark" aria-hidden="true">${icons[f.icon] || ''}</span>
+            <h3>${esc(f.name)}</h3>
+            <p class="feat-blurb">${esc(f.blurb)}</p>
+            ${f.highlight ? `<div class="feat-highlight"><span class="mono-label">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}
+            ${S.disclose({
+              mod: 'fp-spec',
+              label: 'Full specification',
+              meta: f.bullets.length + ' spec points',
+              body: `<ul class="feat-list">${f.bullets.map((b) => `<li>${icons.check}<span>${esc(b)}</span></li>`).join('')}</ul>`
+            })}
+            <a class="link-arrow" href="${f.link.url}" target="_blank" rel="noopener">${esc(f.link.label)}${icons.arrow}</a>
           </div>
         </article>`).join('')}
       </div>
@@ -225,9 +220,8 @@ const integrations = () => `
 const proven = () => `
 <section id="proven" class="sec sec-proven">
   <div class="wrap">
-    ${secHead('05', C.proven.eyebrow, esc(C.proven.heading), C.proven.sub,
-      `<p class="sec-body">${esc(C.proven.note)}</p>
-       <a class="link-arrow" href="${C.proven.moreUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a>`)}
+    ${secHead('05', C.proven.eyebrow, esc(C.proven.heading), null,
+      `<a class="link-arrow" href="${C.proven.moreUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a>`)}
     <div class="cust-grid">
       ${C.proven.customers.map((c, i) => `
       <figure class="cust-cell reveal d${i + 1}">
@@ -262,7 +256,6 @@ const pricing = () => {
           ${P.regions.map((r) => `<option value="${r.key}">${esc(r.name)}</option>`).join('')}
         </select>
       </div>`)}
-    <p class="price-hint reveal">${icons.arrow}<span>Swipe the table to compare plans</span></p>
     <div class="table-scroll reveal">
       <table class="price-table">
         <thead>
@@ -313,8 +306,7 @@ const pricing = () => {
 const support = () => `
 <section id="support" class="sec sec-support">
   <div class="wrap">
-    ${secHead('07', C.support.eyebrow, esc(C.support.heading), C.support.sub,
-      `<p class="sec-body">${esc(C.support.tutorialsNote)}</p>`)}
+    ${secHead('07', C.support.eyebrow, esc(C.support.heading))}
     <div class="support-grid">
       ${C.support.items.map((s, i) => `
       <article class="support-cell reveal d${i + 1}">
@@ -341,7 +333,6 @@ const blog = () => `
         </a>
         <div class="blog-body">
           <h3><a href="${p.url}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
-          <p>${esc(p.excerpt)}</p>
           <a class="link-arrow" href="${p.url}" target="_blank" rel="noopener">${esc(C.blog.moreLabel)}${icons.arrow}</a>
         </div>
       </article>`).join('')}
@@ -370,7 +361,6 @@ const ctaBand = () => {
       <div class="cta-actions">
         <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.signup.label)}</a>
         <a class="btn btn-ghost btn-lg" href="tel:${au.number.replace(/[^0-9+]/g, '')}">${icons.phone}Call ${esc(au.number)}</a>
-        <p class="cta-note">${esc(C.brand.address.line2)}, ${esc(au.label)} <span class="dash"></span> ${esc(C.brand.legal)}</p>
       </div>
     </div>
   </div>
@@ -381,7 +371,7 @@ const ctaBand = () => {
 const contact = () => `
 <section id="contact" class="sec sec-contact">
   <div class="wrap">
-    ${secHead('09', C.contact.eyebrow, esc(C.contact.heading), C.contact.sub)}
+    ${secHead('09', C.contact.eyebrow, esc(C.contact.heading))}
     <div class="contact-grid">
       <div class="contact-info reveal">
         <div class="info-block">

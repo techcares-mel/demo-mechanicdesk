@@ -7,57 +7,64 @@ const CONCEPTS = [
     key: 'v1',
     n: '01',
     name: 'Blueprint',
-    tagline: 'Light · technical · editorial',
-    en: 'A light engineering document. Hairline grid, monospace spec labels, dimension lines annotating the product tour, and pricing as a comparison table. Orange appears only as a signal colour.',
-    vi: 'Sáng, kỹ thuật, kiểu bản vẽ engineering. Lưới hairline, nhãn monospace, đường ghi kích thước quanh khung sản phẩm, bảng giá dạng bảng so sánh. Cam chỉ dùng làm màu tín hiệu.',
-    traits: ['Archivo + Inter + IBM Plex Mono', 'Dimension lines, hex-bolt corner marks', 'Feature index + one detail panel', 'Pricing as a spec comparison table'],
+    tagline: 'Light · technical',
+    en: 'A light engineering document: hairline grid, monospace spec labels, dimension lines, and pricing as a comparison table.',
+    vi: 'Sáng, kỹ thuật, kiểu bản vẽ. Cam chỉ dùng làm màu tín hiệu.',
+    traits: ['Archivo + Inter + IBM Plex Mono', 'Dimension lines, hex-bolt marks', 'Pricing as a spec table'],
     swatches: ['#e07b05', '#fbfaf8', '#14171b', '#e4e2db'],
-    best: 'Reads most “engineering company”: sober, precise, spec-driven.'
+    best: 'Reads most “engineering company”.'
   },
   {
     key: 'v2',
     n: '02',
     name: 'Graphite',
-    tagline: 'Dark · precision · industrial',
-    en: 'Graphite dark with orange used as a signal light. Hazard tape, carbon weave, a tyre-tread footer edge, a spec plate on every module, and a full-bleed workshop photo band.',
-    vi: 'Tối kiểu graphite, cam làm đèn tín hiệu. Băng hazard, vân carbon, dải gai lốp, biển spec cho từng module, dải ảnh xưởng full-bleed.',
-    traits: ['Space Grotesk + Inter + JetBrains Mono', 'Hazard tape, carbon weave, tyre-tread edge', 'Scrolling partner marquee', 'Module chips + spec plate panel'],
+    tagline: 'Dark · industrial',
+    en: 'Graphite dark with orange as a signal light: hazard tape, carbon weave, a tyre-tread footer edge and a workshop photo band.',
+    vi: 'Tối kiểu graphite, cam làm đèn tín hiệu. Nhiều chi tiết xưởng nhất.',
+    traits: ['Space Grotesk + Inter + JetBrains Mono', 'Hazard tape, carbon weave, tread edge', 'Module chips + spec plate'],
     swatches: ['#fca311', '#0b0d0f', '#171c21', '#eef1f3'],
-    best: 'Most premium / performance-workshop feel of the three.'
+    best: 'Most premium, most workshop.'
   },
   {
     key: 'v3',
     n: '03',
     name: 'Torque',
-    tagline: 'Warm light · bold · friendly',
-    en: 'Warm cream ground with bold display type, a large orange panel behind the product tour and soft rounded cards. Real workshop photography leads, and the 12 modules open one at a time.',
-    vi: 'Nền kem ấm, chữ to đậm, khối cam lớn sau khung sản phẩm, thẻ bo tròn mềm. Ảnh xưởng thật làm chủ đạo, 12 module dạng card mở rộng từng cái một.',
-    traits: ['Plus Jakarta Sans + Inter', 'Real workshop photography, tread strip', 'Bento “why” grid + ink stats', 'Expandable module cards, one open at a time'],
+    tagline: 'Warm light · bold',
+    en: 'Warm cream with bold display type, a large orange panel behind the product tour, and real workshop photography leading.',
+    vi: 'Nền kem ấm, chữ to đậm, ảnh xưởng thật làm chủ đạo.',
+    traits: ['Plus Jakarta Sans + Inter', 'Workshop photography, tread strip', 'Modules open one at a time'],
     swatches: ['#f5860f', '#fffbf5', '#16130f', '#fdf3e6'],
-    best: 'Warmest and most conversion-forward — closest to a modern SaaS landing page.'
+    best: 'Warmest, most conversion-forward.'
   }
+];
+
+const NOTES = [
+  ['The product tour', 'All three heroes run the same ten screens of the real app inside a macOS window — diary, job card, check sheet, timesheets, invoice, tax invoice, inventory, reports — with the real mobile app on an iPhone in front. Frames come from MechanicDesk’s own tutorials and App Store listing.'],
+  ['Content', 'Every feature bullet, integration, price, phone number and policy link from the live site is kept — but nothing long is printed by default. Detail sits behind click-to-open blocks.'],
+  ['Automotive character', 'Automotive iconography, a workshop photo band, and per-concept cues: dimension lines and bolt marks, hazard tape and carbon weave, or workshop photography and a tread strip.'],
+  ['Photography', 'The old cut-out category images and both stock blog covers were replaced with licensed Pexels photography. Real brand assets — the logo, 17 partner logos, 3 customer logos — are untouched.']
 ];
 
 const CSS = `
 :root{
   --accent:#fca311;--bg:#0c0e11;--surface:#14181d;--card:#171c22;
   --line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);
-  --text:#eef1f4;--text2:#b3bcc5;--muted:#7e8892;
+  --text:#eef1f4;--text2:#c2cad2;--muted:#8b959f;
   --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --head:'Space Grotesk','Inter',sans-serif;
   --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text2);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--text2);font-family:var(--sans);font-size:1rem;line-height:1.65;-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 h1,h2,h3{font-family:var(--head);color:var(--text);margin:0;letter-spacing:-.03em;font-weight:700}
-h1{font-size:clamp(2rem,4.2vw,3.2rem);line-height:1.05}
-h2{font-size:1.35rem}
+h1{font-size:clamp(2.1rem,4.2vw,3.2rem);line-height:1.05}
+h2{font-size:1.4rem}
 p{margin:0}
 ul{margin:0;padding:0;list-style:none}
 .wrap{max-width:1280px;margin:0 auto;padding:0 clamp(1.25rem,4vw,2.5rem)}
-.mono{font-family:var(--mono);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.mono{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
 
 header.top{padding:clamp(2.5rem,6vw,4.5rem) 0 clamp(2rem,4vw,3rem);border-bottom:1px solid var(--line);position:relative;overflow:hidden}
 header.top::after{content:'';position:absolute;top:-60%;right:-10%;width:60vw;height:120%;background:radial-gradient(circle,rgba(252,163,17,.12),transparent 65%);pointer-events:none}
@@ -65,9 +72,9 @@ header.top::after{content:'';position:absolute;top:-60%;right:-10%;width:60vw;he
 .brandline img{width:38px}
 .brandline strong{font-family:var(--head);font-size:1.2rem;color:var(--text);letter-spacing:-.02em}
 .brandline strong em{font-style:normal;color:var(--accent)}
-.lede{margin-top:1.2rem;max-width:70ch;font-size:1.05rem}
+.lede{margin-top:1.2rem;max-width:60ch;font-size:1.12rem}
 .meta{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.8rem}
-.meta span{border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;font-size:.78rem;color:var(--muted)}
+.meta span{border:1px solid var(--line2);border-radius:999px;padding:.45rem 1rem;font-size:.88rem;color:var(--text2)}
 .meta a{color:var(--accent)}
 
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;padding:clamp(2.5rem,5vw,4rem) 0}
@@ -76,28 +83,27 @@ header.top::after{content:'';position:absolute;top:-60%;right:-10%;width:60vw;he
 .thumb{position:relative;width:100%;aspect-ratio:16/11;overflow:hidden;background:#0f1216;border-bottom:1px solid var(--line)}
 .thumb iframe{position:absolute;top:0;left:0;width:1440px;height:990px;border:0;transform-origin:0 0;pointer-events:none}
 .thumb .shade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(12,14,17,.55));pointer-events:none}
-.thumb .badge{position:absolute;top:.8rem;left:.9rem;background:rgba(12,14,17,.75);backdrop-filter:blur(6px);border:1px solid var(--line2);border-radius:999px;padding:.28rem .7rem;font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
-.body{padding:1.6rem 1.5rem 1.75rem;display:flex;flex-direction:column;gap:.75rem;flex:1}
+.thumb .badge{position:absolute;top:.8rem;left:.9rem;background:rgba(12,14,17,.78);backdrop-filter:blur(6px);border:1px solid var(--line2);border-radius:999px;padding:.3rem .75rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text)}
+.body{padding:1.6rem 1.5rem 1.75rem;display:flex;flex-direction:column;gap:.85rem;flex:1}
 .title-row{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
-.tagline{font-size:.82rem;color:var(--accent);font-weight:500}
-.en{font-size:.88rem;color:var(--text2)}
-.vi{font-size:.82rem;color:var(--muted);border-left:2px solid var(--line2);padding-left:.7rem}
-.traits{display:grid;gap:.4rem;margin-top:.3rem}
-.traits li{display:grid;grid-template-columns:14px 1fr;gap:.55rem;font-size:.82rem;color:var(--muted)}
-.traits li::before{content:'';width:5px;height:5px;margin-top:.55rem;border-radius:50%;background:var(--accent)}
-.best{font-size:.82rem;color:var(--text);border-left:2px solid var(--accent);padding-left:.8rem}
-.sw{display:flex;gap:.4rem;margin-top:.2rem}
+.tagline{font-size:.9rem;color:var(--accent);font-weight:500;white-space:nowrap}
+.en{font-size:.98rem;color:var(--text2)}
+.vi{font-size:.92rem;color:var(--muted);border-left:2px solid var(--line2);padding-left:.75rem}
+.traits{display:grid;gap:.45rem;margin-top:.15rem}
+.traits li{display:grid;grid-template-columns:14px 1fr;gap:.6rem;font-size:.9rem;color:var(--muted)}
+.traits li::before{content:'';width:5px;height:5px;margin-top:.6rem;border-radius:50%;background:var(--accent)}
+.best{font-size:.92rem;color:var(--text);border-left:2px solid var(--accent);padding-left:.85rem}
+.sw{display:flex;gap:.4rem}
 .sw i{width:26px;height:26px;border-radius:8px;border:1px solid var(--line2);display:block}
-.open{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:var(--accent);color:#17130a;font-family:var(--head);font-weight:700;font-size:.9rem;padding:.85rem 1.2rem;border-radius:999px;transition:all .2s ease}
+.open{margin-top:auto;display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:var(--accent);color:#17130a;font-family:var(--head);font-weight:700;font-size:.98rem;padding:.9rem 1.2rem;border-radius:999px;transition:all .2s ease}
 .open:hover{background:#ffb43a}
 
 .notes{border-top:1px solid var(--line);padding:clamp(2rem,4vw,3rem) 0 4rem}
-.notes h2{margin-bottom:1rem}
-.notes-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-.note{border:1px solid var(--line);border-radius:14px;padding:1.4rem}
-.note p{font-size:.86rem;color:var(--muted);margin-top:.5rem}
-.note code{font-family:var(--mono);font-size:.78rem;color:var(--text2)}
-footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.notes h2{margin-bottom:1.25rem}
+.notes-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.note{border:1px solid var(--line);border-radius:14px;padding:1.5rem}
+.note p{font-size:.96rem;color:var(--muted);margin-top:.55rem}
+footer{border-top:1px solid var(--line);padding:1.5rem 0 3rem;font-family:var(--mono);font-size:.76rem;letter-spacing:.06em;color:var(--muted)}
 @media(max-width:1024px){.grid{grid-template-columns:1fr;gap:1.5rem}.notes-grid{grid-template-columns:1fr}.thumb{aspect-ratio:16/9}}
 `;
 
@@ -141,16 +147,13 @@ module.exports = () => `<!DOCTYPE html>
       <strong>Mechanic<em>Desk</em></strong>
     </div>
     <p class="mono">Website redesign · 3 concepts · demo build</p>
-    <h1>Same content, three minimalistic<br>design directions.</h1>
-    <p class="lede">Every word, price, feature bullet, phone number and integration from
-      mechanicdesk.com.au is preserved — only the design system changes. Each concept keeps the
-      mechanical/automotive character and the existing orange brand accent, applied with a more
-      restrained, professional layout. Pick one and it becomes the production design.</p>
+    <h1>Same content, three<br>design directions.</h1>
+    <p class="lede">All of the content from mechanicdesk.com.au, kept — only the design system
+      changes. Pick one and it becomes the production design.</p>
     <div class="meta">
       <span>Reference: <a href="https://www.mechanicdesk.com.au/" target="_blank" rel="noopener">mechanicdesk.com.au</a></span>
-      <span>Content parity: 100% (single-page)</span>
-      <span>Brand accent kept: orange from logo</span>
-      <span>No frameworks · HTML + CSS + vanilla JS</span>
+      <span>Content parity: 100%</span>
+      <span>HTML + CSS + vanilla JS</span>
     </div>
   </div>
 </header>
@@ -180,49 +183,13 @@ module.exports = () => `<!DOCTYPE html>
   </section>
 
   <section class="notes">
-    <h2>What is identical across all three</h2>
+    <h2>Identical across all three</h2>
     <div class="notes-grid">
+      ${NOTES.map(([t, p]) => `
       <div class="note">
-        <p class="mono">Content</p>
-        <p>All 12 features with their full bullet lists and highlights, 18 partner integrations with
-        descriptions, all 4 pricing plans across Australia / New Zealand / United Kingdom / Global,
-        both optional addons, the “Suitable for” categories, the three named customers, both blog
-        teasers, support channels, all four phone numbers, both email addresses and the About us text.</p>
-      </div>
-      <div class="note">
-        <p class="mono">The product tour</p>
-        <p>Each hero runs the same ten screens of the real app inside a macOS browser window —
-        dashboard, booking diary, job card, check sheet, timesheets, invoice, tax invoice, printed
-        job card, inventory and reports — crossfading like a video, with the real mobile app on an
-        iPhone in front of it. Frames come from MechanicDesk's own tutorial videos and the App Store
-        listing; nothing is mocked up.</p>
-      </div>
-      <div class="note">
-        <p class="mono">Minimalism by disclosure</p>
-        <p>Nothing long is printed in full. The 18 integration write-ups, every pricing inclusion
-        beyond the headline price, the addons, each module's bullet list, the support numbers and the
-        About us paragraph all sit behind click-to-open blocks, so the page stays quiet until you ask
-        for detail.</p>
-      </div>
-      <div class="note">
-        <p class="mono">Automotive character</p>
-        <p>Automotive iconography (gauge, piston, tyre, oil can, torque wrench, hex bolt), a workshop
-        photo band, and per-concept cues: dimension lines and bolt marks in Blueprint, hazard tape,
-        carbon weave and a tyre-tread edge in Graphite, real workshop photography and a tread strip
-        in Torque.</p>
-      </div>
-      <div class="note">
-        <p class="mono">Functionality</p>
-        <p>Sticky navigation, mobile menu, scroll progress, back-to-top, scroll reveal, animated
-        counters, region price switcher, module explorer, integration category filter, Google Maps
-        embed and a working contact form (demo confirmation, no backend).</p>
-      </div>
-      <div class="note">
-        <p class="mono">Photography</p>
-        <p>The old cut-out category images and the two stock blog covers were replaced with licensed
-        Pexels photography, credited in <code>images/pexels/credits.json</code>. Real brand assets —
-        the MechanicDesk logo, the 17 partner logos and the three customer logos — are untouched.</p>
-      </div>
+        <p class="mono">${t}</p>
+        <p>${p}</p>
+      </div>`).join('')}
     </div>
   </section>
 </main>

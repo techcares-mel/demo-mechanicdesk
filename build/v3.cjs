@@ -16,8 +16,11 @@ const n2 = (i) => String(i + 1).padStart(2, '0');
 const INT_COUNT = C.integrations.categories.reduce((n, g) => n + g.items.length, 0);
 const AU_PHONE = C.brand.phones[0].number;
 
+/* Column 2 of a header carries the deck, the region control or the link.
+   When a section has none of them the header is HEADING ONLY: .solo drops the
+   two-column grid for a narrower measure and less air above the content. */
 const secHead = (label, title, sub, extra, mod) => `
-<div class="sec-head${mod ? ' ' + mod : ''} reveal">
+<div class="sec-head${mod ? ' ' + mod : ''}${!sub && !extra ? ' solo' : ''} reveal">
   <span class="tag">${esc(label)}</span>
   <h2>${title}</h2>
   ${sub ? `<p class="sec-sub">${esc(sub)}</p>` : ''}
@@ -56,32 +59,29 @@ const navBar = () => `
 </div>`;
 
 /* --------------------------------------------------------------- hero ---- */
-/* Wide composition: an editorial header band (headline left, deck right, then
-   a full-width action bar) sits ABOVE the product tour, which runs the whole
-   container width on the orange panel so the app capture is actually legible.
-   Warm tag eyebrow, all-ink headline — no pill, no accent word. */
+/* Two-column composition (same geometry as concept 2): copy left — tag
+   eyebrow, ink headline, lede, the two CTAs, then the four trust chips — and
+   the orange panel carrying the product tour on the right, bleeding toward the
+   viewport edge so the browser stays as wide as the column allows.
+   No eyebrow: the h1 leads. The "20,000+ mechanics" line it used to carry is
+   the first number in the stats band, so the claim is still on the page. */
 const hero = () => `
 <section id="home" class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
     <div class="hero-copy">
-      <div class="hero-head">
-        <span class="tag reveal">${esc(C.proven.sub)}</span>
-        <h1 class="reveal d1">${esc(C.brand.product)}</h1>
+      <h1 class="reveal">${esc(C.brand.product)}</h1>
+      <p class="hero-sub reveal d1">${esc(C.brand.heroSub)}</p>
+      <div class="hero-cta reveal d2">
+        <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
+        <a class="btn btn-soft btn-lg" href="#features">Explore features</a>
       </div>
-      <p class="hero-sub reveal d2">${esc(C.brand.heroSub)}</p>
-      <div class="hero-bar reveal d3">
-        <div class="hero-cta">
-          <a class="btn btn-primary btn-lg" href="${C.brand.signup.url}">${esc(C.brand.cta)}</a>
-          <a class="btn btn-soft btn-lg" href="#features">Explore features</a>
-        </div>
-        <ul class="hero-facts">
-          ${[C.trustStrip[0], C.trustStrip[2], C.trustStrip[3]].map((t) => `<li>${icons.check}${esc(t)}</li>`).join('')}
-        </ul>
-      </div>
+      <ul class="hero-facts reveal d3">
+        ${C.trustStrip.map((t) => `<li>${icons.check}<span>${esc(t)}</span></li>`).join('')}
+      </ul>
     </div>
     <div class="hero-art reveal d2">
       <div class="hero-panel">
-        ${S.productMock({ wide: true })}
+        ${S.productMock({})}
         <span class="tread" aria-hidden="true"></span>
       </div>
     </div>
@@ -92,7 +92,7 @@ const hero = () => `
 const bento = () => `
 <section id="why" class="sec sec-why">
   <div class="wrap">
-    ${secHead(C.pillars.eyebrow, esc(C.pillars.heading), C.pillars.sub)}
+    ${secHead(C.pillars.eyebrow, esc(C.pillars.heading), null)}
     <div class="bento">
       ${C.pillars.items.map((p, i) => `
       <article class="bento-card${i === 0 ? ' lead' : ''} reveal d${i + 1}">
@@ -111,7 +111,7 @@ const bento = () => `
 const features = () => `
 <section id="features" class="sec sec-features">
   <div class="wrap">
-    ${secHead(C.features.eyebrow, esc(C.features.heading), 'Open a module to see exactly what it does. One at a time, so the page stays quiet.')}
+    ${secHead(C.features.eyebrow, esc(C.features.heading), null)}
     <div class="fgrid">
       ${C.features.items.map((f, i) => `
       <details class="fcard reveal" name="mdmodule"${i === 0 ? ' open' : ''}>
@@ -205,7 +205,7 @@ const integrations = () => `
 const proven = () => `
 <section id="proven" class="sec sec-proven">
   <div class="wrap">
-    ${secHead(C.proven.eyebrow, esc(C.proven.heading), C.proven.note,
+    ${secHead(C.proven.eyebrow, esc(C.proven.heading), null,
       `<a class="link-arrow" href="${C.proven.moreUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a>`, 'centered')}
     <div class="cust-row">
       ${C.proven.customers.map((c, i) => `
@@ -262,7 +262,7 @@ const pricing = () => {
 const support = () => `
 <section id="support" class="sec sec-support">
   <div class="wrap">
-    ${secHead(C.support.eyebrow, esc(C.support.heading), C.support.sub)}
+    ${secHead(C.support.eyebrow, esc(C.support.heading), null)}
     <div class="support-grid">
       ${C.support.items.map((s, i) => `
       <article class="support-card reveal d${i + 1}">
@@ -274,7 +274,6 @@ const support = () => `
         ${s.action ? `<a class="link-arrow sm" href="${s.action.url}"${s.action.url.startsWith('#') ? '' : ' target="_blank" rel="noopener"'}>${esc(s.action.label)}${icons.arrow}</a>` : ''}
       </article>`).join('')}
     </div>
-    <p class="support-note reveal">${esc(C.support.tutorialsNote)}</p>
   </div>
 </section>`;
 
@@ -290,7 +289,6 @@ const blog = () => `
         <a class="blog-img" href="${p.url}" target="_blank" rel="noopener"><img src="../images/pexels/${p.file}" alt="${esc(p.title)}" loading="lazy"></a>
         <div class="blog-body">
           <h3><a href="${p.url}" target="_blank" rel="noopener">${esc(p.title)}</a></h3>
-          <p>${esc(p.excerpt)}</p>
           <a class="link-arrow sm" href="${p.url}" target="_blank" rel="noopener">${esc(C.blog.moreLabel)}${icons.arrow}</a>
         </div>
       </article>`).join('')}
@@ -324,7 +322,7 @@ const ctaBlock = () => `
 const contact = () => `
 <section id="contact" class="sec sec-contact">
   <div class="wrap">
-    ${secHead(C.contact.eyebrow, esc(C.contact.heading), C.contact.sub)}
+    ${secHead(C.contact.eyebrow, esc(C.contact.heading), null)}
     <div class="contact-grid">
       <div class="contact-form reveal">${S.contactForm()}</div>
       <div class="contact-info reveal d2">
