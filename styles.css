@@ -381,8 +381,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* Logos float free: no plate, no ring around them, original brand colours.
    Three tracks counter-rotate around the core; every logo counter-rotates by
    the same amount so it always stays upright. */
-.orbit { position: relative; width: min(820px, 92vw); aspect-ratio: 1; margin: clamp(1rem, 2.5vw, 2.25rem) auto 0; }
+.orbit { position: relative; width: min(656px, 76vw); aspect-ratio: 1; margin: clamp(1rem, 2.5vw, 2.25rem) auto 0; }
 .orb-field { position: absolute; inset: 0; pointer-events: none; }
+/* starfield: layer CSS is generated per build and shipped in the page head */
+.orb-stars { position: absolute; inset: -14%; background-repeat: no-repeat; }
+.orb-stars.s2 { animation: twinkle 5.5s ease-in-out infinite alternate; }
+.orb-stars.s3 { animation: twinkle 8s ease-in-out infinite alternate-reverse; }
+@keyframes twinkle { from { opacity: .35 } to { opacity: 1 } }
 .orb-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid var(--line); }
 .orb-ring.r1 { width: 42%; height: 42%; }
 .orb-ring.r2 { width: 70%; height: 70%; }
@@ -398,7 +403,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   pointer-events: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   width: clamp(76px, 9vw, 98px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
   background: radial-gradient(circle at 40% 34%, #1c2126, #0e1215);
-  box-shadow: 0 0 0 1px var(--line-2), 0 18px 50px -18px rgba(0, 0, 0, 0.9);
+  box-shadow: 0 0 0 1px var(--line-2), 0 18px 50px -18px rgba(0, 0, 0, 0.9),
+              0 0 70px -6px rgba(252, 163, 17, 0.28);
+}
+.orb-core::after {
+  content: ''; position: absolute; inset: -46%; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(252, 163, 17, 0.16), transparent 62%);
 }
 .orb-core img { width: 44%; }
 .orb-pulse { position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(252, 163, 17, 0.45); animation: pulse 3.6s ease-out infinite; }
@@ -652,12 +662,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   .mock-phone { width: 34%; right: 2%; }
   .mock-badge { display: none; }
   .mb-cap { display: none; }
-  .orbit { width: 90vw; }
+  .orbit { width: 86vw; }
   .orb-track.t1 { inset: 31%; }
-  .orb-track.t2 { inset: 19%; }
-  .orb-track.t3 { inset: 8%; }
-  .orb-node { width: max(clamp(58px, 17vw, 78px), calc(var(--w, 0px) * 0.62 + 8px)); }
-  .orb-mark { height: calc(var(--h, 40px) * 0.62); }
+  .orb-track.t2 { inset: 18%; }
+  .orb-track.t3 { inset: 5%; }
+  .orb-node { width: max(clamp(46px, 13vw, 62px), calc(var(--w, 0px) * 0.5 + 6px)); }
+  .orb-mark { height: calc(var(--h, 40px) * 0.5); }
   .orb-name { display: none; }
   .hive-panel-head { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
 }

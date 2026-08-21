@@ -21,6 +21,42 @@ const secHead = (label, title, sub, extra, mod) => `
 
 const tape = () => '<div class="tape" aria-hidden="true"></div>';
 
+
+/* ---------------------------------------------------------- starfield ---- */
+/* Three layers of stars behind the orbit, generated at build time from a
+   seeded PRNG (so the field is identical on every build) and painted as one
+   background-image per layer — 90 stars, three DOM nodes. The middle of the
+   field is kept clear so nothing crowds the core. */
+const starfield = () => {
+  let seed = 20260821;
+  const rnd = () => {
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+  const layer = (n, size, alpha) => {
+    const out = [];
+    while (out.length < n) {
+      const x = rnd() * 100, y = rnd() * 100;
+      const dx = (x - 50) / 50, dy = (y - 50) / 50;
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < 0.2 || d > 1.12) continue;                 // clear of the core, inside the field
+      const a = (alpha * (0.55 + rnd() * 0.45)).toFixed(2);
+      out.push(`radial-gradient(${size}px ${size}px at ${x.toFixed(2)}% ${y.toFixed(2)}%, rgba(255,255,255,${a}) 0 45%, transparent 60%)`);
+    }
+    return out.join(',');
+  };
+  const css = [
+    '.orb-stars.s1{background-image:' + layer(78, 1.5, 0.55) + '}',
+    '.orb-stars.s2{background-image:' + layer(38, 2.1, 0.85) + '}',
+    '.orb-stars.s3{background-image:' + layer(16, 2.8, 1) + '}'
+  ].join('\n');
+  const html = '<i class="orb-stars s1"></i><i class="orb-stars s2"></i><i class="orb-stars s3"></i>';
+  return { css, html };
+};
+const STARS = starfield();
+
 /* ---------------------------------------------------------------- nav ---- */
 const navBar = () => `
 <header class="nav" data-nav>
@@ -165,12 +201,62 @@ const features = () => `
 const orbit = () => {
   const items = [];
   C.integrations.categories.forEach((g) => g.items.forEach((it) => items.push({ ...it, cat: g.name })));
-  const rings = [items.slice(0, 5), items.slice(5, 11), items.slice(11, 18)];
   const spin = [96, 132, 168];
+  const R = [0.21, 0.35, 0.47];                  // ring radii, fraction of the box
+  const BOX = 656;                               // design width of the orbit, px
+  const AREA = 2600;
 
   /* AMS Rewards reads small next to the rest, so it gets 1.8x the area. */
   const BOOST = { 'ams_rewards.png': 1.8 };
-  const size = (it, area) => markSize(it.file, area * (BOOST[it.file] || 1), 20, 72);
+  const size = (it, area) => markSize(it.file, (area || AREA) * (BOOST[it.file] || 1), 20, 72);
+  const box = (it) => {
+    const m = it.file ? size(it, AREA) : { w: 74, h: 22 };
+    return { w: (m.w + 14) / BOX, h: (m.h + 12) / BOX };   // + breathing room
+  };
+
+  /* Widest marks to the outer ring: it has the most circumference to give. */
+  const byWidth = items.slice().sort((a, b) => box(b).w - box(a).w);
+  const rings = [byWidth.slice(13, 18), byWidth.slice(7, 13), byWidth.slice(0, 7)];
+
+  /* Phase search: maximise the smallest gap between the bounding boxes of any
+     two marks on different rings (centre distance alone is misleading — a wide
+     wordmark and a narrow roundel are not the same object). */
+  const phase = (() => {
+    const step = rings.map((r) => 360 / r.length);
+    const pt = (ring, i, p) => {
+      const t = ((step[ring] * i + p) * Math.PI) / 180;
+      return [R[ring] * Math.sin(t), -R[ring] * Math.cos(t)];
+    };
+    const worstGap = (p) => {
+      let worst = 9;
+      for (let a = 0; a < 3; a++) {
+        for (let b = a + 1; b < 3; b++) {
+          for (let i = 0; i < rings[a].length; i++) {
+            const A = pt(a, i, p[a]), ba = box(rings[a][i]);
+            for (let j = 0; j < rings[b].length; j++) {
+              const B = pt(b, j, p[b]), bb = box(rings[b][j]);
+              const gx = Math.abs(A[0] - B[0]) - (ba.w + bb.w) / 2;
+              const gy = Math.abs(A[1] - B[1]) - (ba.h + bb.h) / 2;
+              const g = Math.max(gx, gy);        // boxes clear if either axis clears
+              if (g < worst) worst = g;
+            }
+          }
+        }
+      }
+      return worst;
+    };
+    let best = [0, 0, 0], bestGap = -9;
+    for (let p2 = 0; p2 < 60; p2 += 1) {
+      for (let p3 = 0; p3 < 52; p3 += 1) {
+        const g = worstGap([0, p2, p3]);
+        if (g > bestGap) { bestGap = g; best = [0, p2, p3]; }
+      }
+    }
+    console.log('  orbit: smallest gap between marks on different rings = ' +
+      Math.round(bestGap * BOX) + 'px (phases ' + best.join('/') + ')');
+    return best;
+  })();
+
   const mark = (it, cls, area) => {
     if (!it.file) return `<em class="${cls} is-text">${esc(it.name.split(' ')[0])}</em>`;
     const m = size(it, area);
@@ -184,6 +270,7 @@ const orbit = () => {
       `<a class="link-arrow" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a>`, 'centered')}
     <div class="orbit reveal">
       <div class="orb-field" aria-hidden="true">
+        ${STARS.html}
         <i class="orb-ring r1"></i><i class="orb-ring r2"></i><i class="orb-ring r3"></i>
         <i class="orb-sweep"></i>
       </div>
@@ -194,7 +281,7 @@ const orbit = () => {
       ${rings.map((ring, r) => `
       <div class="orb-track t${r + 1}" style="--spin:${spin[r]}s">
         ${ring.map((it, i) => `
-        <div class="orb-slot" style="--a:${((360 / ring.length) * i).toFixed(2)}deg">
+        <div class="orb-slot" style="--a:${((360 / ring.length) * i + phase[r]).toFixed(2)}deg">
           <button class="orb-node" data-hive-tab="${slug(it.name)}"
                   style="--spin:${spin[r]}s;--w:${size(it, 2600).w}px" aria-label="${esc(it.name)}">
             ${mark(it, 'orb-mark', 2600)}
@@ -429,6 +516,7 @@ module.exports = () => `<!DOCTYPE html>
 <html lang="en">
 <head>
 ${S.head({ fontLinks: FONTS, css: 'styles.css', concept: 'Graphite', conceptName: 'dark precision industrial — redesign demo of mechanicdesk.com.au' })}
+<style>${STARS.css}</style>
 </head>
 <body class="v2">
 ${S.watermark()}
