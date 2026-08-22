@@ -186,6 +186,41 @@ images/pexels/               licensed photography + credits.json
   auto-brake-disc.jpg  auto-hands-wrench.jpg
 ```
 
+## /v2/ — the same page with depth
+
+The root page is the deliverable and is never touched by this. `/v2/` is a copy of it for judging
+one question: does 3D make it better? `build/v5.cjs` re-renders `build/v2.cjs` — the exact same
+markup the root serves — and only lifts the asset paths (`images/` → `../images/`) and marks the
+tab. The depth is two files appended at build time: `build/v5.css` after the stylesheet,
+`build/v5.js` after the runtime. Change the design in `v2.cjs` and this page follows.
+
+- **One contract.** The runtime writes exactly two unitless numbers on a surface, `--mx` and `--my`
+  (-0.5..0.5, where the pointer is inside it). The stylesheet decides what depth those numbers buy.
+  No transform maths in JS.
+- **The board** is where the depth is the point. `.brd-scroll` holds the perspective, `.brd` is the
+  stage: the dot grid drops to `-150px`, the traces sit at `+10px`, outer-bus marks stand at
+  `+30px`, inner-bus at `+62px`, a selected mark at `+120px`, and the chip at `+112px`. Every mark
+  drops a blurred contact shadow back onto the surface (`.brd-node::after` at `translateZ(-var(--z))`)
+  — that shadow is what makes them read as standing on the board rather than floating loose.
+  A pane of glass over the whole thing catches a highlight wherever the pointer is.
+- **It tilts without being touched.** While the pointer is away, `--my` comes from the board's
+  position in the viewport, so it tips as you scroll past it, and `--mx` drifts on a slow sine. The
+  pointer takes over on hover and the scroll tilt stands down.
+- **The hero** keeps a resting turn (`rotateY(-7deg)`) with the phone at `+78px` and the
+  notification chip at `+120px` in front of the browser window.
+- **Everything else** — the why cards, the "suitable for" photos, blog cards, customer cards, the
+  spec plate — gets the same idea at a fraction of the strength on hover.
+- **Toggle.** A pill in the bottom-left switches `.flat` on `<html>`; every rule in the layer is
+  behind `html:not(.flat)`, so one click is a clean A/B against the flat page. It also links back
+  to the root.
+- Coarse pointers get no tracking (it reads as jitter on a phone), and `prefers-reduced-motion`
+  turns the transforms off entirely.
+
+Screenshots: `node build/qa5.cjs integrations:1250:1440:tilt` — the fourth field pins `--mx/--my`
+so a still frame shows the parallax a pointer would produce.
+
+Live: **https://demo-mechanicdesk.vercel.app/v2/**
+
 ## Redeployment
 
 From the project root (one level up):

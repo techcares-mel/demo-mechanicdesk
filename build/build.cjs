@@ -17,6 +17,20 @@ fs.writeFileSync(path.join(root, 'script.js'), runtime, 'utf8');
 fs.writeFileSync(path.join(root, 'styles.css'),
   fs.readFileSync(path.join(__dirname, 'v2.css'), 'utf8') + require('./lab2-board.cjs').css, 'utf8');
 
+/* /v2/ — the same page with the 3D layer on top, for comparison. The root
+   render is untouched: v5.cjs re-renders v2.cjs and only lifts the asset
+   paths, then the depth is appended to the stylesheet and the runtime. */
+const d3Dir = path.join(root, 'v2');
+fs.mkdirSync(d3Dir, { recursive: true });
+const d3html = require('./v5.cjs')();
+fs.writeFileSync(path.join(d3Dir, 'index.html'), d3html, 'utf8');
+fs.writeFileSync(path.join(d3Dir, 'styles.css'),
+  fs.readFileSync(path.join(root, 'styles.css'), 'utf8') +
+  fs.readFileSync(path.join(__dirname, 'v5.css'), 'utf8'), 'utf8');
+fs.writeFileSync(path.join(d3Dir, 'script.js'),
+  runtime + fs.readFileSync(path.join(__dirname, 'v5.js'), 'utf8'), 'utf8');
+console.log('v2/index.html  ' + (d3html.length / 1024).toFixed(1) + ' KB  (3D layer)');
+
 /* Comparison page for the integrations-section directions (noindex). */
 const labDir = path.join(root, 'integrations');
 fs.mkdirSync(labDir, { recursive: true });
