@@ -1,5 +1,5 @@
 /* Runs a probe script inside integrations/index.html and prints what it found.
-   node build/qa3.cjs <probe.js>
+   node build/qa3.cjs <probe.js> [dir]
    The probe writes its result with  report(obj)  — the page is then dumped and
    the line pulled back out. */
 const fs = require('fs');
@@ -12,8 +12,9 @@ const SP = 'C:/Users/hueyn/AppData/Local/Temp/claude/c--Users-hueyn-Claude-Proje
 const probe = fs.readFileSync(process.argv[2], 'utf8')
   .replace(/console\.log\('PROBE ' \+ ([^)]+)\)/, "document.title = 'PROBE:' + $1");
 
-const src = path.join(__dirname, '..', 'integrations', 'index.html');
-const qa = path.join(__dirname, '..', 'integrations', '_probe.html');
+const dir = process.argv[3] || 'integrations';
+const src = path.join(__dirname, '..', dir, 'index.html');
+const qa = path.join(__dirname, '..', dir, '_probe.html');
 fs.writeFileSync(qa, fs.readFileSync(src, 'utf8')
   .replace('</body>', '<script>setTimeout(function(){' + probe + '}, 400);</script></body>'), 'utf8');
 

@@ -173,6 +173,42 @@ images/pexels/               licensed photography + credits.json
   auto-brake-disc.jpg  auto-hands-wrench.jpg
 ```
 
+## The second direction — /v2/ "Job card"
+
+The root URL keeps Graphite. A second, simpler direction lives at **/v2/**, built with the
+`frontend-design` skill's process: `build/v4.cjs` + `build/v4.css` → `v2/index.html`,
+`v2/styles.css` (v4.css **plus** the circuit board's own CSS) and `v2/script.js` (the same
+`app.js` runtime). Assets sit one level up, so the template rewrites `images/` to `../images/`
+on the way out.
+
+**Idea** — a workshop still runs on the job card, so the page is one: printed header strip, mono
+field names down the left gutter, perforated tear rules between fields, one rubber stamp, and a
+single dark island for the wiring board.
+
+- **Palette** — sheet `#f4f6f7`, top copy `#ffffff`, carbon second copy `#f3ecda`, ink `#15191e`,
+  pencil `#6b7681`, rule `#ccd3d9`, brand amber `#fca311` (highlighter + board light) with
+  `#a9620a` as the same hue at text contrast on paper, and `#0e1216` for the one dark island.
+- **Type** — Bricolage Grotesque (display, 700/800), IBM Plex Sans (body), IBM Plex Mono (field
+  labels, data, prices). Nothing below `0.66rem`.
+- **Signature** — the card itself: it settles in on load and the "14 days free trial" stamp thumps
+  down half a second later. The primary CTA is ink black on purpose; amber stays a signal.
+- **Fields, in order** — hero card (work required + the attached product tour + the four stats) →
+  Why → Connects to (the board) → Suits → Reviews → Features → Price → Notes → Start → footer.
+  Nine fields against the root design's twelve sections: the stats band, the CTA band, Support and
+  Contact are folded into the hero card and the closing "Start" field.
+- **Same content** — every string still comes from `build/content.cjs`. The one place this page
+  writes its own line is the Why heading: the site's own "Why" heading and sub are word-for-word
+  the hero headline and hero lead, so printing them twice read as a mistake; the field now leads
+  on the strongest pillar in that pillar's own words.
+- **The board** — `build/lab2-board.cjs` is shared with the idea lab. `html({ prefix, attr })`
+  lets this page ask for root-relative assets and `data-brd-node`, which `app.js` 8c wires to the
+  18 static `[data-brd-panel]` blocks and the category chords. Verified: 18 nodes, 0 blocked.
+
+Screenshots: `node build/qa4.cjs top:1150 integrations:1250 all:2000:500` (section, height, width).
+Probes: `node build/qa3.cjs <probe.js> v2`.
+
+Live: **https://demo-mechanicdesk.vercel.app/v2/**
+
 ## Redeployment
 
 From the project root (one level up):

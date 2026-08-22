@@ -120,22 +120,24 @@ const CHORDS = [];
   if (next.catKey === it.catKey) CHORDS.push({ cat: it.catKey, a: AT[it.name], b: AT[next.name] });
 }));
 
-const mark = (it) => it.file
-  ? `<img class="mk${markLift(it.file) ? ' lift' : ''}" src="../${alphaLogo(it.file)}"
+const mark = (it, P) => it.file
+  ? `<img class="mk${markLift(it.file) ? ' lift' : ''}" src="${P}${alphaLogo(it.file)}"
        alt="" loading="lazy" style="--h:${size(it).h}px">`
   : `<em class="mk is-text">${esc(it.name.split(' ')[0])}</em>`;
 
-const node = (it, i, tier) => {
+const node = (it, i, tier, P, A) => {
   const p = AT[it.name];
   return `
-    <button class="brd-node node ${tier}" data-node="${it.key}" data-cat="${it.catKey}"
+    <button class="brd-node node ${tier}" ${A}="${it.key}" data-cat="${it.catKey}"
             aria-label="${esc(it.name)}"
             style="left:${((p[0] / VB.W) * 100).toFixed(3)}%;top:${((p[1] / VB.H) * 100).toFixed(3)}%;--lag:${(i * 0.5).toFixed(2)}s">
-      ${mark(it)}
+      ${mark(it, P)}
     </button>`;
 };
 
-module.exports.html = () => {
+module.exports.html = (o) => {
+  const P = o && o.prefix !== undefined ? o.prefix : '../';
+  const A = (o && o.attr) || 'data-node';
   const spokes = [
     { d: `M ${HUB.x} ${HUB.y} V ${IN.y}`, len: HUB.y - IN.y },
     { d: `M ${HUB.x} ${HUB.y} V ${IN.y + IN.h}`, len: IN.y + IN.h - HUB.y },
@@ -176,12 +178,12 @@ module.exports.html = () => {
   <div class="brd-hub">
     <i class="brd-halo" aria-hidden="true"></i>
     <i class="brd-ping" aria-hidden="true"></i>
-    <div class="brd-chip"><img src="../images/logo.png" alt="MechanicDesk" width="36" height="37"></div>
+    <div class="brd-chip"><img src="${P}images/logo.png" alt="MechanicDesk" width="36" height="37"></div>
     <span class="brd-chip-label">MechanicDesk</span>
   </div>
 
-  ${RING_IN.map((it, i) => node(it, i, 'in')).join('')}
-  ${RING_OUT.map((it, i) => node(it, i, 'out')).join('')}
+  ${RING_IN.map((it, i) => node(it, i, 'in', P, A)).join('')}
+  ${RING_OUT.map((it, i) => node(it, i, 'out', P, A)).join('')}
 </div>
 </div>`;
 };

@@ -15,6 +15,17 @@ fs.writeFileSync(path.join(root, 'index.html'), html, 'utf8');
 fs.writeFileSync(path.join(root, 'script.js'), runtime, 'utf8');
 fs.copyFileSync(path.join(__dirname, 'v2.css'), path.join(root, 'styles.css'));
 
+/* The second direction ("Job card") lives at /v2/ so the chosen design keeps
+   the root URL. Its stylesheet carries the circuit board's own CSS. */
+const v2Dir = path.join(root, 'v2');
+fs.mkdirSync(v2Dir, { recursive: true });
+const v2html = require('./v4.cjs')();
+fs.writeFileSync(path.join(v2Dir, 'index.html'), v2html, 'utf8');
+fs.writeFileSync(path.join(v2Dir, 'styles.css'),
+  fs.readFileSync(path.join(__dirname, 'v4.css'), 'utf8') + require('./lab2-board.cjs').css, 'utf8');
+fs.writeFileSync(path.join(v2Dir, 'script.js'), runtime, 'utf8');
+console.log('v2/index.html  ' + (v2html.length / 1024).toFixed(1) + ' KB  + styles.css + script.js');
+
 /* Comparison page for the integrations-section directions (noindex). */
 const labDir = path.join(root, 'integrations');
 fs.mkdirSync(labDir, { recursive: true });

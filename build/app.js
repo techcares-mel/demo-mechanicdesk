@@ -154,6 +154,22 @@
     hiveTabs[0].classList.add('active');
   }
 
+  /* --- 8c. Circuit board: tap a mark, read it, light its own family ----- */
+  var brdNodes = $$('[data-brd-node]');
+  var brdPanels = $$('[data-brd-panel]');
+  if (brdNodes.length && brdPanels.length) {
+    var chords = $$('[data-chord]');
+    var pickBrd = function (n) {
+      var key = n.getAttribute('data-brd-node');
+      var cat = n.getAttribute('data-cat');
+      brdNodes.forEach(function (o) { o.classList.toggle('active', o === n); });
+      brdPanels.forEach(function (pn) { pn.classList.toggle('active', pn.getAttribute('data-brd-panel') === key); });
+      chords.forEach(function (c) { c.classList.toggle('lit', !!cat && c.getAttribute('data-chord') === cat); });
+    };
+    brdNodes.forEach(function (n) { n.addEventListener('click', function () { pickBrd(n); }); });
+    pickBrd(brdNodes[0]);
+  }
+
   /* --- 9. Accordion (mobile features / v3 cards) ------------------------ */
   $$('[data-acc-toggle]').forEach(function (btn) {
     btn.addEventListener('click', function () {
