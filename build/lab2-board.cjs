@@ -122,7 +122,7 @@ const CHORDS = [];
 
 const mark = (it, P) => it.file
   ? `<img class="mk${markLift(it.file) ? ' lift' : ''}" src="${P}${alphaLogo(it.file)}"
-       alt="" loading="lazy" style="--h:${size(it).h}px">`
+       alt="" loading="lazy" style="--h:${size(it).h}px;--hn:${size(it).h}">`
   : `<em class="mk is-text">${esc(it.name.split(' ')[0])}</em>`;
 
 const node = (it, i, tier, P, A) => {
@@ -190,7 +190,11 @@ module.exports.html = (o) => {
 
 module.exports.css = `
 .brd-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
-.brd{position:relative;width:100%;min-width:860px;aspect-ratio:${VB.W}/${VB.H};border-radius:20px;overflow:hidden;isolation:isolate}
+.brd{position:relative;width:100%;min-width:620px;aspect-ratio:${VB.W}/${VB.H};border-radius:20px;overflow:hidden;isolation:isolate;
+  container-type:inline-size}
+/* 1cqw is 12px at the 1200px design width, so every mark keeps its share
+   of the board instead of a fixed size — no overlap at any width. */
+.brd .mk{height:calc(var(--hn,30) * 1cqw / 12)}
 .brd-dots{position:absolute;inset:0;pointer-events:none;
   background-image:radial-gradient(circle,rgba(255,255,255,.115) 1px,transparent 1.4px);
   background-size:34px 34px;
@@ -214,17 +218,18 @@ module.exports.css = `
 .p-spoke{stroke:#fff;stroke-dasharray:30 9999;filter:drop-shadow(0 0 6px rgba(255,255,255,.8))}
 .p-via{stroke:var(--violet);stroke-dasharray:38 9999;filter:drop-shadow(0 0 7px rgba(139,92,246,.9))}
 
-.brd-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:.5rem}
-.brd-chip{width:76px;height:76px;border-radius:22px;display:grid;place-items:center;position:relative;z-index:2;
+.brd-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:min(.5rem,.66cqw)}
+.brd-chip{width:min(76px,6.34cqw);height:min(76px,6.34cqw);border-radius:min(22px,1.84cqw);display:grid;place-items:center;position:relative;z-index:2;
   background:linear-gradient(160deg,#1b2026,#0c0f12);box-shadow:0 0 0 1px rgba(255,255,255,.14),0 18px 40px rgba(0,0,0,.6)}
-.brd-chip img{width:36px}
-.brd-chip-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text);
+.brd-chip img{width:min(36px,3cqw)}
+.brd-chip-label{font-family:var(--mono);font-size:min(.7rem,.93cqw);letter-spacing:.14em;text-transform:uppercase;color:var(--text);
   background:rgba(11,13,15,.75);padding:.2rem .55rem;border-radius:999px;z-index:2}
-.brd-halo{position:absolute;left:50%;top:0;width:190px;aspect-ratio:1;transform:translate(-50%,-57px);border-radius:50%;
+.brd-halo{position:absolute;left:50%;top:0;width:min(190px,15.8cqw);aspect-ratio:1;transform:translate(-50%,-57px);border-radius:50%;
   background:conic-gradient(from 0deg,transparent 0 62%,rgba(252,163,17,.5) 78%,transparent 88%);
   filter:blur(9px);animation:hubspin 7s linear infinite}
 @keyframes hubspin{to{transform:translate(-50%,-57px) rotate(360deg)}}
-.brd-ping{position:absolute;left:50%;top:38px;width:76px;aspect-ratio:1;margin:-38px 0 0 -38px;border-radius:24px;
+.brd-ping{position:absolute;left:50%;top:min(38px,3.17cqw);width:min(76px,6.34cqw);aspect-ratio:1;
+  margin:min(-38px,-3.17cqw) 0 0 min(-38px,-3.17cqw);border-radius:min(24px,2cqw);
   border:1px solid rgba(252,163,17,.5);animation:chipping 3.6s ease-out infinite}
 @keyframes chipping{0%{transform:scale(1);opacity:.85}70%{transform:scale(2.5);opacity:0}100%{opacity:0}}
 

@@ -110,27 +110,40 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
 `data-acc-toggle`, handled by `app.js`). Collapsed by default: each module's bullet list and
 highlight, the optional addons, the support phone numbers and the footer About us paragraph.
 
-### Integrations — the orbit
+### Integrations — the circuit board
 
-All 18 partners circle the MechanicDesk core on three counter-rotating tracks (96s / 132s reversed /
-168s) over a generated starfield, with a radar sweep and a warm corona on the core. Logos float free:
-no plate, no ring, original brand colours. Hovering the cluster freezes every animation; hovering or
-selecting a mark lifts it, brightens it and shows its name; clicking opens that partner's category,
-description and link underneath (`data-hive-tab` / `data-hive-panel`, `app.js` 8b).
+Chosen from the idea lab (see below) and dropped into Graphite. All 18 partners sit on two
+rounded-rect buses around the MechanicDesk chip: four spokes chip → inner bus, four rounded-elbow
+vias inner → outer, and a chord between every pair of partners in the same category. Light runs the
+traces (amber on the inner bus, blue on the outer, violet through the vias, white down the spokes);
+nothing rotates. Clicking a mark opens that partner's category, description and link underneath and
+lights its own category's chords — `data-brd-node` / `data-brd-panel`, `app.js` 8c.
 
-Three things are computed at build time in `v2.cjs`:
+Geometry, layout and CSS live in **`build/lab2-board.cjs`**, shared with the idea lab.
+`html({ prefix, attr })` lets each host ask for its own asset prefix and click hook; `.css` is
+appended to `styles.css` at build time by `build.cjs`. Computed at build time:
+
 - **backgrounds stripped** — `build/logos-alpha.cjs` flood-fills each logo's background in from the
   border (so white *inside* a mark survives) and writes `images/logos-alpha/` + a manifest with each
   mark's size and ink luminance. Logos that are a coloured block, or already transparent, are skipped.
 - **optical-size normalisation** — every mark is rendered at the height that gives it the same AREA
   (`shared.cjs markSize()`), so a 5:1 wordmark cannot dwarf a 1:1 roundel. AMS Rewards carries a
-  deliberate 1.8x boost.
-- **collision-free layout** — the widest marks are assigned to the outer ring (most circumference),
-  then the three ring phases are chosen by maximising the smallest gap between the real bounding boxes
-  of any two marks on different rings. The build prints the result (currently 14px of clearance).
+  deliberate 1.7x boost.
+- **slot assignment** — categories stay contiguous on their bus so the chords are short and the
+  grouping reads without a legend; the widest marks go on the horizontal runs, where there is room.
+- **dark marks** — anything whose own ink is near-black (`needsLift` in the alpha manifest, plus
+  `vehicle_visual` by eye) gets a white light traced around its letterforms, never a plate:
+  `shared.cjs markLift()` + `--lift` / `--lift-on`.
 
-The rotating tracks and slots are full-size transparent divs, so they must stay `pointer-events:
-none` or they swallow every click meant for a logo.
+Two things that will break it if changed carelessly:
+
+- The SVG wire layer covers the whole board, so it must stay `pointer-events: none` or it swallows
+  every click meant for a logo. Re-check with `node build/qa3.cjs <probe.js> .` — it should report
+  18 nodes, 0 blocked.
+- The board is laid out on a 1200×660 canvas and `.brd` is a size container: marks size themselves
+  in `cqw` (`1cqw` = 12px at the design width) so they shrink with the board and never collide.
+  Fixed px sizes inside the board would overlap as soon as it is narrower than 1200px. Below its
+  620px floor the board scrolls sideways, with a faded right edge and a "swipe" hint.
 
 ### Integrations — the idea lab
 
@@ -144,8 +157,8 @@ for detail. Marks whose own ink is near-black (`needsLift` in the alpha manifest
 `vehicle_visual` by eye) get a white light traced around their letterforms — `shared.cjs markLift()`.
 
 Screenshots: `node build/qa2.cjs brd 980` (or `neb` / `dep` / `cons` / `son` / `all`).
-Hit-testing: `node build/qa3.cjs <probe.js>` runs a script inside the page and prints what it
-reported — the board currently comes back with 18 nodes, 0 blocked.
+Probes: `node build/qa3.cjs <probe.js> [dir]` runs a script inside a built page and prints what
+it reported (`.` for the site itself, `integrations` for the lab).
 
 ### Pricing
 
@@ -172,42 +185,6 @@ images/pexels/               licensed photography + credits.json
   auto-engine-bay.jpg  auto-tools-bench.jpg  auto-tyre-tread.jpg
   auto-brake-disc.jpg  auto-hands-wrench.jpg
 ```
-
-## The second direction — /v2/ "Job card"
-
-The root URL keeps Graphite. A second, simpler direction lives at **/v2/**, built with the
-`frontend-design` skill's process: `build/v4.cjs` + `build/v4.css` → `v2/index.html`,
-`v2/styles.css` (v4.css **plus** the circuit board's own CSS) and `v2/script.js` (the same
-`app.js` runtime). Assets sit one level up, so the template rewrites `images/` to `../images/`
-on the way out.
-
-**Idea** — a workshop still runs on the job card, so the page is one: printed header strip, mono
-field names down the left gutter, perforated tear rules between fields, one rubber stamp, and a
-single dark island for the wiring board.
-
-- **Palette** — sheet `#f4f6f7`, top copy `#ffffff`, carbon second copy `#f3ecda`, ink `#15191e`,
-  pencil `#6b7681`, rule `#ccd3d9`, brand amber `#fca311` (highlighter + board light) with
-  `#a9620a` as the same hue at text contrast on paper, and `#0e1216` for the one dark island.
-- **Type** — Bricolage Grotesque (display, 700/800), IBM Plex Sans (body), IBM Plex Mono (field
-  labels, data, prices). Nothing below `0.66rem`.
-- **Signature** — the card itself: it settles in on load and the "14 days free trial" stamp thumps
-  down half a second later. The primary CTA is ink black on purpose; amber stays a signal.
-- **Fields, in order** — hero card (work required + the attached product tour + the four stats) →
-  Why → Connects to (the board) → Suits → Reviews → Features → Price → Notes → Start → footer.
-  Nine fields against the root design's twelve sections: the stats band, the CTA band, Support and
-  Contact are folded into the hero card and the closing "Start" field.
-- **Same content** — every string still comes from `build/content.cjs`. The one place this page
-  writes its own line is the Why heading: the site's own "Why" heading and sub are word-for-word
-  the hero headline and hero lead, so printing them twice read as a mistake; the field now leads
-  on the strongest pillar in that pillar's own words.
-- **The board** — `build/lab2-board.cjs` is shared with the idea lab. `html({ prefix, attr })`
-  lets this page ask for root-relative assets and `data-brd-node`, which `app.js` 8c wires to the
-  18 static `[data-brd-panel]` blocks and the category chords. Verified: 18 nodes, 0 blocked.
-
-Screenshots: `node build/qa4.cjs top:1150 integrations:1250 all:2000:500` (section, height, width).
-Probes: `node build/qa3.cjs <probe.js> v2`.
-
-Live: **https://demo-mechanicdesk.vercel.app/v2/**
 
 ## Redeployment
 

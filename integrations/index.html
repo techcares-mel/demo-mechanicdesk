@@ -196,7 +196,11 @@ footer{border-top:1px solid var(--line);padding:1.75rem 0 3.5rem;font-family:var
 }
 
 .brd-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
-.brd{position:relative;width:100%;min-width:860px;aspect-ratio:1200/660;border-radius:20px;overflow:hidden;isolation:isolate}
+.brd{position:relative;width:100%;min-width:620px;aspect-ratio:1200/660;border-radius:20px;overflow:hidden;isolation:isolate;
+  container-type:inline-size}
+/* 1cqw is 12px at the 1200px design width, so every mark keeps its share
+   of the board instead of a fixed size — no overlap at any width. */
+.brd .mk{height:calc(var(--hn,30) * 1cqw / 12)}
 .brd-dots{position:absolute;inset:0;pointer-events:none;
   background-image:radial-gradient(circle,rgba(255,255,255,.115) 1px,transparent 1.4px);
   background-size:34px 34px;
@@ -220,17 +224,18 @@ footer{border-top:1px solid var(--line);padding:1.75rem 0 3.5rem;font-family:var
 .p-spoke{stroke:#fff;stroke-dasharray:30 9999;filter:drop-shadow(0 0 6px rgba(255,255,255,.8))}
 .p-via{stroke:var(--violet);stroke-dasharray:38 9999;filter:drop-shadow(0 0 7px rgba(139,92,246,.9))}
 
-.brd-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:.5rem}
-.brd-chip{width:76px;height:76px;border-radius:22px;display:grid;place-items:center;position:relative;z-index:2;
+.brd-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:min(.5rem,.66cqw)}
+.brd-chip{width:min(76px,6.34cqw);height:min(76px,6.34cqw);border-radius:min(22px,1.84cqw);display:grid;place-items:center;position:relative;z-index:2;
   background:linear-gradient(160deg,#1b2026,#0c0f12);box-shadow:0 0 0 1px rgba(255,255,255,.14),0 18px 40px rgba(0,0,0,.6)}
-.brd-chip img{width:36px}
-.brd-chip-label{font-family:var(--mono);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text);
+.brd-chip img{width:min(36px,3cqw)}
+.brd-chip-label{font-family:var(--mono);font-size:min(.7rem,.93cqw);letter-spacing:.14em;text-transform:uppercase;color:var(--text);
   background:rgba(11,13,15,.75);padding:.2rem .55rem;border-radius:999px;z-index:2}
-.brd-halo{position:absolute;left:50%;top:0;width:190px;aspect-ratio:1;transform:translate(-50%,-57px);border-radius:50%;
+.brd-halo{position:absolute;left:50%;top:0;width:min(190px,15.8cqw);aspect-ratio:1;transform:translate(-50%,-57px);border-radius:50%;
   background:conic-gradient(from 0deg,transparent 0 62%,rgba(252,163,17,.5) 78%,transparent 88%);
   filter:blur(9px);animation:hubspin 7s linear infinite}
 @keyframes hubspin{to{transform:translate(-50%,-57px) rotate(360deg)}}
-.brd-ping{position:absolute;left:50%;top:38px;width:76px;aspect-ratio:1;margin:-38px 0 0 -38px;border-radius:24px;
+.brd-ping{position:absolute;left:50%;top:min(38px,3.17cqw);width:min(76px,6.34cqw);aspect-ratio:1;
+  margin:min(-38px,-3.17cqw) 0 0 min(-38px,-3.17cqw);border-radius:min(24px,2cqw);
   border:1px solid rgba(252,163,17,.5);animation:chipping 3.6s ease-out infinite}
 @keyframes chipping{0%{transform:scale(1);opacity:.85}70%{transform:scale(2.5);opacity:0}100%{opacity:0}}
 
@@ -869,110 +874,110 @@ footer{border-top:1px solid var(--line);padding:1.75rem 0 3.5rem;font-family:var
             aria-label="Intuit QuickBooks"
             style="left:38.333%;top:22.727%;--lag:0.00s">
       <img class="mk" src="../images/logos-alpha/quickbooks.png"
-       alt="" loading="lazy" style="--h:27px">
+       alt="" loading="lazy" style="--h:27px;--hn:27">
     </button>
     <button class="brd-node node in" data-node="myob" data-cat="accounting"
             aria-label="MYOB"
             style="left:61.667%;top:22.727%;--lag:0.50s">
       <img class="mk lift" src="../images/logos-alpha/myob.png"
-       alt="" loading="lazy" style="--h:31px">
+       alt="" loading="lazy" style="--h:31px;--hn:31">
     </button>
     <button class="brd-node node in" data-node="xero" data-cat="accounting"
             aria-label="Xero"
             style="left:77.500%;top:41.212%;--lag:1.00s">
       <img class="mk" src="../images/logos-alpha/xero.png"
-       alt="" loading="lazy" style="--h:49px">
+       alt="" loading="lazy" style="--h:49px;--hn:49">
     </button>
     <button class="brd-node node in" data-node="till-payments" data-cat="eftpos-terminals"
             aria-label="Till Payments"
             style="left:77.500%;top:58.788%;--lag:1.50s">
       <img class="mk" src="../images/logos-alpha/till_payments.png"
-       alt="" loading="lazy" style="--h:33px">
+       alt="" loading="lazy" style="--h:33px;--hn:33">
     </button>
     <button class="brd-node node in" data-node="windcave" data-cat="eftpos-terminals"
             aria-label="Windcave"
             style="left:61.667%;top:77.273%;--lag:2.00s">
       <img class="mk lift" src="../images/logos-alpha/windcave.png"
-       alt="" loading="lazy" style="--h:22px">
+       alt="" loading="lazy" style="--h:22px;--hn:22">
     </button>
     <button class="brd-node node in" data-node="australian-vehicle-lookup" data-cat="vehicle-look-up"
             aria-label="Australian Vehicle Lookup"
             style="left:38.333%;top:77.273%;--lag:2.50s">
       <img class="mk lift" src="../images/logos-alpha/vehicle_visual.png"
-       alt="" loading="lazy" style="--h:30px">
+       alt="" loading="lazy" style="--h:30px;--hn:30">
     </button>
     <button class="brd-node node in" data-node="carjam-new-zealand-only" data-cat="vehicle-look-up"
             aria-label="CarJam (New Zealand only)"
             style="left:22.500%;top:58.788%;--lag:3.00s">
       <img class="mk" src="../images/logos-alpha/carjam.png"
-       alt="" loading="lazy" style="--h:49px">
+       alt="" loading="lazy" style="--h:49px;--hn:49">
     </button>
     <button class="brd-node node in" data-node="mycarcheck-united-kingdom-only" data-cat="vehicle-look-up"
             aria-label="MyCarCheck (United Kingdom only)"
             style="left:22.500%;top:41.212%;--lag:3.50s">
       <img class="mk" src="../images/logos-alpha/mycarchecklogo.png"
-       alt="" loading="lazy" style="--h:54px">
+       alt="" loading="lazy" style="--h:54px;--hn:54">
     </button>
   
     <button class="brd-node node out" data-node="mailchimp" data-cat="mass-mail-crm"
             aria-label="MailChimp"
             style="left:27.500%;top:8.485%;--lag:0.00s">
       <img class="mk lift" src="../images/logos-alpha/mailchimplogo.png"
-       alt="" loading="lazy" style="--h:27px">
+       alt="" loading="lazy" style="--h:27px;--hn:27">
     </button>
     <button class="brd-node node out" data-node="ams-rewards-australia-only" data-cat="loyalty-programmes"
             aria-label="AMS Rewards (Australia only)"
             style="left:50.000%;top:8.485%;--lag:0.50s">
       <img class="mk" src="../images/logos-alpha/ams_rewards.png"
-       alt="" loading="lazy" style="--h:25px">
+       alt="" loading="lazy" style="--h:25px;--hn:25">
     </button>
     <button class="brd-node node out" data-node="repco-navigator-pro" data-cat="supplier"
             aria-label="Repco Navigator Pro"
             style="left:72.500%;top:8.485%;--lag:1.00s">
       <img class="mk lift" src="../images/logos-alpha/repco_navigator.png"
-       alt="" loading="lazy" style="--h:20px">
+       alt="" loading="lazy" style="--h:20px;--hn:20">
     </button>
     <button class="brd-node node out" data-node="bnt" data-cat="supplier"
             aria-label="BNT"
             style="left:94.167%;top:37.879%;--lag:1.50s">
       <img class="mk lift" src="../images/logos-alpha/bnt.png"
-       alt="" loading="lazy" style="--h:33px">
+       alt="" loading="lazy" style="--h:33px;--hn:33">
     </button>
     <button class="brd-node node out" data-node="hsy" data-cat="supplier"
             aria-label="hsy"
             style="left:94.167%;top:62.121%;--lag:2.00s">
       <img class="mk lift" src="../images/logos-alpha/hsy.png"
-       alt="" loading="lazy" style="--h:31px">
+       alt="" loading="lazy" style="--h:31px;--hn:31">
     </button>
     <button class="brd-node node out" data-node="autolign" data-cat="supplier"
             aria-label="Autolign"
             style="left:72.500%;top:91.515%;--lag:2.50s">
       <img class="mk lift" src="../images/logos-alpha/autolign.png"
-       alt="" loading="lazy" style="--h:22px">
+       alt="" loading="lazy" style="--h:22px;--hn:22">
     </button>
     <button class="brd-node node out" data-node="napa-prolink" data-cat="supplier"
             aria-label="NAPA PROLink"
             style="left:50.000%;top:91.515%;--lag:3.00s">
       <img class="mk" src="../images/logos-alpha/napa_pro_link.png"
-       alt="" loading="lazy" style="--h:23px">
+       alt="" loading="lazy" style="--h:23px;--hn:23">
     </button>
     <button class="brd-node node out" data-node="burson-ezyparts" data-cat="supplier"
             aria-label="Burson EzyParts"
             style="left:27.500%;top:91.515%;--lag:3.50s">
       <img class="mk lift" src="../images/logos-alpha/ezyparts_logo2025.png"
-       alt="" loading="lazy" style="--h:27px">
+       alt="" loading="lazy" style="--h:27px;--hn:27">
     </button>
     <button class="brd-node node out" data-node="autopro" data-cat="supplier"
             aria-label="Autopro"
             style="left:5.833%;top:62.121%;--lag:4.00s">
       <img class="mk" src="../images/logos-alpha/autopro_logo.png"
-       alt="" loading="lazy" style="--h:28px">
+       alt="" loading="lazy" style="--h:28px;--hn:28">
     </button>
     <button class="brd-node node out" data-node="auto-one" data-cat="supplier"
             aria-label="Auto One"
             style="left:5.833%;top:37.879%;--lag:4.50s">
       <img class="mk" src="../images/logos-alpha/autoone.png"
-       alt="" loading="lazy" style="--h:29px">
+       alt="" loading="lazy" style="--h:29px;--hn:29">
     </button>
 </div>
 </div>
