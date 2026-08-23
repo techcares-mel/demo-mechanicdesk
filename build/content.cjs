@@ -52,11 +52,13 @@ const brand = {
   copyright: 'Copyright 2014 - 2026. MechanicDesk. All rights reserved.'
 };
 
+/* In the order the sections actually appear on the page, so the menu reads as a
+   map of the scroll rather than the order the live site happens to use. */
 const nav = [
-  { label: 'Features', href: '#features' },
   { label: 'Integrations', href: '#integrations' },
-  { label: 'Pricing', href: '#pricing' },
   { label: 'Testimonials', href: '#proven' },
+  { label: 'Features', href: '#features' },
+  { label: 'Pricing', href: '#pricing' },
   { label: 'Support/Demo', href: '#support' },
   { label: 'Contact Us', href: '#contact' }
 ];
