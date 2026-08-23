@@ -31,6 +31,13 @@ fs.writeFileSync(path.join(d3Dir, 'script.js'),
   runtime + fs.readFileSync(path.join(__dirname, 'v5.js'), 'utf8'), 'utf8');
 console.log('v2/index.html  ' + (d3html.length / 1024).toFixed(1) + ' KB  (3D layer)');
 
+/* Comparison page for the features-block treatments (noindex). */
+const featDir = path.join(root, 'features');
+fs.mkdirSync(featDir, { recursive: true });
+const featLab = require('./lab3.cjs')();
+fs.writeFileSync(path.join(featDir, 'index.html'), featLab, 'utf8');
+console.log('features/index.html  ' + (featLab.length / 1024).toFixed(1) + ' KB');
+
 /* Comparison page for the integrations-section directions (noindex). */
 const labDir = path.join(root, 'integrations');
 fs.mkdirSync(labDir, { recursive: true });

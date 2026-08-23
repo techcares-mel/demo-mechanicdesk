@@ -131,6 +131,27 @@ scrollable overflow — so Chrome showed a scrollbar for the length of the anima
 it. The keyframes now only scale and fade (nothing leaves the box) and `.pop` is `overflow: hidden`.
 If you ever animate a dialog's child, keep it inside the dialog's own bounds.
 
+### Features — the treatments lab
+
+`/features/` (noindex, not linked) is a comparison page of five treatments for this block, rendered
+by `build/lab3.cjs`:
+
+- **01 Aurora glass** — frosted tiles over a drifting aurora; hovering one clears its glass so the
+  light behind comes through, and a spotlight follows the cursor across the grid.
+- **02 Traced border** — a bright arc travels each tile's rim (an `@property` angle on a conic
+  gradient), faster and brighter under the cursor. The same light as the integration board.
+- **03 Bento mosaic** — explicit 4x5 cells, no auto-placement: the two modules a workshop lives in
+  get a 2x2, the next two a wide strip, and an accent wipes across on hover.
+- **04 Hologram** — blue glass panes that tilt to the cursor, icon lifted on `translateZ`, a
+  scanline drifting down, and the grid powering on one tile at a time.
+- **05 Plasma panel** — one hairline-divided panel instead of twelve cards, with a plasma light
+  drifting underneath that hands over to a cursor-following one on hover.
+
+All five carry the same twelve real modules and the same popup, so the only thing being compared is
+the block and what its light does.
+
+Screenshots: `node build/qa7.cjs au:620` (or `tr` / `bn` / `ho` / `pl` / `all`, then `:height:width`).
+
 ### Minimalism by disclosure
 
 `S.disclose()`, `S.planIncludes()` and `S.phoneDisclosure()` emit click-to-open blocks (`data-acc` /

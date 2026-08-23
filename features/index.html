@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Features — five treatments</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@property --a { syntax: '<angle>'; inherits: false; initial-value: 0deg; }
+
+:root {
+  --accent: #fca311; --accent-2: #ff8a00; --cool: #4a7dff; --violet: #8b5cf6;
+  --bg: #0b0d0f; --surface: #12161a; --card: #151a1f;
+  --line: rgba(255,255,255,.07); --line-2: rgba(255,255,255,.14);
+  --text: #eef1f3; --text-2: #b1bac2; --muted: #7c8792;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --head: 'Space Grotesk', 'Inter', sans-serif;
+  --radius: 14px;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text-2); font-family: var(--sans); line-height: 1.6; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; }
+h1, h2, h3 { font-family: var(--head); color: var(--text); margin: 0; font-weight: 700; letter-spacing: -0.025em; }
+h1 { font-size: clamp(2rem, 3.6vw, 2.9rem); line-height: 1.06; }
+h2 { font-size: clamp(1.5rem, 2.4vw, 2.05rem); }
+h3 { font-size: 1.16rem; }
+p { margin: 0; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(1.25rem, 4vw, 2.5rem); }
+.eyebrow { font-family: var(--mono); font-size: .78rem; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); }
+.lnk { display: inline-flex; align-items: center; gap: .45rem; font-weight: 600; font-size: .92rem; color: var(--accent); }
+.lnk svg { width: 15px; height: 15px; }
+
+header.top { padding: clamp(3rem,6vw,4.5rem) 0 clamp(1.5rem,3vw,2.25rem); position: relative; overflow: hidden; }
+header.top::after { content:''; position:absolute; top:-70%; right:-10%; width:60vw; height:150%; background: radial-gradient(circle, rgba(252,163,17,.12), transparent 62%); pointer-events:none; }
+.brandline { display:flex; align-items:center; gap:.7rem; margin-bottom:1.5rem; }
+.brandline img { width: 34px; }
+.brandline strong { font-family: var(--head); font-size: 1.1rem; color: var(--text); }
+.brandline strong em { font-style: normal; color: var(--accent); }
+.lede { margin-top: 1rem; max-width: 66ch; }
+.jump { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:1.5rem; }
+.jump a { font-family: var(--mono); font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-2);
+  border:1px solid var(--line-2); border-radius:999px; padding:.42rem .8rem; }
+.jump a:hover { border-color: var(--accent); color: var(--accent); }
+.back { margin-top:1.3rem; display:inline-flex; align-items:center; gap:.5rem; font-size:.93rem; font-weight:600; color:var(--accent); }
+.back svg { width:15px; height:15px; }
+
+.variant { padding: clamp(2.5rem,5vw,4rem) 0; border-top: 1px solid var(--line); }
+.v-head { display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; flex-wrap:wrap; margin-bottom: clamp(1.5rem,3vw,2.25rem); }
+.v-title { display:flex; align-items:baseline; gap:.9rem; }
+.v-title span { font-family: var(--mono); font-size:.82rem; color: var(--accent); letter-spacing:.12em; }
+.v-line { max-width: 58ch; font-size:.97rem; color: var(--muted); }
+
+/* shared bits of every tile ------------------------------------------------ */
+.tile { position: relative; border: 0; background: none; color: inherit; text-align: left; display: grid; }
+.tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.t-no { font-family: var(--mono); font-size: .96rem; letter-spacing: .1em; color: var(--muted); }
+.t-name { font-family: var(--head); font-weight: 600; font-size: clamp(.8rem, .85vw, .92rem); line-height: 1.2; color: var(--text); letter-spacing: -.015em; }
+.ico { display: inline-flex; }
+.ico svg { width: 18px; height: 18px; }
+
+/* ---------------------------------------------------- 01 aurora glass ---- */
+.au { position: relative; padding: clamp(1rem,2vw,2rem); border-radius: 22px; overflow: hidden; isolation: isolate; }
+.au-blob { position:absolute; border-radius:50%; filter: blur(70px); z-index:-1; pointer-events:none; }
+.au-blob.b1 { width:46%; height:120%; left:-4%; top:-30%; background: radial-gradient(circle, rgba(252,163,17,.42), transparent 66%); animation: drift 30s ease-in-out infinite alternate; }
+.au-blob.b2 { width:52%; height:130%; right:-8%; bottom:-40%; background: radial-gradient(circle, rgba(74,125,255,.4), transparent 66%); animation: drift 42s ease-in-out infinite alternate-reverse; }
+.au-blob.b3 { width:38%; height:100%; left:36%; top:-14%; background: radial-gradient(circle, rgba(139,92,246,.34), transparent 68%); animation: drift 52s ease-in-out infinite alternate; }
+@keyframes drift { from { transform: translate3d(-6%,-5%,0) scale(1);} to { transform: translate3d(8%,7%,0) scale(1.22);} }
+.au-grid { position: relative; display:grid; grid-template-columns: repeat(6,1fr); gap: clamp(.5rem,.8vw,.8rem); }
+.au-grid::after {
+  content:''; position:absolute; inset:0; pointer-events:none; border-radius:18px; opacity: var(--spot,0);
+  background: radial-gradient(340px circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.10), transparent 70%);
+  transition: opacity .4s ease;
+}
+.au-tile {
+  aspect-ratio: 1; grid-template-rows: auto 1fr auto; gap:.4rem; padding: clamp(.7rem,1vw,.9rem);
+  border-radius: 18px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(16px) saturate(1.25); -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 20px 40px -30px #000;
+  transition: transform .4s cubic-bezier(.2,.8,.3,1), background .4s ease, backdrop-filter .4s ease, border-color .4s ease;
+}
+.au-tile:hover { transform: translateY(-5px); background: rgba(255,255,255,.02); border-color: rgba(255,255,255,.28);
+  backdrop-filter: blur(3px) saturate(1.5); -webkit-backdrop-filter: blur(3px) saturate(1.5); }
+.au-ico { width: clamp(34px,2.9vw,40px); aspect-ratio:1; border-radius:12px; display:grid; place-items:center; align-self:center;
+  background: rgba(255,255,255,.10); color: #fff; box-shadow: inset 0 1px 0 rgba(255,255,255,.25); transition: transform .4s ease, background .4s ease; }
+.au-tile:hover .au-ico { transform: translateY(-2px) scale(1.08); background: rgba(252,163,17,.35); }
+
+/* --------------------------------------------------- 02 traced border ---- */
+.tr-grid { display:grid; grid-template-columns: repeat(6,1fr); gap: clamp(.5rem,.8vw,.8rem); }
+.tr-tile {
+  aspect-ratio: 1; padding: 1px; border-radius: var(--radius); position: relative;
+  background: conic-gradient(from var(--a), rgba(255,255,255,.05) 0 66%, var(--accent) 80%, rgba(255,255,255,.05) 90%);
+  animation: trace 6s linear infinite; animation-delay: calc(var(--d) * -1);
+  transition: filter .35s ease, transform .35s cubic-bezier(.2,.8,.3,1);
+}
+@keyframes trace { to { --a: 360deg; } }
+.tr-tile:hover { transform: translateY(-4px); animation-duration: 2.2s; filter: drop-shadow(0 0 12px rgba(252,163,17,.35)); }
+.tr-in {
+  display:grid; grid-template-rows: auto 1fr auto; gap:.4rem; height:100%; padding: clamp(.7rem,1vw,.9rem);
+  border-radius: calc(var(--radius) - 1px); background: #101418; position: relative; overflow: hidden;
+}
+.tr-in::before { content:''; position:absolute; inset:0; opacity:0; transition:opacity .35s ease;
+  background: radial-gradient(120% 80% at 50% 118%, rgba(252,163,17,.20), transparent 62%); }
+.tr-tile:hover .tr-in::before { opacity: 1; }
+.tr-ico { width: clamp(34px,2.9vw,40px); aspect-ratio:1; border-radius:10px; display:grid; place-items:center; align-self:center;
+  background: rgba(252,163,17,.1); color: var(--accent); transition: transform .35s ease; }
+.tr-tile:hover .tr-ico { transform: translateY(-2px) scale(1.07); }
+.tr-ticks { position:absolute; left:0; right:0; bottom:0; height:2px; transform: scaleX(0); transform-origin:left;
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px); transition: transform .45s cubic-bezier(.2,.8,.3,1); }
+.tr-tile:hover .tr-ticks { transform: scaleX(1); }
+
+/* ----------------------------------------------------- 03 bento mosaic --- */
+.bn-grid { display:grid; grid-template-columns: repeat(4,1fr); grid-auto-rows: minmax(104px, auto); gap: clamp(.5rem,.8vw,.8rem); }
+.bn-tile { grid-row: var(--r) / span var(--rs); grid-column: var(--c) / span var(--cs); }
+.bn-tile {
+  grid-template-rows: auto 1fr auto; gap:.5rem; padding: clamp(.85rem,1.2vw,1.15rem); overflow:hidden;
+  border:1px solid var(--line); border-radius: var(--radius); background: var(--card);
+  transition: transform .35s cubic-bezier(.2,.8,.3,1), border-color .35s ease;
+}
+.bn-tile:hover { transform: translateY(-3px); border-color: var(--line-2); }
+.bn-wipe { position:absolute; inset:0; transform: scaleX(0); transform-origin:left; transition: transform .5s cubic-bezier(.2,.8,.3,1);
+  background: linear-gradient(90deg, rgba(252,163,17,.20), rgba(252,163,17,.04) 60%, transparent); }
+.bn-tile:hover .bn-wipe { transform: scaleX(1); }
+.bn-top { display:flex; align-items:center; justify-content:space-between; position:relative; }
+.bn-plus { color: var(--muted); display:inline-flex; transition: color .3s ease, transform .3s ease; }
+.bn-plus svg { width:12px; height:12px; }
+.bn-tile:hover .bn-plus { color: var(--accent); transform: rotate(90deg); }
+.bn-ico { position:relative; width:40px; aspect-ratio:1; border-radius:11px; display:grid; place-items:center; align-self:end;
+  background: rgba(252,163,17,.1); color: var(--accent); transition: transform .35s ease; }
+.bn-tile.is-big .bn-ico { width:52px; }
+.bn-tile.is-big .bn-ico svg { width:22px; height:22px; }
+.bn-tile:hover .bn-ico { transform: translateY(-2px) scale(1.06); }
+.bn-txt { position:relative; display:grid; gap:.3rem; }
+.bn-ghost { position:absolute; right:.22em; bottom:-.2em; font-family: var(--head); font-weight:700;
+  font-size: clamp(3.6rem, 6vw, 6.5rem); line-height:1; color: rgba(255,255,255,.05); letter-spacing:-.04em; }
+.bn-tile.is-big .t-name { font-size: clamp(1rem, 1.3vw, 1.25rem); }
+.bn-blurb { font-size:.88rem; color: var(--muted); line-height:1.5; }
+
+/* -------------------------------------------------------- 04 hologram ---- */
+.ho-grid { display:grid; grid-template-columns: repeat(6,1fr); gap: clamp(.5rem,.8vw,.8rem); perspective: 900px; }
+.ho-tile {
+  aspect-ratio: 1; border-radius: var(--radius); overflow:hidden; position:relative;
+  background: linear-gradient(160deg, rgba(74,125,255,.20), rgba(120,180,255,.06) 48%, rgba(252,163,17,.06) 78%, transparent), #0d1116;
+  border: 1px solid rgba(120,180,255,.16); transform-style: preserve-3d;
+  transform: rotateX(calc(var(--my,0) * -12deg)) rotateY(calc(var(--mx,0) * 16deg));
+  transition: transform .5s cubic-bezier(.2,.8,.3,1), border-color .4s ease, box-shadow .4s ease;
+  animation: powerOn .7s steps(6, end) both; animation-delay: var(--d);
+}
+@keyframes powerOn { from { opacity: 0; filter: brightness(2.4); } to { opacity: 1; filter: none; } }
+.ho-tile.is-live { transition: transform .12s linear, border-color .4s ease, box-shadow .4s ease; }
+.ho-tile:hover { border-color: rgba(120,180,255,.5); box-shadow: 0 0 0 1px rgba(120,180,255,.25), 0 22px 44px -26px rgba(30,80,200,.7); }
+.ho-in { position:relative; display:grid; grid-template-rows:auto 1fr auto; gap:.4rem; height:100%; padding: clamp(.7rem,1vw,.9rem); transform-style: preserve-3d; }
+.ho-scan { position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background: repeating-linear-gradient(180deg, rgba(180,220,255,.10) 0 1px, transparent 1px 3px); }
+.ho-scan::after { content:''; position:absolute; left:0; right:0; height:32%;
+  background: linear-gradient(180deg, transparent, rgba(150,210,255,.26), transparent);
+  animation: sweepDown 4.5s linear infinite; }
+@keyframes sweepDown { from { transform: translateY(-120%); } to { transform: translateY(420%); } }
+.ho-ico { width: clamp(34px,2.9vw,40px); aspect-ratio:1; border-radius:11px; display:grid; place-items:center; align-self:center;
+  background: rgba(150,210,255,.12); color: #cfe6ff; transform: translateZ(26px);
+  box-shadow: 0 10px 20px -12px rgba(0,0,0,.9); transition: transform .4s ease; }
+.ho-tile:hover .ho-ico { transform: translateZ(42px) scale(1.06); background: rgba(252,163,17,.22); color: #ffd591; }
+.ho-tile .t-name { transform: translateZ(14px); }
+.ho-tile .t-no { color: rgba(180,220,255,.55); }
+
+/* ----------------------------------------------------- 05 plasma panel --- */
+.pl { position:relative; border:1px solid var(--line); border-radius: 18px; overflow:hidden; background:#0e1216; isolation:isolate; }
+.pl-blob { position:absolute; top:0; left:0; width: 460px; aspect-ratio:1; margin:-230px 0 0 -230px; pointer-events:none; z-index:0;
+  background: radial-gradient(circle, rgba(252,163,17,.55), rgba(255,138,0,.18) 40%, transparent 68%);
+  filter: blur(28px); transition: opacity .55s ease; }
+/* one light drifts on its own so the panel is never dead, and hands over to
+   the one that follows the cursor as soon as there is a cursor */
+.pl-idle { opacity: .62; filter: blur(24px); animation: plasmaDrift 24s ease-in-out infinite alternate; }
+.pl:hover .pl-idle { opacity: 0; }
+@keyframes plasmaDrift {
+  0%   { transform: translate3d(60%, 62%, 0); }
+  34%  { transform: translate3d(140%, 26%, 0); }
+  68%  { transform: translate3d(225%, 76%, 0); }
+  100% { transform: translate3d(85%, 42%, 0); }
+}
+.pl-follow { opacity: 0; transform: translate3d(calc(var(--x,0) * 1px), calc(var(--y,0) * 1px), 0); }
+.pl:hover .pl-follow { opacity: 1; }
+.pl-grain { position:absolute; inset:0; pointer-events:none; z-index:1; opacity:.5; mix-blend-mode: overlay;
+  background-image: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,255,255,.05) 0 .3deg, transparent .3deg 1.4deg);
+  background-size: 7px 7px; }
+.pl-grid { position:relative; z-index:2; display:grid; grid-template-columns: repeat(6,1fr); }
+.pl-cell {
+  aspect-ratio: 1; grid-template-rows:auto 1fr auto; gap:.4rem; padding: clamp(.7rem,1vw,.95rem);
+  border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  transition: background .35s ease, transform .35s cubic-bezier(.2,.8,.3,1);
+}
+.pl-cell:nth-child(6n) { border-right: 0; }
+.pl-cell:nth-child(n+7) { border-bottom: 0; }
+.pl-cell:hover { background: rgba(255,255,255,.04); }
+.pl-ico { width: clamp(34px,2.9vw,40px); aspect-ratio:1; border-radius:11px; display:grid; place-items:center; align-self:center;
+  background: rgba(255,255,255,.06); color: var(--text); transition: transform .35s ease, background .35s ease, color .35s ease; }
+.pl-cell:hover .pl-ico { transform: translateY(-2px) scale(1.08); background: rgba(252,163,17,.28); color: #fff; }
+
+/* --------------------------------------------------------------- popup --- */
+.pop { margin:auto; border:0; padding:0; background:transparent; overflow:hidden; width:min(700px,92vw); }
+.pop::backdrop { background: rgba(5,7,9,.78); backdrop-filter: blur(6px); }
+.pop-in { position:relative; max-height:86vh; overflow:hidden; background: var(--card); border:1px solid var(--line-2); border-radius: var(--radius); }
+.pop[open] .pop-in { animation: popIn .34s cubic-bezier(.2,.9,.3,1) both; }
+@keyframes popIn { from { opacity:0; transform: scale(.955);} to { opacity:1; transform:none;} }
+.pop-scroll { max-height:86vh; overflow-y:auto; overscroll-behavior:contain; scrollbar-gutter:stable;
+  padding: clamp(1.3rem,2.6vw,1.9rem); scrollbar-width:thin; scrollbar-color: rgba(255,255,255,.2) transparent; }
+.pop-scroll::-webkit-scrollbar { width:10px; }
+.pop-scroll::-webkit-scrollbar-track { background:transparent; }
+.pop-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,.18); border-radius:999px; border:3px solid transparent; background-clip: padding-box; }
+.pop-x { position:absolute; top:.7rem; right:.7rem; width:34px; height:34px; z-index:2; border:1px solid var(--line);
+  border-radius:50%; background: rgba(20,24,28,.9); color: var(--text-2); font-size:1.15rem; line-height:1; display:grid; place-items:center; }
+.pop-x:hover { border-color: var(--accent); color: var(--accent); }
+.pop-plate { display:flex; align-items:center; justify-content:space-between; padding-bottom:.8rem; margin-bottom:1.1rem; position:relative;
+  font-family: var(--mono); font-size:.74rem; letter-spacing:.16em; color: var(--muted); }
+.pop-plate::after { content:''; position:absolute; left:0; right:0; bottom:0; height:1px;
+  background-image: repeating-linear-gradient(90deg, var(--line-2) 0 3px, transparent 3px 7px); }
+.pop-bolt { color: rgba(255,255,255,.16); display:inline-flex; }
+.pop-bolt svg { width:16px; height:16px; }
+.pop-head { display:flex; align-items:center; gap:.85rem; }
+.pop-ico { width:46px; height:46px; flex:0 0 auto; border-radius:12px; display:grid; place-items:center; background: rgba(252,163,17,.1); color: var(--accent); }
+.pop-blurb { margin:.9rem 0 1.1rem; font-size:1.02rem; color: var(--text-2); }
+.pop-list { display:grid; gap:.6rem; margin:0; padding:0; list-style:none; }
+.pop-list li { display:grid; grid-template-columns:18px 1fr; gap:.65rem; font-size:.95rem; color: var(--text-2); }
+.pop-list svg { width:14px; height:14px; color: var(--accent); margin-top:.3rem; }
+.pop-hl { margin-top:1.2rem; padding-left:1.1rem; border-left:2px solid var(--accent); }
+.pop-hl p { margin-top:.4rem; font-size:.96rem; }
+.pop .lnk { margin-top:1.2rem; }
+
+footer { border-top:1px solid var(--line); padding:1.75rem 0 3.5rem; font-family: var(--mono); font-size:.76rem; letter-spacing:.05em; color: var(--muted); }
+
+@media (max-width: 1180px) { .au-grid, .tr-grid, .ho-grid, .pl-grid { grid-template-columns: repeat(5,1fr); } .pl-cell:nth-child(6n){border-right:1px solid var(--line)} .pl-cell:nth-child(5n){border-right:0} .pl-cell:nth-child(n+7){border-bottom:1px solid var(--line)} .pl-cell:nth-child(n+11){border-bottom:0} }
+@media (max-width: 1024px) { .au-grid, .tr-grid, .ho-grid, .pl-grid { grid-template-columns: repeat(4,1fr); } .pl-cell:nth-child(5n){border-right:1px solid var(--line)} .pl-cell:nth-child(4n){border-right:0} .pl-cell:nth-child(n+11){border-bottom:1px solid var(--line)} .pl-cell:nth-child(n+9){border-bottom:0} }
+@media (max-width: 760px) {
+  .au-grid, .tr-grid, .ho-grid, .pl-grid { grid-template-columns: repeat(3,1fr); }
+  .bn-grid { grid-template-columns: repeat(2,1fr); }
+  .bn-tile { grid-row: auto; grid-column: auto; }
+  .bn-tile.is-big, .bn-tile.is-wide { grid-column: span 2; }
+  .bn-ghost { display: none; }
+  .pl-cell { border-right:1px solid var(--line); border-bottom:1px solid var(--line) }
+  .pl-cell:nth-child(3n){border-right:0} .pl-cell:nth-child(n+10){border-bottom:0}
+}
+@media (max-width: 520px) {
+  .au-grid, .tr-grid, .ho-grid, .pl-grid { grid-template-columns: repeat(2,1fr); }
+  .pl-cell:nth-child(3n){border-right:1px solid var(--line)} .pl-cell:nth-child(2n){border-right:0}
+  .pl-cell:nth-child(n+10){border-bottom:1px solid var(--line)} .pl-cell:nth-child(n+11){border-bottom:0}
+}
+@media (prefers-reduced-motion: reduce) {
+  .au-blob, .tr-tile, .ho-scan::after, .ho-tile { animation: none !important; }
+  .ho-tile { transform: none !important; }
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brandline">
+      <img src="../images/logo.png" alt="MechanicDesk logo" width="34" height="35">
+      <strong>Mechanic<em>Desk</em></strong>
+    </div>
+    <p class="eyebrow">Features · five treatments</p>
+    <h1>Everything you need in one place</h1>
+    <p class="lede">The same twelve modules and the same popup in all five — every one of them opens
+      the real detail, bullets and all. What changes is the block and what the light does. Pick one
+      and it replaces the grid on the site.</p>
+    <nav class="jump" aria-label="Jump to a treatment">
+      <a href="#au">01 Aurora glass</a><a href="#tr">02 Traced border</a><a href="#bn">03 Bento mosaic</a><a href="#ho">04 Hologram</a><a href="#pl">05 Plasma panel</a>
+    </nav>
+    <a class="back" href="../"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg> Back to the site</a>
+  </div>
+</header>
+
+
+<section class="variant" id="au">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>01</span><h2>Aurora glass</h2></div>
+      <p class="v-line">Frosted glass over a slow aurora. Hovering a tile clears its glass, so the light behind it comes through, and a spotlight follows the cursor across the grid.</p>
+    </div>
+    
+<div class="au">
+  <i class="au-blob b1" aria-hidden="true"></i><i class="au-blob b2" aria-hidden="true"></i>
+  <i class="au-blob b3" aria-hidden="true"></i>
+  <div class="au-grid" data-spot>
+    
+    <button class="au-tile tile" data-pop="booking-diary" aria-label="Booking Diary">
+      <span class="t-no">01</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+      <span class="t-name">Booking Diary</span>
+    </button>
+    <button class="au-tile tile" data-pop="invoicing-quoting" aria-label="Invoicing/Quoting">
+      <span class="t-no">02</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+      <span class="t-name">Invoicing/Quoting</span>
+    </button>
+    <button class="au-tile tile" data-pop="stock-control" aria-label="Stock Control">
+      <span class="t-no">03</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+      <span class="t-name">Stock Control</span>
+    </button>
+    <button class="au-tile tile" data-pop="service-scheduling" aria-label="Service Scheduling">
+      <span class="t-no">04</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+      <span class="t-name">Service Scheduling</span>
+    </button>
+    <button class="au-tile tile" data-pop="reporting" aria-label="Reporting">
+      <span class="t-no">05</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+      <span class="t-name">Reporting</span>
+    </button>
+    <button class="au-tile tile" data-pop="multisite-management" aria-label="Multisite Management">
+      <span class="t-no">06</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+      <span class="t-name">Multisite Management</span>
+    </button>
+    <button class="au-tile tile" data-pop="job-management" aria-label="Job Management">
+      <span class="t-no">07</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+      <span class="t-name">Job Management</span>
+    </button>
+    <button class="au-tile tile" data-pop="customer-and-vehicle-management" aria-label="Customer and Vehicle Management">
+      <span class="t-no">08</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+      <span class="t-name">Customer and Vehicle Management</span>
+    </button>
+    <button class="au-tile tile" data-pop="supplier-management" aria-label="Supplier Management">
+      <span class="t-no">09</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+      <span class="t-name">Supplier Management</span>
+    </button>
+    <button class="au-tile tile" data-pop="point-of-sales" aria-label="Point of Sales">
+      <span class="t-no">10</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+      <span class="t-name">Point of Sales</span>
+    </button>
+    <button class="au-tile tile" data-pop="data-import-export" aria-label="Data Import/Export">
+      <span class="t-no">11</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+      <span class="t-name">Data Import/Export</span>
+    </button>
+    <button class="au-tile tile" data-pop="superhero-support" aria-label="Superhero Support">
+      <span class="t-no">12</span>
+      <span class="au-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+      <span class="t-name">Superhero Support</span>
+    </button>
+  </div>
+</div>
+  </div>
+</section>
+<section class="variant" id="tr">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>02</span><h2>Traced border</h2></div>
+      <p class="v-line">The same light that runs the integration board runs the rim of every tile — a single bright arc travelling the perimeter, faster and brighter under the cursor.</p>
+    </div>
+    
+<div class="tr-grid">
+  
+  <button class="tr-tile tile" data-pop="booking-diary" aria-label="Booking Diary"
+          style="--d:0.00s">
+    <span class="tr-in">
+      <span class="t-no">01</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+      <span class="t-name">Booking Diary</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="invoicing-quoting" aria-label="Invoicing/Quoting"
+          style="--d:0.42s">
+    <span class="tr-in">
+      <span class="t-no">02</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+      <span class="t-name">Invoicing/Quoting</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="stock-control" aria-label="Stock Control"
+          style="--d:0.84s">
+    <span class="tr-in">
+      <span class="t-no">03</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+      <span class="t-name">Stock Control</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="service-scheduling" aria-label="Service Scheduling"
+          style="--d:1.26s">
+    <span class="tr-in">
+      <span class="t-no">04</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+      <span class="t-name">Service Scheduling</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="reporting" aria-label="Reporting"
+          style="--d:1.68s">
+    <span class="tr-in">
+      <span class="t-no">05</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+      <span class="t-name">Reporting</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="multisite-management" aria-label="Multisite Management"
+          style="--d:2.10s">
+    <span class="tr-in">
+      <span class="t-no">06</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+      <span class="t-name">Multisite Management</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="job-management" aria-label="Job Management"
+          style="--d:2.52s">
+    <span class="tr-in">
+      <span class="t-no">07</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+      <span class="t-name">Job Management</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="customer-and-vehicle-management" aria-label="Customer and Vehicle Management"
+          style="--d:2.94s">
+    <span class="tr-in">
+      <span class="t-no">08</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+      <span class="t-name">Customer and Vehicle Management</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="supplier-management" aria-label="Supplier Management"
+          style="--d:3.36s">
+    <span class="tr-in">
+      <span class="t-no">09</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+      <span class="t-name">Supplier Management</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="point-of-sales" aria-label="Point of Sales"
+          style="--d:3.78s">
+    <span class="tr-in">
+      <span class="t-no">10</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+      <span class="t-name">Point of Sales</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="data-import-export" aria-label="Data Import/Export"
+          style="--d:4.20s">
+    <span class="tr-in">
+      <span class="t-no">11</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+      <span class="t-name">Data Import/Export</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+  <button class="tr-tile tile" data-pop="superhero-support" aria-label="Superhero Support"
+          style="--d:4.62s">
+    <span class="tr-in">
+      <span class="t-no">12</span>
+      <span class="tr-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+      <span class="t-name">Superhero Support</span>
+      <span class="tr-ticks" aria-hidden="true"></span>
+    </span>
+  </button>
+</div>
+  </div>
+</section>
+<section class="variant" id="bn">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>03</span><h2>Bento mosaic</h2></div>
+      <p class="v-line">Not twelve equal squares: the four modules a workshop opens every day are given the room, the rest sit tight around them. Accent wipes across on hover.</p>
+    </div>
+    
+<div class="bn-grid">
+  
+  <button class="bn-tile tile is-big" data-pop="booking-diary"
+          aria-label="Booking Diary" style="--r:1;--c:1;--rs:2;--cs:2">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    <span class="bn-ghost" aria-hidden="true">01</span>
+    <span class="bn-top"><span class="t-no">01</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Booking Diary</span>
+      <span class="bn-blurb">Create, reschedule or delete bookings in just a few clicks. Bookings are readily convertible to jobs, saving you time.</span>
+    </span>
+  </button>
+  <button class="bn-tile tile is-wide" data-pop="invoicing-quoting"
+          aria-label="Invoicing/Quoting" style="--r:1;--c:3;--rs:1;--cs:2">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">02</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Invoicing/Quoting</span>
+      <span class="bn-blurb">Quick and easy invoicing/quoting with preconfigured invoice items. Convert invoices/quotes to jobs or bookings directly.</span>
+    </span>
+  </button>
+  <button class="bn-tile tile is-wide" data-pop="stock-control"
+          aria-label="Stock Control" style="--r:3;--c:3;--rs:1;--cs:2">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">03</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Stock Control</span>
+      <span class="bn-blurb">Know exactly what your workshop has in stock at all times. Paired with our stock alert and stock reordering helpers, your workshop will never run out of stock again.</span>
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="service-scheduling"
+          aria-label="Service Scheduling" style="--r:2;--c:3;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">04</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Service Scheduling</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="reporting"
+          aria-label="Reporting" style="--r:2;--c:4;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">05</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Reporting</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="multisite-management"
+          aria-label="Multisite Management" style="--r:4;--c:3;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">06</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Multisite Management</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile is-big" data-pop="job-management"
+          aria-label="Job Management" style="--r:3;--c:1;--rs:2;--cs:2">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    <span class="bn-ghost" aria-hidden="true">07</span>
+    <span class="bn-top"><span class="t-no">07</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Job Management</span>
+      <span class="bn-blurb">The essence of MechanicDesk - keeping you up to date with each and every job in your workshop at a glance. Manage jobs with your colleagues centrally and in real time.</span>
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="customer-and-vehicle-management"
+          aria-label="Customer and Vehicle Management" style="--r:4;--c:4;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">08</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Customer and Vehicle Management</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="supplier-management"
+          aria-label="Supplier Management" style="--r:5;--c:1;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">09</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Supplier Management</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="point-of-sales"
+          aria-label="Point of Sales" style="--r:5;--c:2;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">10</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Point of Sales</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="data-import-export"
+          aria-label="Data Import/Export" style="--r:5;--c:3;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">11</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Data Import/Export</span>
+      
+    </span>
+  </button>
+  <button class="bn-tile tile" data-pop="superhero-support"
+          aria-label="Superhero Support" style="--r:5;--c:4;--rs:1;--cs:1">
+    <span class="bn-wipe" aria-hidden="true"></span>
+    
+    <span class="bn-top"><span class="t-no">12</span><span class="bn-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+    <span class="bn-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+    <span class="bn-txt">
+      <span class="t-name">Superhero Support</span>
+      
+    </span>
+  </button>
+</div>
+  </div>
+</section>
+<section class="variant" id="ho">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>04</span><h2>Hologram</h2></div>
+      <p class="v-line">Each tile is a pane in space: it tilts to the cursor, the icon floats above the surface, a scanline drifts down it, and the whole grid powers on one tile at a time.</p>
+    </div>
+    
+<div class="ho-grid">
+  
+  <button class="ho-tile tile" data-pop="booking-diary" aria-label="Booking Diary"
+          data-tilt style="--d:0.00s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">01</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+      <span class="t-name">Booking Diary</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="invoicing-quoting" aria-label="Invoicing/Quoting"
+          data-tilt style="--d:0.09s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">02</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+      <span class="t-name">Invoicing/Quoting</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="stock-control" aria-label="Stock Control"
+          data-tilt style="--d:0.18s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">03</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+      <span class="t-name">Stock Control</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="service-scheduling" aria-label="Service Scheduling"
+          data-tilt style="--d:0.27s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">04</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+      <span class="t-name">Service Scheduling</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="reporting" aria-label="Reporting"
+          data-tilt style="--d:0.36s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">05</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+      <span class="t-name">Reporting</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="multisite-management" aria-label="Multisite Management"
+          data-tilt style="--d:0.45s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">06</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+      <span class="t-name">Multisite Management</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="job-management" aria-label="Job Management"
+          data-tilt style="--d:0.54s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">07</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+      <span class="t-name">Job Management</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="customer-and-vehicle-management" aria-label="Customer and Vehicle Management"
+          data-tilt style="--d:0.63s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">08</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+      <span class="t-name">Customer and Vehicle Management</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="supplier-management" aria-label="Supplier Management"
+          data-tilt style="--d:0.72s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">09</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+      <span class="t-name">Supplier Management</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="point-of-sales" aria-label="Point of Sales"
+          data-tilt style="--d:0.81s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">10</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+      <span class="t-name">Point of Sales</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="data-import-export" aria-label="Data Import/Export"
+          data-tilt style="--d:0.90s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">11</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+      <span class="t-name">Data Import/Export</span>
+    </span>
+  </button>
+  <button class="ho-tile tile" data-pop="superhero-support" aria-label="Superhero Support"
+          data-tilt style="--d:0.99s">
+    <span class="ho-scan" aria-hidden="true"></span>
+    <span class="ho-in">
+      <span class="t-no">12</span>
+      <span class="ho-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+      <span class="t-name">Superhero Support</span>
+    </span>
+  </button>
+</div>
+  </div>
+</section>
+<section class="variant" id="pl">
+  <div class="wrap">
+    <div class="v-head">
+      <div class="v-title"><span>05</span><h2>Plasma panel</h2></div>
+      <p class="v-line">One panel divided by hairlines instead of twelve cards. A plasma light moves under the surface with the cursor and lights whichever cell it is beneath.</p>
+    </div>
+    
+<div class="pl" data-plasma>
+  <i class="pl-blob pl-idle" aria-hidden="true"></i>
+  <i class="pl-blob pl-follow" aria-hidden="true"></i>
+  <i class="pl-grain" aria-hidden="true"></i>
+  <div class="pl-grid">
+    
+    <button class="pl-cell tile" data-pop="booking-diary" aria-label="Booking Diary">
+      <span class="t-no">01</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+      <span class="t-name">Booking Diary</span>
+    </button>
+    <button class="pl-cell tile" data-pop="invoicing-quoting" aria-label="Invoicing/Quoting">
+      <span class="t-no">02</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+      <span class="t-name">Invoicing/Quoting</span>
+    </button>
+    <button class="pl-cell tile" data-pop="stock-control" aria-label="Stock Control">
+      <span class="t-no">03</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+      <span class="t-name">Stock Control</span>
+    </button>
+    <button class="pl-cell tile" data-pop="service-scheduling" aria-label="Service Scheduling">
+      <span class="t-no">04</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+      <span class="t-name">Service Scheduling</span>
+    </button>
+    <button class="pl-cell tile" data-pop="reporting" aria-label="Reporting">
+      <span class="t-no">05</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+      <span class="t-name">Reporting</span>
+    </button>
+    <button class="pl-cell tile" data-pop="multisite-management" aria-label="Multisite Management">
+      <span class="t-no">06</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+      <span class="t-name">Multisite Management</span>
+    </button>
+    <button class="pl-cell tile" data-pop="job-management" aria-label="Job Management">
+      <span class="t-no">07</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+      <span class="t-name">Job Management</span>
+    </button>
+    <button class="pl-cell tile" data-pop="customer-and-vehicle-management" aria-label="Customer and Vehicle Management">
+      <span class="t-no">08</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+      <span class="t-name">Customer and Vehicle Management</span>
+    </button>
+    <button class="pl-cell tile" data-pop="supplier-management" aria-label="Supplier Management">
+      <span class="t-no">09</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+      <span class="t-name">Supplier Management</span>
+    </button>
+    <button class="pl-cell tile" data-pop="point-of-sales" aria-label="Point of Sales">
+      <span class="t-no">10</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+      <span class="t-name">Point of Sales</span>
+    </button>
+    <button class="pl-cell tile" data-pop="data-import-export" aria-label="Data Import/Export">
+      <span class="t-no">11</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+      <span class="t-name">Data Import/Export</span>
+    </button>
+    <button class="pl-cell tile" data-pop="superhero-support" aria-label="Superhero Support">
+      <span class="t-no">12</span>
+      <span class="pl-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+      <span class="t-name">Superhero Support</span>
+    </button>
+  </div>
+</div>
+  </div>
+</section>
+
+<div hidden>
+<div data-pop-body="booking-diary">
+  <div class="pop-plate">
+    <span>MODULE 01/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+    <h3>Booking Diary</h3>
+  </div>
+  <p class="pop-blurb">Create, reschedule or delete bookings in just a few clicks. Bookings are readily convertible to jobs, saving you time.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Create bookings and reschedule them via an intuitive drag and drop diary.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Automatic booking reminders are sent to your customers the day before the appointment via either email or SMS.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Diary entries are colour coded to help you identify the state of any job quickly.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Diary entries automatically span as you go along so you always have the most up to date overview of your workshop schedule.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Filters on the Diary help you filter out irrelevant information.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>The Diary supports many different views such as the day view, week view, month view, etc.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-booking.html" target="_blank" rel="noopener">Show me more about Booking Diary<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="invoicing-quoting">
+  <div class="pop-plate">
+    <span>MODULE 02/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+    <h3>Invoicing/Quoting</h3>
+  </div>
+  <p class="pop-blurb">Quick and easy invoicing/quoting with preconfigured invoice items. Convert invoices/quotes to jobs or bookings directly.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Save commonly used invoice items to use on other invoices and quotes.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Convert invoices directly into jobs or bookings with one click.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Convert quotes directly into invoices or jobs or bookings with one click.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Easily print invoices/quotes or send them to your clients via email.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>All invoice templates are fully customisable so your invoice can look exactly the way you want it to look.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-invoice.html" target="_blank" rel="noopener">Show me more about Invoicing/Quoting<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="stock-control">
+  <div class="pop-plate">
+    <span>MODULE 03/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+    <h3>Stock Control</h3>
+  </div>
+  <p class="pop-blurb">Know exactly what your workshop has in stock at all times. Paired with our stock alert and stock reordering helpers, your workshop will never run out of stock again.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Straightforward stock level control.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Stock alerts are unobtrusive and stock reordering based on stock levels is intuitive and quick.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Multiple searchable fields help you find any stock item with minimal effort.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Each stock item holds its own complete sales and purchase history.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk supports most barcode scanners and label printers. Just plug and play!</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk also supports quick and easy stock takes, all of which are kept for your record and can be accessed at any time.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-inventory.html" target="_blank" rel="noopener">Show me more about Stock Control<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="service-scheduling">
+  <div class="pop-plate">
+    <span>MODULE 04/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+    <h3>Service Scheduling</h3>
+  </div>
+  <p class="pop-blurb">Easily know which vehicles are due or overdue for service. Easily send reminders to your customers via both email and SMS.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We support scheduling for services, registrations and warrant of fitnesses (NZ).</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>You have full control over when, how and what is sent in your service reminders to your customers.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Both email and SMS reminders are supported.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-service-schedule.html" target="_blank" rel="noopener">Show me more about Service Scheduling<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="reporting">
+  <div class="pop-plate">
+    <span>MODULE 05/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+    <h3>Reporting</h3>
+  </div>
+  <p class="pop-blurb">Better understand your business with our reporting system - everything from sales and received payments to stock value and employee efficiency.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We support Income, Expense, Work in Progress, Employee, Marketing and Stock report categories, each with their own set of reports.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-report.html" target="_blank" rel="noopener">Show me more about Reporting<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="multisite-management">
+  <div class="pop-plate">
+    <span>MODULE 06/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+    <h3>Multisite Management</h3>
+  </div>
+  <p class="pop-blurb">Managing multiple workshops is a breeze with MechanicDesk. View reports, move stock, etc. all in one place.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Link multiple workshops together so they can share customers, vehicles, service histories and stock information.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Manage workshops at different sites centrally through one workstation.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Switch between different sites with ease to see reports, stock levels, etc.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Transfer stock between sites in just a few clicks.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Each workshop may require a separately purchased MechanicDesk account</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-multisite.html" target="_blank" rel="noopener">Show me more about Multisite Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="job-management">
+  <div class="pop-plate">
+    <span>MODULE 07/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+    <h3>Job Management</h3>
+  </div>
+  <p class="pop-blurb">The essence of MechanicDesk - keeping you up to date with each and every job in your workshop at a glance. Manage jobs with your colleagues centrally and in real time.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Quickly locate jobs with our powerful search engine.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Each job holds all information pertaining to it e.g. invoices, bills, purchase orders, job cards, etc. in an unobtrusive way.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Jobs allow you to link to many other functions and utilites in MechanicDesk such as service scheduling, productivity tracking, etc.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Easily print job cards or send them to your technicians via email.</span></li></ul>
+  <div class="pop-hl"><span class="eyebrow">Highlight</span><p>MechanicDesk's Job Type functionality helps you save commonly done jobs and services as templates to be used over and over again, drastically cutting down time spent on preparing job cards and/or invoices.</p></div>
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-job.html" target="_blank" rel="noopener">Show me more about Job Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="customer-and-vehicle-management">
+  <div class="pop-plate">
+    <span>MODULE 08/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+    <h3>Customer and Vehicle Management</h3>
+  </div>
+  <p class="pop-blurb">Easily store your workshop's customers details for use throughout the system via MechanicDesk's intelligent auto-suggest and auto-complete functions.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>All of your customers information at your fingertips. You will never have to fumble around looking for phone numbers or email addresses ever again.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk supports unlimited customer entries in your database.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We also support complete customer and vehicle histories as well as the ability to upload photos and documents against any customer or vehicle.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Send statements or communicate with your customers via email directly from MechanicDesk.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-customer.html" target="_blank" rel="noopener">Show me more about Customer and Vehicle Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="supplier-management">
+  <div class="pop-plate">
+    <span>MODULE 09/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+    <h3>Supplier Management</h3>
+  </div>
+  <p class="pop-blurb">Reorder from your trusted suppliers in a dash. Stay on top of your bills and bill payments with ease.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>All of your supplier information at your fingertips. You will never have to fumble around looking for phone numbers or email addresses ever again.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk supports unlimited supplier entries in your database.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We also support complete supplier purchase histories as well as the ability to upload photos and documents against any supplier.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Send statements or communicate with your suppliers via email or SMS directly from MechanicDesk.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Raise purchase orders and send them via email to your suppliers in under a minute.</span></li></ul>
+  <div class="pop-hl"><span class="eyebrow">Highlight</span><p>MechanicDesk supports integrations with major automotive supplier platforms such as Repco Navigator Pro, Burson EzyParts, etc. and more.</p></div>
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-supplier.html" target="_blank" rel="noopener">Show me more about Supplier Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="point-of-sales">
+  <div class="pop-plate">
+    <span>MODULE 10/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+    <h3>Point of Sales</h3>
+  </div>
+  <p class="pop-blurb">Make lightning quick sales on the spot with only a few clicks. If you have barcode scanners and label printers, even better!</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Most commercial barcode scanners and label printers are supported.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Track your workshop sources of business at the POS.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/integrations.html#eftpos" target="_blank" rel="noopener">Show me more about Point of Sales<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="data-import-export">
+  <div class="pop-plate">
+    <span>MODULE 11/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+    <h3>Data Import/Export</h3>
+  </div>
+  <p class="pop-blurb">We help you import your workshop data so you don't have to start over from scratch. Your data is available to you at all times.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We understand how valuable your data is to your business. Hence we strive to do all we can to import your data into your MechanicDesk. We do this at no additional cost to you and hope that it helps to make your transition to MechanicDesk as smooth as possible.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We are able to help you import customer, vehicle, supplier, stock and vehicle history data (up to 3 years prior to the present day).</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Data is typically imported into the system within 1-3 days.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Any data you enter into MechanicDesk via any means is your data. Thus you can export all or some portion of it at any time via our data export function. You can do this as many times as you require to serve as a secondary backup of your data in addition to MechanicDesk's backup and safeguard routines, again, at no additional cost to you.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-import-export.html" target="_blank" rel="noopener">Show me more about Data Import/Export<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-pop-body="superhero-support">
+  <div class="pop-plate">
+    <span>MODULE 12/12</span>
+    <span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span>
+  </div>
+  <div class="pop-head">
+    <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+    <h3>Superhero Support</h3>
+  </div>
+  <p class="pop-blurb">We believe that software is only as good as the support that follows it. Your support team is here whenever you need us, and that's a promise.</p>
+  <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>The team at MechanicDesk understands the frustration of having unanswered questions hamper your entire day of productivity. This forms the backbone of our customer support efforts. With us, you will never have to wait until the next day for answers.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Our typical turnaround time is 10-15 minutes of your initial contact.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We are reachable via chat from this website, email or phone. Please refer to the Support/Demo tab for more details.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We provide the same high standard of support to you, regardless of your subscription plan.</span></li></ul>
+  
+  <a class="lnk" href="https://www.mechanicdesk.com.au/feature-support.html" target="_blank" rel="noopener">Show me more about MechanicDesk Support<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div></div>
+
+<dialog class="pop" id="pop" aria-label="Feature detail">
+  <div class="pop-in">
+    <button class="pop-x" data-pop-close aria-label="Close">&times;</button>
+    <div class="pop-scroll" data-pop-slot></div>
+  </div>
+</dialog>
+
+<footer><div class="wrap">Demo · the site keeps its current grid until one of these is chosen</div></footer>
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* one popup, every tile ------------------------------------------------- */
+  var pop = $('#pop');
+  var slot = $('[data-pop-slot]', pop);
+  var opener = null;
+  $$('[data-pop]').forEach(function (t) {
+    t.addEventListener('click', function () {
+      var src = $('[data-pop-body="' + t.getAttribute('data-pop') + '"]');
+      if (!src) return;
+      slot.innerHTML = src.innerHTML;
+      slot.scrollTop = 0;
+      opener = t;
+      if (pop.showModal) pop.showModal(); else pop.setAttribute('open', '');
+    });
+  });
+  $$('[data-pop-close]', pop).forEach(function (b) { b.addEventListener('click', function () { pop.close(); }); });
+  pop.addEventListener('click', function (e) { if (e.target === pop) pop.close(); });
+  pop.addEventListener('close', function () { if (opener) opener.focus(); });
+
+  if (coarse || reduced) return;
+
+  /* 01 — the spotlight follows the cursor across the glass ---------------- */
+  $$('[data-spot]').forEach(function (el) {
+    var q = false, x = 0, y = 0;
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      x = e.clientX - r.left; y = e.clientY - r.top;
+      if (!q) { q = true; requestAnimationFrame(function () {
+        q = false; el.style.setProperty('--mx', x + 'px'); el.style.setProperty('--my', y + 'px');
+      }); }
+    }, { passive: true });
+    el.addEventListener('pointerenter', function () { el.style.setProperty('--spot', 1); });
+    el.addEventListener('pointerleave', function () { el.style.setProperty('--spot', 0); });
+  });
+
+  /* 04 — every pane tilts to the cursor ---------------------------------- */
+  $$('[data-tilt]').forEach(function (el) {
+    var q = false, mx = 0, my = 0;
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+      if (!q) { q = true; requestAnimationFrame(function () {
+        q = false; el.style.setProperty('--mx', mx.toFixed(3)); el.style.setProperty('--my', my.toFixed(3));
+      }); }
+    }, { passive: true });
+    el.addEventListener('pointerenter', function () { el.classList.add('is-live'); });
+    el.addEventListener('pointerleave', function () {
+      el.classList.remove('is-live');
+      el.style.setProperty('--mx', 0); el.style.setProperty('--my', 0);
+    });
+  });
+
+  /* 05 — the plasma light tracks the cursor under the panel -------------- */
+  $$('[data-plasma]').forEach(function (el) {
+    var blob = $('.pl-follow', el), q = false, x = 0, y = 0;
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      x = e.clientX - r.left; y = e.clientY - r.top;
+      if (!q) { q = true; requestAnimationFrame(function () {
+        q = false; blob.style.setProperty('--x', x.toFixed(0)); blob.style.setProperty('--y', y.toFixed(0));
+      }); }
+    }, { passive: true });
+    /* the fade is CSS (.pl:hover) — JS only carries the position */
+  });
+})();
+</script>
+</body>
+</html>
