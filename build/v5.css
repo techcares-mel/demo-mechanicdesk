@@ -88,18 +88,23 @@ html:not(.flat) .mock-badge { transform: translateZ(120px); }
    feel lit from the side, not enough to notice as an effect. */
 html:not(.flat) .card,
 html:not(.flat) .bay-type,
-html:not(.flat) .blog-card,
-html:not(.flat) .cust-card,
-html:not(.flat) .feat-plate {
+html:not(.flat) .blog-card {
   transform-style: preserve-3d;
   transform: perspective(900px) rotateX(calc(var(--my, 0) * -5deg)) rotateY(calc(var(--mx, 0) * 7deg));
   transition: transform 0.45s cubic-bezier(.2, .7, .3, 1), box-shadow 0.45s ease;
 }
 html:not(.flat) .card.is-live,
 html:not(.flat) .bay-type.is-live,
-html:not(.flat) .blog-card.is-live,
-html:not(.flat) .cust-card.is-live,
-html:not(.flat) .feat-plate.is-live { transition: transform 0.12s linear, box-shadow 0.45s ease; }
+html:not(.flat) .blog-card.is-live { transition: transform 0.12s linear, box-shadow 0.45s ease; }
+
+/* the tiles already lift on hover, so the tilt has to carry that with it */
+html:not(.flat) .feat-tile { transition: transform 0.35s cubic-bezier(.2, .8, .3, 1), border-color 0.35s ease, box-shadow 0.35s ease; }
+html:not(.flat) .feat-tile:hover, html:not(.flat) .feat-tile:focus-visible {
+  transform: perspective(800px) rotateX(calc(var(--my, 0) * -7deg)) rotateY(calc(var(--mx, 0) * 9deg)) translateY(-5px);
+}
+html:not(.flat) .feat-tile.is-live { transition: transform 0.12s linear, border-color 0.35s ease, box-shadow 0.35s ease; }
+html:not(.flat) .feat-tile .feat-tile-ico { transform: translateZ(24px); }
+html:not(.flat) .feat-tile:hover .feat-tile-ico { transform: translateZ(24px) translateY(-2px) scale(1.06); }
 html:not(.flat) .card.is-live { box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.9); }
 html:not(.flat) .card .card-ico,
 html:not(.flat) .bay-type span,
@@ -110,12 +115,10 @@ html:not(.flat) .bay-type-img { transform: translateZ(-14px); }
    page the reveal moves opacity only */
 html:not(.flat) .card.reveal,
 html:not(.flat) .bay-type.reveal,
-html:not(.flat) .blog-card.reveal,
-html:not(.flat) .cust-card.reveal { transform: perspective(900px); }
+html:not(.flat) .blog-card.reveal { transform: perspective(900px); }
 html:not(.flat) .card.reveal.visible,
 html:not(.flat) .bay-type.reveal.visible,
-html:not(.flat) .blog-card.reveal.visible,
-html:not(.flat) .cust-card.reveal.visible {
+html:not(.flat) .blog-card.reveal.visible {
   transform: perspective(900px) rotateX(calc(var(--my, 0) * -5deg)) rotateY(calc(var(--mx, 0) * 7deg));
 }
 

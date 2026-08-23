@@ -66,13 +66,7 @@ const hero = () => `
       </div>
     </div>
     <div class="hero-art reveal d2">
-      ${S.productMock({})}
-    </div>
-  </div>
-  <div class="marquee" aria-label="Integration partners">
-    <div class="marquee-track">
-      ${[0, 1].map(() => C.integrations.logos.map((l) =>
-        `<span class="mq-item"><img src="${alphaLogo(l.file)}" alt="${esc(l.name)}" loading="lazy" style="--h:${markHeight(l.file, 900, 14, 30)}px"></span>`).join('')).join('')}
+      ${S.productMock({ badge: false })}
     </div>
   </div>
 </section>`;
@@ -97,10 +91,6 @@ const pillars = () => `
 /* "Suitable for" and the four numbers in one automotive band. */
 const bay = () => `
 <section id="suitable" class="sec-bay">
-  <div class="bay-media" aria-hidden="true">
-    <img src="images/pexels/auto-workshop-wide.jpg" alt="" loading="lazy">
-  </div>
-  ${tape()}
   <div class="wrap bay-inner">
     <div class="bay-head reveal">
       <span class="eyebrow">${esc(C.suitable.eyebrow)}</span>
@@ -113,31 +103,35 @@ const bay = () => `
         <h3>${esc(s.title)}</h3>
       </article>`).join('')}
     </div>
-    <div class="bay-stats reveal">
-      ${C.proven.stats.map((s) => `
-      <div class="stat">
-        <strong data-target="${s.value}" data-suffix="${s.suffix}">0${s.suffix}</strong>
-        <span>${esc(s.label)}</span>
-        <i class="stat-ticks" aria-hidden="true"></i>
-      </div>`).join('')}
-    </div>
+    <div class="bay-gap" aria-hidden="true"></div>
   </div>
 </section>`;
 
 /* ------------------------------------------------------------ features --- */
+/* Twelve square tiles. The detail used to unfold in a panel under the grid,
+   which pushed the page around; it now opens in a modal, so the grid stays put
+   and the reading happens over the top of it. Bodies are rendered once into a
+   hidden well and cloned in on click (app.js 9b). */
 const features = () => `
 <section id="features" class="sec sec-features">
   <div class="wrap">
     ${secHead(C.features.eyebrow, esc(C.features.heading), null, null, 'centered')}
-    <div class="feat-rail reveal" role="tablist" aria-label="Features">
+    <div class="feat-grid">
       ${C.features.items.map((f, i) => `
-      <button class="feat-chip${i === 0 ? ' active' : ''}" role="tab" data-feature-tab="${slug(f.name)}" aria-selected="${i === 0 ? 'true' : 'false'}">
-        ${ico(f.icon, 'ico ico-sm')}<span>${esc(f.name)}</span>
+      <button class="feat-tile reveal d${(i % 4) + 1}" data-feat-tile="${slug(f.name)}"
+              aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
+        <span class="feat-tile-top">
+          <span class="feat-tile-no">${n2(i)}</span>
+          <span class="feat-tile-go">${icons.plus}</span>
+        </span>
+        <span class="feat-tile-ico">${ico(f.icon, 'ico')}</span>
+        <span class="feat-tile-name">${esc(f.name)}</span>
       </button>`).join('')}
     </div>
-    <div class="feat-stage reveal">
+
+    <div class="feat-bodies" hidden>
       ${C.features.items.map((f, i) => `
-      <article class="feat-panel${i === 0 ? ' active' : ''}" data-feature-panel="${slug(f.name)}" role="tabpanel">
+      <div data-feat-body="${slug(f.name)}">
         <div class="feat-plate">
           <span class="feat-plate-no">MODULE ${n2(i)}/12</span>
           <span class="feat-plate-bolt">${icons.bolt}</span>
@@ -147,15 +141,18 @@ const features = () => `
           <h3>${esc(f.name)}</h3>
         </div>
         <p class="feat-blurb">${esc(f.blurb)}</p>
-        ${S.disclose({
-          label: 'Everything in ' + esc(f.name),
-          meta: f.bullets.length + ' details',
-          body: `<ul class="feat-list">${f.bullets.map((b) => `<li>${icons.check}<span>${esc(b)}</span></li>`).join('')}</ul>
-                 ${f.highlight ? `<div class="feat-highlight"><span class="eyebrow">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}`
-        })}
+        <ul class="feat-list">${f.bullets.map((bl) => `<li>${icons.check}<span>${esc(bl)}</span></li>`).join('')}</ul>
+        ${f.highlight ? `<div class="feat-highlight"><span class="eyebrow">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}
         <a class="link-arrow" href="${f.link.url}" target="_blank" rel="noopener">${esc(f.link.label)}${icons.arrow}</a>
-      </article>`).join('')}
+      </div>`).join('')}
     </div>
+
+    <dialog class="feat-modal" id="featModal" aria-label="Feature detail">
+      <div class="feat-modal-in">
+        <button class="feat-modal-x" data-feat-close aria-label="Close">&times;</button>
+        <div data-feat-slot></div>
+      </div>
+    </dialog>
   </div>
 </section>`;
 
@@ -164,8 +161,9 @@ const features = () => `
    around the MechanicDesk chip, with light running the traces and a link
    between every partner in the same category. Geometry, layout solving and
    CSS all live in build/lab2-board.cjs (shared with the idea lab); this page
-   asks for root-relative assets and the data-brd-* hooks that app.js 8c
-   drives — the panel underneath and the category chords. */
+   asks for root-relative assets and the data-brd-* hook that app.js 8c uses
+   to light a partner and its category when you tap it. No detail panel: the
+   board is the whole point of the section. */
 const circuit = () => {
   const items = [];
   C.integrations.categories.forEach((g) => g.items.forEach((it) => items.push({ ...it, cat: g.name })));
@@ -178,25 +176,13 @@ const circuit = () => {
   return `
 <section id="integrations" class="sec sec-integrations">
   <div class="wrap">
-    ${secHead(C.integrations.eyebrow, esc(C.integrations.heading), C.integrations.sub,
-      `<a class="link-arrow" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a>`, 'centered')}
+    ${secHead(C.integrations.eyebrow, esc(C.integrations.heading), null,
+      `<p class="sec-sub">${esc(C.integrations.sub)}
+        <a class="link-arrow sm" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a></p>`,
+      'centered')}
     <div class="int-board reveal">
-      <p class="int-hint">All ${items.length} partners — tap a logo</p>
+      <p class="int-hint">All ${items.length} partners</p>
       ${board.html({ prefix: '', attr: 'data-brd-node' })}
-    </div>
-    <div class="int-stage reveal">
-      ${items.map((it, n) => `
-      <article class="int-panel${n === 0 ? ' active' : ''}" data-brd-panel="${slug(it.name)}">
-        <div class="int-panel-head">
-          ${mark(it, 'int-mark', 1500)}
-          <span>
-            <span class="eyebrow">${esc(it.cat)}</span>
-            <h3>${esc(it.name)}</h3>
-          </span>
-        </div>
-        ${it.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
-        ${it.url ? `<a class="link-arrow sm" href="${it.url}" target="_blank" rel="noopener">${esc(it.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}${icons.arrow}</a>` : ''}
-      </article>`).join('')}
     </div>
   </div>
 </section>`;
@@ -205,7 +191,7 @@ const circuit = () => {
 /* -------------------------------------------------------------- proven --- */
 /* "Proven. Loved. Relied on." — the real reviews from their own testimonials
    carousel: three on the page, six more behind a button, and a link out to the
-   full set. The three named customers keep their logo row underneath. */
+   full set. */
 const proven = () => {
   const R = C.proven.reviews;
   const card = (r) => `
@@ -228,13 +214,6 @@ const proven = () => {
       body: `<div class="quote-grid">${R.slice(3).map(card).join('')}</div>
         <p class="reviews-out"><a class="link-arrow sm" href="${C.proven.reviewsUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a></p>`
     })}
-    <div class="cust-row reveal">
-      ${C.proven.customers.map((c) => `
-      <figure class="cust-card">
-        <div class="cust-photo"><img src="images/proven/${c.file}" alt="${esc(c.name)}" loading="lazy"></div>
-        <figcaption>${esc(c.name)}</figcaption>
-      </figure>`).join('')}
-    </div>
   </div>
 </section>`;
 };

@@ -30,7 +30,7 @@
   --radius: 14px;
   --radius-sm: 10px;
   --max: 1240px;
-  --pad: clamp(2rem, 3.5vw, 3.5rem);   /* half the previous section rhythm */
+  --pad: clamp(2.6rem, 4.55vw, 4.55rem);   /* half the original, then +30% */
   --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --head: 'Space Grotesk', 'Inter', sans-serif;
@@ -262,23 +262,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .mba-ico svg { width: 15px; height: 15px; }
 .mba-txt strong { font-family: var(--head); font-size: 0.92rem; color: var(--text); font-weight: 600; }
 
-/* --------------------------------------------------------------- marquee -- */
-.marquee {
-  position: relative; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
-  background: var(--bg-2); overflow: hidden; padding: 1rem 0;
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-.marquee-track { display: flex; align-items: center; gap: 1.1rem; width: max-content; animation: slide 52s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@keyframes slide { to { transform: translateX(-50%); } }
-.mq-item {
-  display: grid; place-items: center; height: 42px; min-width: 116px; padding: 0 0.9rem;
-  opacity: 0.72; transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.mq-item img { height: var(--h, 22px); width: auto; max-width: 116px; object-fit: contain; filter: brightness(1.1) saturate(1.03); }
-.mq-item:hover { opacity: 1; transform: translateY(-2px); }
-
 /* ----------------------------------------------------------- sec heading -- */
 .sec-head { max-width: 60ch; }
 .sec-head.centered { margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; }
@@ -321,19 +304,68 @@ ul { margin: 0; padding: 0; list-style: none; }
 .card .link-arrow { margin-top: auto; padding-top: 0.6rem; }
 
 /* -------------------------------------------------------------- features -- */
-.feat-rail { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
-.feat-chip {
-  display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.5rem 0.9rem;
-  background: rgba(255, 255, 255, 0.03); border: 1px solid var(--line); border-radius: 999px;
-  color: var(--text-2); font-size: 0.89rem; font-weight: 500; transition: all 0.2s ease;
+/* Twelve squares. Everything about the hover is one gesture: the tile lifts,
+   an accent wash rises from the bottom edge and a tick strip draws across it. */
+.feat-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(0.6rem, 1.1vw, 1rem);
+  margin-top: clamp(1.75rem, 3vw, 2.5rem);
 }
-.feat-chip svg { width: 16px; height: 16px; color: var(--muted); transition: color 0.2s ease; }
-.feat-chip:hover { border-color: var(--line-2); color: var(--text); }
-.feat-chip.active { background: var(--accent); border-color: var(--accent); color: #17130a; }
-.feat-chip.active svg { color: #17130a; }
-.feat-stage { margin-top: 1.75rem; position: relative; }
-.feat-panel { display: none; }
-.feat-panel.active { display: block; animation: fadeUp 0.32s ease both; }
+.feat-tile {
+  position: relative; overflow: hidden; aspect-ratio: 1; text-align: left; cursor: pointer;
+  display: grid; grid-template-rows: auto 1fr auto; gap: 0.5rem;
+  padding: clamp(0.9rem, 1.5vw, 1.25rem);
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); color: var(--text);
+  transition: transform 0.35s cubic-bezier(.2, .8, .3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.feat-tile::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(130% 85% at 50% 122%, rgba(252, 163, 17, 0.24), transparent 62%);
+  transition: opacity 0.35s ease;
+}
+.feat-tile::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  transform: scaleX(0); transform-origin: left; transition: transform 0.45s cubic-bezier(.2, .8, .3, 1);
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+}
+.feat-tile:hover, .feat-tile:focus-visible {
+  transform: translateY(-5px); border-color: var(--line-2); box-shadow: 0 26px 44px -26px rgba(0, 0, 0, 0.9);
+}
+.feat-tile:hover::before, .feat-tile:focus-visible::before { opacity: 1; }
+.feat-tile:hover::after, .feat-tile:focus-visible::after { transform: scaleX(1); }
+.feat-tile-top { display: flex; align-items: center; justify-content: space-between; }
+.feat-tile-no { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; color: var(--muted); }
+.feat-tile-go { color: var(--muted); display: inline-flex; transition: color 0.3s ease, transform 0.3s ease; }
+.feat-tile-go svg { width: 14px; height: 14px; }
+.feat-tile:hover .feat-tile-go { color: var(--accent); transform: rotate(90deg); }
+.feat-tile-ico {
+  width: clamp(46px, 4.2vw, 58px); aspect-ratio: 1; border-radius: 14px; display: grid; place-items: center;
+  align-self: center; justify-self: start; background: rgba(252, 163, 17, 0.1); color: var(--accent);
+  transition: transform 0.35s ease, background 0.35s ease;
+}
+.feat-tile-ico svg { width: 23px; height: 23px; }
+.feat-tile:hover .feat-tile-ico { transform: translateY(-2px) scale(1.06); background: rgba(252, 163, 17, 0.2); }
+.feat-tile-name {
+  font-family: var(--head); font-weight: 600; letter-spacing: -0.015em; line-height: 1.22;
+  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+}
+
+.feat-modal { margin: auto; border: 0; padding: 0; background: transparent; width: min(660px, 92vw); }
+.feat-modal::backdrop { background: rgba(5, 7, 9, 0.76); backdrop-filter: blur(6px); }
+.feat-modal-in {
+  position: relative; max-height: 86vh; overflow-y: auto;
+  background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius);
+  padding: clamp(1.4rem, 3vw, 2.1rem);
+}
+.feat-modal[open] .feat-modal-in { animation: modalIn 0.34s cubic-bezier(.2, .9, .3, 1) both; }
+@keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(0.975); } to { opacity: 1; transform: none; } }
+.feat-modal-x {
+  position: absolute; top: 0.75rem; right: 0.75rem; width: 34px; height: 34px; z-index: 2;
+  border: 1px solid var(--line); border-radius: 50%; background: rgba(255, 255, 255, 0.04);
+  color: var(--text-2); font-size: 1.15rem; line-height: 1; display: grid; place-items: center;
+}
+.feat-modal-x:hover { border-color: var(--accent); color: var(--accent); }
+.feat-modal .feat-list { grid-template-columns: 1fr; }
+.feat-modal .link-arrow { margin-top: 1.3rem; }
 .feat-plate {
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   padding-bottom: 0.8rem; margin-bottom: 1.1rem; position: relative;
@@ -351,17 +383,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 .feat-list svg { width: 14px; height: 14px; color: var(--accent); margin-top: 0.3rem; }
 .feat-highlight { margin-top: 1.2rem; padding-left: 1.1rem; border-left: 2px solid var(--accent); }
 .feat-highlight p { margin-top: 0.4rem; font-size: 0.96rem; color: var(--text-2); }
-.feat-panel .link-arrow { margin-top: 1.3rem; }
 
 /* ------------------------------------------------------- workshop band ---- */
-.sec-bay { position: relative; padding: calc(var(--pad) * 0.95) 0; overflow: hidden; isolation: isolate; }
-.sec-bay .tape { position: absolute; top: 0; left: 0; right: 0; z-index: 3; }
-.bay-media { position: absolute; inset: 0; z-index: -1; }
-.bay-media img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.5) contrast(1.05) brightness(0.46); }
-.bay-media::after {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(11, 13, 15, 0.9) 0%, rgba(11, 13, 15, 0.62) 42%, rgba(11, 13, 15, 0.94) 100%);
-}
+/* The photograph behind this band is gone at the client's request, so it is now
+   an ordinary section — but the space the four numbers used to hold is kept, on
+   purpose, as breathing room under the five types. */
+.sec-bay { position: relative; padding: calc(var(--pad) * 0.95) 0; }
 .bay-head { text-align: center; max-width: 52ch; margin: 0 auto; }
 .bay-head h2 { margin-top: 0.7rem; }
 .bay-types { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: clamp(2rem, 4vw, 3rem); }
@@ -370,18 +397,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .bay-type-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15) contrast(1.04) brightness(0.92); transition: transform 0.5s ease, filter 0.4s ease; }
 .bay-type:hover .bay-type-img img { transform: scale(1.05); filter: none; }
 .bay-type h3 { font-size: 0.96rem; margin-top: 0.8rem; font-weight: 600; }
-.bay-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: clamp(2rem, 4vw, 2.75rem);
-  padding-top: clamp(1.5rem, 3vw, 2.25rem); position: relative;
-}
-.bay-stats::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background-image: var(--dash); }
-.stat { text-align: center; }
-.stat strong { display: block; font-family: var(--head); font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; }
-.stat span { display: block; margin-top: 0.5rem; font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
-.stat-ticks {
-  display: block; height: 8px; margin: 0.7rem auto 0; max-width: 96px;
-  background: repeating-linear-gradient(90deg, rgba(252,163,17,.55) 0 1px, transparent 1px 7px);
-}
+.bay-gap { min-height: clamp(5rem, 9vw, 9rem); }
 
 /* ------------------------------------- integrations: the circuit board --- */
 /* Geometry and motion live in build/lab2-board.cjs, whose CSS is appended to
@@ -622,6 +638,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .foot-top { grid-template-columns: 1.4fr 1fr 1fr; }
 }
 @media (max-width: 1024px) {
+  .feat-grid { grid-template-columns: repeat(3, 1fr); }
   .nav-links { display: none; }
   .burger { display: block; }
   .nav-login { display: none; }
@@ -633,12 +650,12 @@ ul { margin: 0; padding: 0; list-style: none; }
   .cta-box { grid-template-columns: 1fr; }
 }
 @media (max-width: 860px) {
+  .feat-grid { grid-template-columns: repeat(2, 1fr); }
   .cols-3 { grid-template-columns: 1fr; }
   .quote-grid, .reviews-more .quote-grid { grid-template-columns: 1fr; }
   .bay-types { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
-  .bay-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .demo-watermark { font-size: 70px; right: -46px; }
   .foot-top { grid-template-columns: 1fr 1fr; }
   .foot-brand { grid-column: 1 / -1; max-width: none; }
@@ -654,8 +671,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   }
   .foot-top { grid-template-columns: 1fr; }
   .demo-watermark { display: none; }
-  .feat-rail { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding-bottom: 0.5rem; }
-  .feat-chip { flex: 0 0 auto; }
+  .feat-tile { aspect-ratio: 1.15; }
   .mock { padding: 0 0 12% 0; }
   .mock-phone { width: 34%; right: 2%; }
   .mock-badge { display: none; }

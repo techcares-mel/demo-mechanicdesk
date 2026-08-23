@@ -157,7 +157,7 @@
   /* --- 8c. Circuit board: tap a mark, read it, light its own family ----- */
   var brdNodes = $$('[data-brd-node]');
   var brdPanels = $$('[data-brd-panel]');
-  if (brdNodes.length && brdPanels.length) {
+  if (brdNodes.length) {
     var chords = $$('[data-chord]');
     var pickBrd = function (n) {
       var key = n.getAttribute('data-brd-node');
@@ -179,6 +179,31 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
+
+  /* --- 9b. Feature tiles: the detail opens over the grid, not under it --- */
+  var featTiles = $$('[data-feat-tile]');
+  var featModal = $('#featModal');
+  if (featTiles.length && featModal) {
+    var slot = $('[data-feat-slot]', featModal);
+    var opener = null;
+    var openFeat = function (key, tile) {
+      var src = $('[data-feat-body="' + key + '"]');
+      if (!src || !slot) return;
+      slot.innerHTML = src.innerHTML;
+      opener = tile;
+      if (featModal.showModal) featModal.showModal();
+      else featModal.setAttribute('open', '');
+    };
+    featTiles.forEach(function (t) {
+      t.addEventListener('click', function () { openFeat(t.getAttribute('data-feat-tile'), t); });
+    });
+    $$('[data-feat-close]', featModal).forEach(function (b) {
+      b.addEventListener('click', function () { featModal.close(); });
+    });
+    /* clicking the backdrop is a click on the dialog element itself */
+    featModal.addEventListener('click', function (e) { if (e.target === featModal) featModal.close(); });
+    featModal.addEventListener('close', function () { if (opener) opener.focus(); });
+  }
 
   /* --- 10. Integration category filter --------------------------------- */
   var catBtns = $$('[data-cat]');
@@ -437,5 +462,5 @@
   var mock = $('.hero-art .mock');
   if (mock) track(mock.parentNode, { target: mock });
 
-  $$('.card, .bay-type, .blog-card, .cust-card, .feat-plate').forEach(function (el) { track(el); });
+  $$('.card, .bay-type, .blog-card, .feat-tile').forEach(function (el) { track(el); });
 })();
