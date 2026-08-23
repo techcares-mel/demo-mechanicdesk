@@ -208,7 +208,7 @@ const circuit = () => {
 /* -------------------------------------------------------------- proven --- */
 /* "Proven. Loved. Relied on." — the real reviews from their own testimonials
    carousel: three on the page, six more behind a button, and a link out to the
-   full set, with two of the named customers underneath. */
+   full set. */
 const proven = () => {
   const R = C.proven.reviews;
   const card = (r) => `
@@ -232,13 +232,6 @@ const proven = () => {
         <p class="reviews-out"><a class="link-arrow sm" href="${C.proven.reviewsUrl}" target="_blank" rel="noopener">${esc(C.proven.moreLabel)}${icons.arrow}</a></p>`
     })}
 
-    <div class="cust-row reveal">
-      ${C.proven.customers.filter((c) => !/^Mag & Turbo/.test(c.name)).map((c) => `
-      <figure class="cust-card">
-        <div class="cust-photo"><img src="images/proven/${c.file}" alt="${esc(c.name)}" loading="lazy"></div>
-        <figcaption>${esc(c.name)}</figcaption>
-      </figure>`).join('')}
-    </div>
   </div>
 </section>`;
 };

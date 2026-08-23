@@ -39,8 +39,8 @@ there); they sit after Blog because this demo is a single page. Section rhythm i
 `--pad: clamp(2.6rem, 4.55vw, 4.55rem)`.
 
 Gone at the client's request: the logo marquee under the hero, the notification chip on the hero
-mock, the photograph behind the "Suitable for" band, the whole four-number stats strip under it, the
-Mag & Turbo customer card, and the
+mock, the photograph behind the "Suitable for" band, the whole four-number stats strip under it, all
+three customer photo cards under the reviews, and the
 hazard tape that sat under the board.
 
 ## Design system
