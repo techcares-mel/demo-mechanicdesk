@@ -333,7 +333,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .feat-tile:hover::before, .feat-tile:focus-visible::before { opacity: 1; }
 .feat-tile:hover::after, .feat-tile:focus-visible::after { transform: scaleX(1); }
 .feat-tile-top { display: flex; align-items: center; justify-content: space-between; }
-.feat-tile-no { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; color: var(--muted); }
+.feat-tile-no { font-family: var(--mono); font-size: 0.96rem; letter-spacing: 0.1em; color: var(--muted); }
 .feat-tile-go { color: var(--muted); display: inline-flex; transition: color 0.3s ease, transform 0.3s ease; }
 .feat-tile-go svg { width: 12px; height: 12px; }
 .feat-tile:hover .feat-tile-go { color: var(--accent); transform: rotate(90deg); }
