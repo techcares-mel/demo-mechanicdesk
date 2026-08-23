@@ -73,7 +73,8 @@ const chrome = () => [
 
 /* Contact form — identical fields/labels in all concepts, styled per concept. */
 const contactForm = () => `
-<form class="cf" data-contact-form novalidate>
+<form class="cf" data-contact-form novalidate
+      data-thanks-title="${esc(C.contact.thanksTitle)}" data-thanks-text="${esc(C.contact.thanksText)}">
   <div class="cf-row">
     <label class="cf-field">
       <span class="cf-label">Name</span>

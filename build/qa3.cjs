@@ -15,8 +15,11 @@ const probe = fs.readFileSync(process.argv[2], 'utf8')
 const dir = process.argv[3] || 'integrations';
 const src = path.join(__dirname, '..', dir, 'index.html');
 const qa = path.join(__dirname, '..', dir, '_probe.html');
+/* The replacement has to go in through a function: a probe that uses a $$
+   helper would otherwise have every $$ collapsed to a single $ by
+   String.replace's dollar-sign syntax, which breaks the script silently. */
 fs.writeFileSync(qa, fs.readFileSync(src, 'utf8')
-  .replace('</body>', '<script>setTimeout(function(){' + probe + '}, 400);</script></body>'), 'utf8');
+  .replace('</body>', () => '<script>setTimeout(function(){' + probe + '}, 400);<\/script></body>'), 'utf8');
 
 const dom = execFileSync(CH, ['--headless=new', '--disable-gpu', '--no-sandbox',
   '--user-data-dir=' + SP + '/chrome-profile', '--virtual-time-budget=9000', '--window-size=1440,1000',

@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!--
+  MechanicDesk — redesign demo. Plain HTML5 + CSS3 + vanilla JS: no framework,
+  no bundler, nothing to install. Open index.html and it runs.
+
+    index.html   this file — structure and all copy
+    styles.css   every style, in labelled sections
+    script.js    behaviour, in numbered self-contained blocks
+    images/      photography, partner logos, product screens
+
+  GENERATED FILE. It is rendered from build/ (Node):
+    build/content.cjs   every string and number on the page
+    build/v2.cjs        this markup
+    build/v2.css        styles.css
+    build/app.js        script.js
+    node build/build.cjs   re-renders all three
+
+  Editing index.html / styles.css / script.js directly is fine if you are not
+  going to use the build — but the next `node build/build.cjs` overwrites them.
+  See README.md.
+-->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Workshop Software - Software for Automotive, Mechanical and Electrical Workshops | MechanicDesk</title>
@@ -16,9 +36,13 @@
 <!-- Concept Graphite: dark precision industrial — redesign demo of mechanicdesk.com.au — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->
 </head>
 <body class="v2">
+
+<!-- ===== CHROME ================== demo watermark, scroll-progress bar, back-to-top button -->
 <div class="demo-watermark" aria-hidden="true">DEMO</div>
 <div id="scrollProgress" aria-hidden="true"></div>
 <button id="backToTop" aria-label="Back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+
+<!-- ===== NAV ===================== links = content.cjs nav[] · mobile drawer is the same list -->
 
 <header class="nav" data-nav>
   <div class="nav-inner">
@@ -46,6 +70,8 @@
   </nav>
 </div>
 <main>
+
+<!-- ===== HERO ==================== brand.heroLead / heroSub / cta · the browser + phone mock is shared.cjs productMock(), frames in images/app and images/app-mobile -->
 
 <section id="home" class="hero">
   <div class="hero-glow" aria-hidden="true"></div>
@@ -138,6 +164,8 @@
   </div>
 </section>
 
+<!-- ===== WHY ===================== pillars.items[] — three cards, icon names come from icons.cjs -->
+
 <section id="why" class="sec">
   <div class="wrap">
     
@@ -167,6 +195,8 @@
     </div>
   </div>
 </section>
+
+<!-- ===== INTEGRATIONS ============ integrations.categories[] · the board is lab2-board.cjs; its CSS is appended to styles.css. Marks are images/logos-alpha (background stripped) -->
 
 <section id="integrations" class="sec sec-integrations">
   <div class="wrap">
@@ -575,6 +605,8 @@
   </div>
 </section>
 
+<!-- ===== SUITABLE FOR ============ suitable.items[] — photos in images/pexels -->
+
 <section id="suitable" class="sec-bay">
   <div class="wrap bay-inner">
     <div class="bay-head reveal">
@@ -606,6 +638,8 @@
     </div>
   </div>
 </section>
+
+<!-- ===== TESTIMONIALS ============ proven.reviews[] — real reviews, three shown, the rest behind the disclosure -->
 
 <section id="proven" class="sec sec-proven">
   <div class="wrap">
@@ -703,6 +737,8 @@
 
   </div>
 </section>
+
+<!-- ===== FEATURES ================ features.items[] — Aurora glass tiles; each tile opens its body from the hidden .pop-well in the same section -->
 
 <section id="features" class="sec sec-features">
   <div class="wrap">
@@ -968,6 +1004,8 @@
   </div>
 </section>
 
+<!-- ===== PRICING ================= pricing.plans[] x pricing.data[region] · the region switcher swaps every [data-price-cell] from the JSON at the end of this file -->
+
 <section id="pricing" class="sec sec-pricing">
   <div class="wrap">
     
@@ -1096,11 +1134,13 @@
     <span class="disc-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
   </button>
   <div class="disc-body"><div class="addon-grid">
-        <article class="addon"><h4>Customized Templates</h4><p>Customized print templates allow you to have your own uniquely designed invoice, job card, quote etc..</p></article><article class="addon"><h4>Digital Signatures</h4><p>Capture your customer signature for job card and purchasing authorizations directly from your phone or tablet.</p></article>
+        <article class="addon"><h3>Customized Templates</h3><p>Customized print templates allow you to have your own uniquely designed invoice, job card, quote etc..</p></article><article class="addon"><h3>Digital Signatures</h3><p>Capture your customer signature for job card and purchasing authorizations directly from your phone or tablet.</p></article>
       </div><p class="addons-note">* Available at additional charges, please contact our support for more details</p></div>
 </div>
   </div>
 </section>
+
+<!-- ===== BLOG ==================== blog.posts[] — two teasers, covers in images/pexels -->
 
 <section id="blog" class="sec sec-blog">
   <div class="wrap">
@@ -1130,6 +1170,8 @@
     </div>
   </div>
 </section>
+
+<!-- ===== SUPPORT ================= support.items[] · phone numbers are brand.phones[] -->
 
 <section id="support" class="sec sec-support">
   <div class="wrap">
@@ -1186,6 +1228,8 @@
   </div>
 </section>
 
+<!-- ===== CTA BAND ================ brand.cta / brand.signup -->
+
 <section id="cta" class="sec sec-cta">
   <div class="wrap">
     <div class="cta-box reveal">
@@ -1201,6 +1245,8 @@
     </div>
   </div>
 </section>
+
+<!-- ===== CONTACT ================= brand.address, brand.email, contact form (front-end only, no backend) -->
 
 <section id="contact" class="sec sec-contact">
   <div class="wrap">
@@ -1234,7 +1280,8 @@
         <div class="map"><iframe title="MechanicDesk head office on Google Maps" src="https://maps.google.com/maps?q=Suite%202%2C%20Level%2010%2C%2034%20Queen%20Street%2C%20Melbourne%20Victoria%203000%2C%20Australia&output=embed" width="100%" height="230" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;"></iframe></div>
       </div>
       <div class="contact-form reveal d2">
-<form class="cf" data-contact-form novalidate>
+<form class="cf" data-contact-form novalidate
+      data-thanks-title="Thank you!" data-thanks-text="We have received your message and will be in touch shortly.">
   <div class="cf-row">
     <label class="cf-field">
       <span class="cf-label">Name</span>
@@ -1260,6 +1307,8 @@
   </div>
 </section>
 
+<!-- ===== POPUP =================== one dialog for the whole page: a trigger with data-pop="key" opens the [data-pop-body="key"] block -->
+
 <dialog class="pop" id="pop" aria-label="Details">
   <div class="pop-in">
     <button class="pop-x" data-pop-close aria-label="Close">&times;</button>
@@ -1267,6 +1316,8 @@
   </div>
 </dialog>
 </main>
+
+<!-- ===== FOOTER ================== navFull[] menu tree, brand.about, app store links, socials -->
 
 <footer class="footer">
   <div class="tape" aria-hidden="true"></div>
@@ -1324,11 +1375,14 @@
       </div>
     </div>
     <div class="foot-bottom">
-      <p>Copyright 2014 - 2026. MechanicDesk. All rights reserved.</p>
+      <!-- the closing year is filled by script.js block 15 so it never goes stale -->
+      <p>Copyright 2014 - <span data-year>2026</span>. MechanicDesk. All rights reserved.</p>
       <p>Demo build · app screens from MechanicDesk tutorials · workshop photography: Pexels</p>
     </div>
   </div>
 </footer>
+
+<!-- ===== PRICING DATA ============ JSON read by script.js block 11 when a region chip is clicked -->
 <script type="application/json" id="pricing-data">{"australia":{"name":"Australia","monthUnit":"/ month + GST","starter":{"cost":"$85.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"50,000"},"small":{"cost":"$115.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"100,000"},"team":{"cost":"$150.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"},"large":{"cost":"$250.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"}},"newZealand":{"name":"New Zealand","monthUnit":"/ month","starter":{"cost":"NZD $85.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"50,000"},"small":{"cost":"NZD $115.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"100,000"},"team":{"cost":"NZD $150.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"},"large":{"cost":"NZD $250.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"}},"unitedKingdom":{"name":"United Kingdom","monthUnit":"/ month","starter":{"cost":"£45","costPerExtraUser":"+ £10/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"50,000"},"small":{"cost":"£60","costPerExtraUser":"+ £10/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"100,000"},"team":{"cost":"£75","costPerExtraUser":"+ £5/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"Unlimited"},"large":{"cost":"£120","costPerExtraUser":"+ £5/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"Unlimited"}},"global":{"name":"Global","monthUnit":"/ month","starter":{"cost":"USD $50.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"50,000"},"small":{"cost":"USD $60.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"100,000"},"team":{"cost":"USD $85.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"},"large":{"cost":"USD $165.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"}}}</script>
 <script src="script.js"></script>
 </body>

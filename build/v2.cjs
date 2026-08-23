@@ -22,6 +22,12 @@ const secHead = (label, title, sub, extra, mod) => `
 
 const tape = () => '<div class="tape" aria-hidden="true"></div>';
 
+/* A one-line signpost in the generated HTML. index.html is what gets handed
+   over, so every block says what it is and which part of content.cjs it prints;
+   without these you are reading 2,000 lines of markup with no map. */
+const mark = (title, note) =>
+  '\n<!-- ===== ' + title + ' ' + '='.repeat(Math.max(3, 24 - title.length)) + ' ' + note + ' -->';
+
 /* One popup for the whole page. A trigger carries data-pop="<key>"; the body
    with the matching data-pop-body is cloned in by app.js. */
 const pop = () => `
@@ -310,7 +316,7 @@ const pricing = () => {
       label: esc(P.addons.heading),
       meta: P.addons.items.length + ' available',
       body: `<div class="addon-grid">
-        ${P.addons.items.map((a) => `<article class="addon"><h4>${esc(a.name)}</h4><p>${esc(a.text)}</p></article>`).join('')}
+        ${P.addons.items.map((a) => `<article class="addon"><h3>${esc(a.name)}</h3><p>${esc(a.text)}</p></article>`).join('')}
       </div><p class="addons-note">${esc(P.addons.note)}</p>`
     })}
   </div>
@@ -422,7 +428,8 @@ const footer = () => `
       </div>
     </div>
     <div class="foot-bottom">
-      <p>${esc(C.brand.copyright)}</p>
+      <!-- the closing year is filled by script.js block 15 so it never goes stale -->
+      <p>${esc(C.brand.copyright).replace(/(\d{4})(?=\.)/, '<span data-year>$1</span>')}</p>
       <p>Demo build · app screens from MechanicDesk tutorials · workshop photography: Pexels</p>
     </div>
   </div>
@@ -431,27 +438,63 @@ const footer = () => `
 module.exports = () => `<!DOCTYPE html>
 <html lang="en">
 <head>
+<!--
+  MechanicDesk — redesign demo. Plain HTML5 + CSS3 + vanilla JS: no framework,
+  no bundler, nothing to install. Open index.html and it runs.
+
+    index.html   this file — structure and all copy
+    styles.css   every style, in labelled sections
+    script.js    behaviour, in numbered self-contained blocks
+    images/      photography, partner logos, product screens
+
+  GENERATED FILE. It is rendered from build/ (Node):
+    build/content.cjs   every string and number on the page
+    build/v2.cjs        this markup
+    build/v2.css        styles.css
+    build/app.js        script.js
+    node build/build.cjs   re-renders all three
+
+  Editing index.html / styles.css / script.js directly is fine if you are not
+  going to use the build — but the next \`node build/build.cjs\` overwrites them.
+  See README.md.
+-->
 ${S.head({ fontLinks: FONTS, css: 'styles.css', concept: 'Graphite', conceptName: 'dark precision industrial — redesign demo of mechanicdesk.com.au' })}
 </head>
 <body class="v2">
+${mark('CHROME', 'demo watermark, scroll-progress bar, back-to-top button')}
 ${S.watermark()}
 ${S.chrome()}
+${mark('NAV', 'links = content.cjs nav[] · mobile drawer is the same list')}
 ${navBar()}
 <main>
+${mark('HERO', 'brand.heroLead / heroSub / cta · the browser + phone mock is shared.cjs productMock(), frames in images/app and images/app-mobile')}
 ${hero()}
+${mark('WHY', 'pillars.items[] — three cards, icon names come from icons.cjs')}
 ${pillars()}
+${mark('INTEGRATIONS', 'integrations.categories[] · the board is lab2-board.cjs; its CSS is appended to styles.css. Marks are images/logos-alpha (background stripped)')}
 ${circuit()}
+${mark('SUITABLE FOR', 'suitable.items[] — photos in images/pexels')}
 ${bay()}
+${mark('TESTIMONIALS', 'proven.reviews[] — real reviews, three shown, the rest behind the disclosure')}
 ${proven()}
+${mark('FEATURES', 'features.items[] — Aurora glass tiles; each tile opens its body from the hidden .pop-well in the same section')}
 ${features()}
+${mark('PRICING', 'pricing.plans[] x pricing.data[region] · the region switcher swaps every [data-price-cell] from the JSON at the end of this file')}
 ${pricing()}
+${mark('BLOG', 'blog.posts[] — two teasers, covers in images/pexels')}
 ${blog()}
+${mark('SUPPORT', 'support.items[] · phone numbers are brand.phones[]')}
 ${support()}
+${mark('CTA BAND', 'brand.cta / brand.signup')}
 ${ctaBand()}
+${mark('CONTACT', 'brand.address, brand.email, contact form (front-end only, no backend)')}
 ${contact()}
+${mark('POPUP', 'one dialog for the whole page: a trigger with data-pop="key" opens the [data-pop-body="key"] block')}
 ${pop()}
 </main>
+${mark('FOOTER', 'navFull[] menu tree, brand.about, app store links, socials')}
 ${footer()}
+${mark('PRICING DATA', 'JSON read by script.js block 11 when a region chip is clicked')}
 ${S.pricingDataScript()}
 <script src="script.js"></script>
 </body>

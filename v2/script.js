@@ -1,386 +1,459 @@
 /* =========================================================================
-   MechanicDesk redesign — shared runtime (identical in all three concepts).
-   Pure vanilla JS, no dependencies. Every block guards for its own markup,
-   so the same file works across the three different layouts.
+   MECHANICDESK — behaviour  (rendered to script.js)
+
+   Plain browser JavaScript. No framework, no dependencies, no build step for
+   the browser: this file is served as-is. Everything is inside one IIFE, so
+   nothing is added to the global scope.
+
+   HOW IT IS ORGANISED
+   Each numbered block below is self-contained and guards for its own markup:
+   if the elements it looks for are not on the page, it quietly does nothing.
+   So you can delete a whole section from index.html without editing this file,
+   and you can delete a block from this file without breaking the rest.
+
+     1   popup            any [data-pop] opens the matching [data-pop-body]
+     2   page chrome      nav background, scroll progress bar, back-to-top
+     3   mobile drawer    hamburger, close button, Escape, link click
+     4   scroll reveal    adds .visible to every .reveal once, then stops
+     5   count-up         any [data-target] counts up when it scrolls into view
+     6   active nav link  highlights the section currently on screen
+     7   disclosures      [data-acc-toggle] opens its [data-acc] parent
+     8   circuit board    lights a partner + its category, opens its popup
+     9   spotlight        the light that follows the cursor over the tiles
+     10  pricing regions  swaps every [data-price-cell] from #pricing-data
+     11  contact form     front end only: shows a thank-you, sends nothing
+     12  product tour     plays images/app/*.png like a video
+     13  phone screens    cycles images/app-mobile/*.png behind the tour
+     14  smooth anchors   offset by the height of the fixed nav
+     15  footer year      fills every [data-year]
+
+   BROWSER BASELINE
+   Written for browsers from 2020 on: const/let, arrow functions, template
+   literals, optional chaining, IntersectionObserver, <dialog>, pointer events,
+   CSS custom properties. No polyfills and none needed.
+
+   Motion: blocks 12 and 13 respect prefers-reduced-motion, and block 9 does
+   nothing on touch (a finger has no hover, and it reads as jitter).
    ========================================================================= */
 (function () {
   'use strict';
 
-  var $ = function (s, r) { return (r || document).querySelector(s); };
-  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  /* Two shorthands used throughout. $$ returns a real array, so .forEach,
+     .map and .filter all work on it. */
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
-  /* --- 0b. The page's one popup -----------------------------------------
-     A trigger carries data-pop="<key>"; the body with the matching
-     data-pop-body is cloned in. Used by the feature tiles and by the marks on
-     the integration board. */
-  var pop = $('#pop');
-  var popSlot = pop && $('[data-pop-slot]', pop);
-  var popOpener = null;
-  var openPop = function (key, trigger) {
+  const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+
+  /* ── 1. The page's one popup ───────────────────────────────────────────
+     There is a single <dialog id="pop"> for the whole page. Anything with
+     data-pop="<key>" opens it and the block with data-pop-body="<key>" is
+     cloned into it. That is how both the feature tiles and the partner marks
+     on the circuit board show their detail.
+
+     To add a new popup anywhere: give the trigger data-pop="my-key" and put
+     <div data-pop-body="my-key">…</div> in a hidden container on the page. */
+  const pop = $('#pop');
+  const popSlot = pop && $('[data-pop-slot]', pop);
+  let popOpener = null;
+
+  const openPop = (key, trigger) => {
     if (!pop || !popSlot) return false;
-    var src = $('[data-pop-body="' + key + '"]');
-    if (!src) return false;
-    popSlot.innerHTML = src.innerHTML;
+    const source = $(`[data-pop-body="${key}"]`);
+    if (!source) return false;
+    popSlot.innerHTML = source.innerHTML;
     popSlot.scrollTop = 0;
-    popOpener = trigger || null;
+    popOpener = trigger ?? null;
     if (pop.showModal) pop.showModal();
-    else pop.setAttribute('open', '');
+    else pop.setAttribute('open', '');       /* only for very old browsers */
     return true;
   };
+
   if (pop) {
-    $$('[data-pop]').forEach(function (t) {
-      t.addEventListener('click', function () { openPop(t.getAttribute('data-pop'), t); });
+    $$('[data-pop]').forEach((trigger) => {
+      trigger.addEventListener('click', () => openPop(trigger.getAttribute('data-pop'), trigger));
     });
-    $$('[data-pop-close]', pop).forEach(function (b) {
-      b.addEventListener('click', function () { pop.close(); });
-    });
-    /* a click that lands on the dialog itself is a click on the backdrop */
-    pop.addEventListener('click', function (e) { if (e.target === pop) pop.close(); });
-    pop.addEventListener('close', function () { if (popOpener) popOpener.focus(); });
+    $$('[data-pop-close]', pop).forEach((btn) => btn.addEventListener('click', () => pop.close()));
+    /* A click that lands on the dialog element itself is a click on the
+       backdrop — the panel inside it stops its own clicks. */
+    pop.addEventListener('click', (e) => { if (e.target === pop) pop.close(); });
+    /* Escape is handled by <dialog>; put focus back where it came from. */
+    pop.addEventListener('close', () => popOpener?.focus());
   }
 
-  /* --- 1. Nav: solid background after 50px --------------------------------- */
-  var nav = $('[data-nav]');
-  var onScrollNav = function () {
-    if (!nav) return;
-    if (window.scrollY > 50) nav.classList.add('scrolled');
-    else nav.classList.remove('scrolled');
+  /* ── 2. Page chrome ───────────────────────────────────────────────────
+     One scroll listener for the three things that react to scrolling, so the
+     browser only has one passive handler to run. */
+  const nav = $('[data-nav]');
+  const progressBar = $('#scrollProgress');
+  const toTop = $('#backToTop');
+
+  const onScroll = () => {
+    /* nav gains a solid background once the hero starts moving away */
+    nav?.classList.toggle('scrolled', window.scrollY > 50);
+
+    /* the bar across the top of the window = how far down the page you are */
+    if (progressBar) {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = `${scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0}%`;
+    }
+
+    /* back-to-top appears after the first screenful */
+    toTop?.classList.toggle('visible', window.scrollY > 300);
   };
 
-  /* --- 2. Scroll progress bar -------------------------------------------- */
-  var progress = $('#scrollProgress');
-  var onScrollProgress = function () {
-    if (!progress) return;
-    var h = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
-  };
+  toTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();                                 /* set the initial state */
 
-  /* --- 3. Back to top ---------------------------------------------------- */
-  var toTop = $('#backToTop');
-  var onScrollTop = function () {
-    if (!toTop) return;
-    if (window.scrollY > 300) toTop.classList.add('visible');
-    else toTop.classList.remove('visible');
-  };
-  if (toTop) {
-    toTop.addEventListener('click', function () {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  /* ── 3. Mobile drawer ────────────────────────────────────────────────── */
+  const burger = $('[data-menu-open]');
+  const drawer = $('[data-menu]');
+  const drawerClose = $('[data-menu-close]');
 
-  window.addEventListener('scroll', function () {
-    onScrollNav();
-    onScrollProgress();
-    onScrollTop();
-  }, { passive: true });
-  onScrollNav(); onScrollProgress(); onScrollTop();
-
-  /* --- 4. Mobile navigation --------------------------------------------- */
-  var burger = $('[data-menu-open]');
-  var drawer = $('[data-menu]');
-  var closeBtn = $('[data-menu-close]');
-  var setMenu = function (open) {
+  const setMenu = (open) => {
     if (!drawer) return;
     drawer.classList.toggle('open', open);
-    if (burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    burger?.setAttribute('aria-expanded', String(open));
+    /* stop the page behind the drawer from scrolling */
     document.body.style.overflow = open ? 'hidden' : '';
   };
-  if (burger) burger.addEventListener('click', function () { setMenu(!drawer.classList.contains('open')); });
-  if (closeBtn) closeBtn.addEventListener('click', function () { setMenu(false); });
-  if (drawer) $$('a', drawer).forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
 
-  /* --- 5. Scroll reveal -------------------------------------------------- */
-  var reveals = $$('.reveal');
+  burger?.addEventListener('click', () => setMenu(!drawer.classList.contains('open')));
+  drawerClose?.addEventListener('click', () => setMenu(false));
+  if (drawer) $$('a', drawer).forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+
+  /* ── 4. Scroll reveal ─────────────────────────────────────────────────
+     .reveal starts faded and slightly low (see styles.css) and gets .visible
+     the first time it appears. Each element is unobserved after that, so this
+     costs nothing once you have scrolled past it.
+
+     Add .reveal to anything new you want to fade in; add .d1 … .d4 to stagger
+     several of them in a row. */
+  const reveals = $$('.reveal');
   if ('IntersectionObserver' in window && reveals.length) {
-    var ro = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add('visible'); ro.unobserve(en.target); }
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(function (el) { ro.observe(el); });
+    reveals.forEach((el) => revealObserver.observe(el));
   } else {
-    reveals.forEach(function (el) { el.classList.add('visible'); });
+    reveals.forEach((el) => el.classList.add('visible'));
   }
 
-  /* --- 6. Stat count-up -------------------------------------------------- */
-  var countUp = function (el) {
-    var target = parseFloat(el.getAttribute('data-target')) || 0;
-    var suffix = el.getAttribute('data-suffix') || '';
-    var dur = 1500, t0 = null;
-    var ease = function (t) { return t * (2 - t); };
-    var fmt = function (n) { return Math.round(n).toLocaleString('en-AU'); };
-    var step = function (ts) {
-      if (!t0) t0 = ts;
-      var p = Math.min((ts - t0) / dur, 1);
-      el.textContent = fmt(target * ease(p)) + suffix;
-      if (p < 1) requestAnimationFrame(step);
+  /* ── 5. Count-up ──────────────────────────────────────────────────────
+     A utility with no user on the page at the moment: give any element
+     data-target="20000" (and optionally data-suffix="+") and it will count up
+     from zero the first time it scrolls into view. */
+  const countUp = (el) => {
+    const target = Number.parseFloat(el.getAttribute('data-target')) || 0;
+    const suffix = el.getAttribute('data-suffix') || '';
+    const duration = 1500;
+    const easeOut = (t) => t * (2 - t);
+    let startedAt = null;
+
+    const frame = (now) => {
+      startedAt ??= now;
+      const progress = Math.min((now - startedAt) / duration, 1);
+      el.textContent = Math.round(target * easeOut(progress)).toLocaleString('en-AU') + suffix;
+      if (progress < 1) requestAnimationFrame(frame);
     };
-    requestAnimationFrame(step);
+    requestAnimationFrame(frame);
   };
-  var stats = $$('[data-target]');
-  if ('IntersectionObserver' in window && stats.length) {
-    var so = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) { countUp(en.target); so.unobserve(en.target); }
+
+  const counters = $$('[data-target]');
+  if ('IntersectionObserver' in window && counters.length) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        countUp(entry.target);
+        counterObserver.unobserve(entry.target);
       });
     }, { threshold: 0.4 });
-    stats.forEach(function (el) { so.observe(el); });
+    counters.forEach((el) => counterObserver.observe(el));
   }
 
-  /* --- 7. Active nav link ----------------------------------------------- */
-  var sections = $$('section[id]');
-  var navLinks = $$('[data-navlink]');
+  /* ── 6. Active nav link ───────────────────────────────────────────────
+     The rootMargin keeps only the section crossing the middle of the window
+     "intersecting", so exactly one nav link is ever marked active. */
+  const sections = $$('section[id]');
+  const navLinks = $$('[data-navlink]');
   if ('IntersectionObserver' in window && sections.length && navLinks.length) {
-    var ao = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        var id = en.target.getAttribute('id');
-        navLinks.forEach(function (a) {
-          a.classList.toggle('active', a.getAttribute('href') === '#' + id);
-        });
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.getAttribute('id');
+        navLinks.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === `#${id}`));
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-    sections.forEach(function (s) { ao.observe(s); });
+    sections.forEach((section) => sectionObserver.observe(section));
   }
 
-  /* --- 8. Feature explorer (tab rail + panels) -------------------------- */
-  var tabs = $$('[data-feature-tab]');
-  var panels = $$('[data-feature-panel]');
-  if (tabs.length && panels.length) {
-    var select = function (key) {
-      tabs.forEach(function (t) {
-        var on = t.getAttribute('data-feature-tab') === key;
-        t.classList.toggle('active', on);
-        t.setAttribute('aria-selected', on ? 'true' : 'false');
-      });
-      panels.forEach(function (p) {
-        p.classList.toggle('active', p.getAttribute('data-feature-panel') === key);
-      });
-    };
-    tabs.forEach(function (t) {
-      t.addEventListener('click', function () { select(t.getAttribute('data-feature-tab')); });
-      t.addEventListener('keydown', function (e) {
-        if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
-        e.preventDefault();
-        var i = tabs.indexOf(t) + (e.key === 'ArrowDown' ? 1 : -1);
-        var n = tabs[(i + tabs.length) % tabs.length];
-        n.focus(); select(n.getAttribute('data-feature-tab'));
-      });
-    });
-  }
+  /* ── 7. Disclosures ───────────────────────────────────────────────────
+     Every click-to-open block on the page — the long feature lists, the
+     optional addons, the support phone numbers, "Read more reviews", the
+     About us paragraph in the footer — is the same markup:
 
-  /* --- 8b. Integration cluster: tap a bubble, open its detail ----------- */
-  var hiveTabs = $$('[data-hive-tab]');
-  var hivePanels = $$('[data-hive-panel]');
-  if (hiveTabs.length && hivePanels.length) {
-    var pickInt = function (key) {
-      hiveTabs.forEach(function (t) { t.classList.toggle('active', t.getAttribute('data-hive-tab') === key); });
-      hivePanels.forEach(function (p) { p.classList.toggle('active', p.getAttribute('data-hive-panel') === key); });
-    };
-    hiveTabs.forEach(function (t) {
-      t.addEventListener('click', function () { pickInt(t.getAttribute('data-hive-tab')); });
-    });
-    hiveTabs[0].classList.add('active');
-  }
+       <div data-acc>
+         <button data-acc-toggle aria-expanded="false">…</button>
+         <div class="disc-body">…</div>
+       </div>
 
-  /* --- 8c. Circuit board: tap a mark, read it, light its own family ----- */
-  var brdNodes = $$('[data-brd-node]');
-  var brdPanels = $$('[data-brd-panel]');
-  if (brdNodes.length) {
-    var chords = $$('[data-chord]');
-    var quietBrd = false;
-    var pickBrd = function (n) {
-      var key = n.getAttribute('data-brd-node');
-      var cat = n.getAttribute('data-cat');
-      brdNodes.forEach(function (o) { o.classList.toggle('active', o === n); });
-      brdPanels.forEach(function (pn) { pn.classList.toggle('active', pn.getAttribute('data-brd-panel') === key); });
-      chords.forEach(function (c) { c.classList.toggle('lit', !!cat && c.getAttribute('data-chord') === cat); });
-      if (!quietBrd) openPop('int-' + key, n);
-    };
-    brdNodes.forEach(function (n) { n.addEventListener('click', function () { pickBrd(n); }); });
-    /* the first mark is selected without opening anything */
-    quietBrd = true; pickBrd(brdNodes[0]); quietBrd = false;
-  }
-
-  /* --- 9. Accordion (mobile features / v3 cards) ------------------------ */
-  $$('[data-acc-toggle]').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var item = btn.closest('[data-acc]');
+     Open is a class on the wrapper (.open), so the animation lives in CSS. */
+  $$('[data-acc-toggle]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('[data-acc]');
       if (!item) return;
-      var open = item.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.setAttribute('aria-expanded', String(item.classList.toggle('open')));
     });
   });
 
-  /* --- 9b. Aurora grid: a spotlight that follows the cursor -------------- */
-  $$('[data-spot]').forEach(function (el) {
-    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
-    var queued = false, x = 0, y = 0;
-    el.addEventListener('pointermove', function (e) {
-      var r = el.getBoundingClientRect();
-      x = e.clientX - r.left; y = e.clientY - r.top;
-      if (!queued) {
-        queued = true;
-        requestAnimationFrame(function () {
-          queued = false;
-          el.style.setProperty('--mx', x + 'px');
-          el.style.setProperty('--my', y + 'px');
-        });
-      }
-    }, { passive: true });
-    el.addEventListener('pointerenter', function () { el.style.setProperty('--spot', 1); });
-    el.addEventListener('pointerleave', function () { el.style.setProperty('--spot', 0); });
-  });
+  /* ── 8. Circuit board (Integrations) ──────────────────────────────────
+     Tapping a partner mark does three things: marks it active, lights the
+     chords that join its category, and opens that partner in the popup.
+     The first mark is selected on load for looks — quietly, without opening
+     the popup at anyone. */
+  const boardNodes = $$('[data-brd-node]');
+  if (boardNodes.length) {
+    const chords = $$('[data-chord]');
+    let silent = false;
 
-  /* --- 10. Integration category filter --------------------------------- */
-  var catBtns = $$('[data-cat]');
-  var catGroups = $$('[data-cat-group]');
-  if (catBtns.length && catGroups.length) {
-    catBtns.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var key = b.getAttribute('data-cat');
-        catBtns.forEach(function (x) { x.classList.toggle('active', x === b); });
-        catGroups.forEach(function (g) {
-          var show = key === 'all' || g.getAttribute('data-cat-group') === key;
-          g.hidden = !show;
-        });
+    const selectPartner = (node) => {
+      const key = node.getAttribute('data-brd-node');
+      const category = node.getAttribute('data-cat');
+      boardNodes.forEach((other) => other.classList.toggle('active', other === node));
+      chords.forEach((chord) => {
+        chord.classList.toggle('lit', Boolean(category) && chord.getAttribute('data-chord') === category);
       });
-    });
-  }
-
-  /* --- 11. Pricing region switcher ------------------------------------- */
-  var dataEl = $('#pricing-data');
-  var regionBtns = $$('[data-region]');
-  if (dataEl && regionBtns.length) {
-    var PLANS = {};
-    try { PLANS = JSON.parse(dataEl.textContent); } catch (e) { PLANS = {}; }
-    var apply = function (region) {
-      var set = PLANS[region];
-      if (!set) return;
-      $$('[data-price-cell]').forEach(function (cell) {
-        var plan = cell.getAttribute('data-plan');
-        var field = cell.getAttribute('data-field');
-        if (set[plan] && set[plan][field] != null) {
-          cell.classList.add('is-updating');
-          cell.textContent = set[plan][field];
-          setTimeout(function () { cell.classList.remove('is-updating'); }, 260);
-        }
-      });
-      $$('[data-month-unit]').forEach(function (el) { el.textContent = set.monthUnit || ''; });
-      $$('[data-region-name]').forEach(function (el) { el.textContent = set.name || ''; });
-      regionBtns.forEach(function (b) { b.classList.toggle('active', b.getAttribute('data-region') === region); });
-      var sel = $('#regionSelect');
-      if (sel && sel.value !== region) sel.value = region;
+      if (!silent) openPop(`int-${key}`, node);
     };
-    regionBtns.forEach(function (b) {
-      b.addEventListener('click', function () { apply(b.getAttribute('data-region')); });
-    });
-    var sel = $('#regionSelect');
-    if (sel) sel.addEventListener('change', function () { apply(sel.value); });
+
+    boardNodes.forEach((node) => node.addEventListener('click', () => selectPartner(node)));
+    silent = true;
+    selectPartner(boardNodes[0]);
+    silent = false;
   }
 
-  /* --- 12. Contact form (no backend — demo confirmation) ---------------- */
-  var form = $('[data-contact-form]');
+  /* ── 9. Cursor spotlight (Aurora grid) ────────────────────────────────
+     Writes the pointer's position into --mx / --my on the container; the
+     gradient that uses them lives in styles.css, so the maths is here and the
+     look is there. --spot fades the whole thing in and out. */
+  $$('[data-spot]').forEach((el) => {
+    if (window.matchMedia?.('(pointer: coarse)').matches) return;
+
+    let queued = false;
+    let x = 0;
+    let y = 0;
+
+    el.addEventListener('pointermove', (e) => {
+      const rect = el.getBoundingClientRect();
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        el.style.setProperty('--mx', `${x}px`);
+        el.style.setProperty('--my', `${y}px`);
+      });
+    }, { passive: true });
+
+    el.addEventListener('pointerenter', () => el.style.setProperty('--spot', '1'));
+    el.addEventListener('pointerleave', () => el.style.setProperty('--spot', '0'));
+  });
+
+  /* ── 10. Pricing regions ──────────────────────────────────────────────
+     The prices for all four regions are in the JSON at the bottom of
+     index.html (<script id="pricing-data">). Clicking a region chip rewrites
+     every cell that carries data-price-cell, matching on data-plan +
+     data-field. To change a price, edit that JSON (or content.cjs and
+     rebuild) — not the table, which only shows the default region. */
+  const priceData = $('#pricing-data');
+  const regionButtons = $$('[data-region]');
+  const regionSelect = $('#regionSelect');       /* the same control, on mobile */
+
+  if (priceData && regionButtons.length) {
+    let plans = {};
+    try {
+      plans = JSON.parse(priceData.textContent);
+    } catch (err) {
+      console.warn('Pricing data could not be parsed, prices will not switch.', err);
+    }
+
+    const applyRegion = (region) => {
+      const set = plans[region];
+      if (!set) return;
+
+      $$('[data-price-cell]').forEach((cell) => {
+        const value = set[cell.getAttribute('data-plan')]?.[cell.getAttribute('data-field')];
+        if (value == null) return;
+        cell.classList.add('is-updating');       /* brief fade while it changes */
+        cell.textContent = value;
+        setTimeout(() => cell.classList.remove('is-updating'), 260);
+      });
+
+      $$('[data-month-unit]').forEach((el) => { el.textContent = set.monthUnit || ''; });
+      $$('[data-region-name]').forEach((el) => { el.textContent = set.name || ''; });
+      regionButtons.forEach((btn) => btn.classList.toggle('active', btn.getAttribute('data-region') === region));
+      if (regionSelect && regionSelect.value !== region) regionSelect.value = region;
+    };
+
+    regionButtons.forEach((btn) => {
+      btn.addEventListener('click', () => applyRegion(btn.getAttribute('data-region')));
+    });
+    regionSelect?.addEventListener('change', () => applyRegion(regionSelect.value));
+  }
+
+  /* ── 11. Contact form ─────────────────────────────────────────────────
+     THERE IS NO BACKEND. The form validates in the browser and swaps itself
+     for a thank-you note; nothing is sent anywhere. To make it real, point the
+     form at your endpoint (or a service like Formspree) and remove this block.
+     The thank-you wording comes from the form's own data attributes so all
+     copy stays in one place. */
+  const form = $('[data-contact-form]');
   if (form) {
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
-      var thanks = document.createElement('div');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const thanks = document.createElement('div');
       thanks.className = 'form-thanks';
-      thanks.innerHTML = '<h3>Thank you!</h3><p>We have received your message and will be in touch shortly.</p>';
+      const title = document.createElement('h3');
+      title.textContent = form.getAttribute('data-thanks-title') || 'Thank you!';
+      const text = document.createElement('p');
+      text.textContent = form.getAttribute('data-thanks-text') || 'We will be in touch shortly.';
+      thanks.append(title, text);
+
       form.style.transition = 'opacity .3s ease';
       form.style.opacity = '0';
-      setTimeout(function () {
+      setTimeout(() => {
         form.style.display = 'none';
         form.parentNode.appendChild(thanks);
-        requestAnimationFrame(function () { thanks.classList.add('visible'); });
+        requestAnimationFrame(() => thanks.classList.add('visible'));
       }, 300);
     });
   }
 
-  /* --- 13. Product tour: 10 app screens played like a video ------------- */
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var tour = $('[data-tour]');
-  if (tour) {
-    var tSlides = $$('.mb-slide', tour);
-    var tBar = $('[data-tour-bar]', tour);
-    var tCap = $('[data-tour-caption]', tour);
-    var tTab = $('[data-tour-tab]', tour);
-    var tIdx = $('[data-tour-index]', tour);
-    var tBtn = $('[data-tour-toggle]', tour);
-    var HOLD = 2600;           // ms each screen stays up
-    var cur = 0, elapsed = 0, last = 0, playing = !reduced, raf = null, hovering = false;
+  /* ── 12. Product tour ─────────────────────────────────────────────────
+     The screens in images/app/ are stacked on top of each other and cross-fade
+     in CSS; this only decides which one is active. One requestAnimationFrame
+     loop drives the progress bar and the changeover, and it is stopped
+     whenever the mock is off screen so an idle tab costs nothing.
 
-    var paint = function (i) {
-      tSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
-      var s = tSlides[i];
-      if (tCap) tCap.textContent = s.getAttribute('data-caption') || '';
-      if (tTab) tTab.textContent = s.getAttribute('data-tab') || '';
-      if (tIdx) tIdx.textContent = ('0' + (i + 1)).slice(-2);
+     To change the pace, change HOLD_MS. To change the screens, replace the
+     files and the <img> list in index.html (or content.cjs productTour). */
+  const tour = $('[data-tour]');
+  if (tour) {
+    const slides = $$('.mb-slide', tour);
+    const bar = $('[data-tour-bar]', tour);
+    const caption = $('[data-tour-caption]', tour);
+    const tabLabel = $('[data-tour-tab]', tour);
+    const counter = $('[data-tour-index]', tour);
+    const playButton = $('[data-tour-toggle]', tour);
+    const HOLD_MS = 2600;                        /* how long each screen stays */
+
+    let current = 0;
+    let elapsed = 0;
+    let lastFrame = 0;
+    let playing = !reducedMotion;
+    let rafId = null;
+    let hovering = false;
+
+    const paint = (index) => {
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+      const slide = slides[index];
+      if (caption) caption.textContent = slide.getAttribute('data-caption') || '';
+      if (tabLabel) tabLabel.textContent = slide.getAttribute('data-tab') || '';
+      if (counter) counter.textContent = String(index + 1).padStart(2, '0');
     };
-    var step = function (ts) {
-      if (!last) last = ts;
-      var dt = ts - last; last = ts;
-      if (playing && !hovering) elapsed += dt;
-      var p = Math.min(elapsed / HOLD, 1);
-      if (tBar) tBar.style.width = (p * 100) + '%';
-      if (p >= 1) { elapsed = 0; cur = (cur + 1) % tSlides.length; paint(cur); }
-      raf = requestAnimationFrame(step);
+
+    const frame = (now) => {
+      if (!lastFrame) lastFrame = now;
+      const delta = now - lastFrame;
+      lastFrame = now;
+      /* pointing at the tour pauses it, so a screen can be read */
+      if (playing && !hovering) elapsed += delta;
+      const progress = Math.min(elapsed / HOLD_MS, 1);
+      if (bar) bar.style.width = `${progress * 100}%`;
+      if (progress >= 1) {
+        elapsed = 0;
+        current = (current + 1) % slides.length;
+        paint(current);
+      }
+      rafId = requestAnimationFrame(frame);
     };
-    var setPlaying = function (on) {
+
+    const setPlaying = (on) => {
       playing = on;
       tour.classList.toggle('is-paused', !on);
-      if (tBtn) tBtn.setAttribute('aria-label', on ? 'Pause the product tour' : 'Play the product tour');
+      playButton?.setAttribute('aria-label', on ? 'Pause the product tour' : 'Play the product tour');
     };
-    if (tBtn) tBtn.addEventListener('click', function () { setPlaying(!playing); });
-    tour.addEventListener('mouseenter', function () { hovering = true; });
-    tour.addEventListener('mouseleave', function () { hovering = false; });
+
+    playButton?.addEventListener('click', () => setPlaying(!playing));
+    tour.addEventListener('mouseenter', () => { hovering = true; });
+    tour.addEventListener('mouseleave', () => { hovering = false; });
     setPlaying(playing);
-    if (tSlides.length > 1) {
-      // Only run the clock while the mock is on screen.
+
+    if (slides.length > 1) {
       if ('IntersectionObserver' in window) {
-        var tio = new IntersectionObserver(function (es) {
-          es.forEach(function (e) {
-            if (e.isIntersecting && !raf) { last = 0; raf = requestAnimationFrame(step); }
-            else if (!e.isIntersecting && raf) { cancelAnimationFrame(raf); raf = null; }
+        const tourObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && !rafId) {
+              lastFrame = 0;
+              rafId = requestAnimationFrame(frame);
+            } else if (!entry.isIntersecting && rafId) {
+              cancelAnimationFrame(rafId);
+              rafId = null;
+            }
           });
         }, { threshold: 0.15 });
-        tio.observe(tour);
+        tourObserver.observe(tour);
       } else {
-        raf = requestAnimationFrame(step);
+        rafId = requestAnimationFrame(frame);
       }
     }
   }
 
-  /* --- 13b. Phone screens cycle on their own, offset from the browser --- */
-  var phone = $('[data-phone]');
+  /* ── 13. Phone screens ────────────────────────────────────────────────
+     The phone in front of the browser window runs on its own slower clock, so
+     the two are never in step — it looks alive rather than choreographed. */
+  const phone = $('[data-phone]');
   if (phone) {
-    var pSlides = $$('.mp-slide', phone);
-    if (pSlides.length > 1 && !reduced) {
-      var pi = 0;
-      setInterval(function () {
-        pi = (pi + 1) % pSlides.length;
-        pSlides.forEach(function (s, n) { s.classList.toggle('is-active', n === pi); });
+    const phoneSlides = $$('.mp-slide', phone);
+    if (phoneSlides.length > 1 && !reducedMotion) {
+      let index = 0;
+      setInterval(() => {
+        index = (index + 1) % phoneSlides.length;
+        phoneSlides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
       }, 3800);
     }
   }
 
-  /* --- 14. Smooth anchor scrolling with nav offset --------------------- */
-  $$('a[href^="#"]').forEach(function (a) {
-    a.addEventListener('click', function (e) {
-      var id = a.getAttribute('href');
-      if (!id || id === '#' || id.length < 2) return;
-      var t = document.getElementById(id.slice(1));
-      if (!t) return;
+  /* ── 14. Smooth anchors ───────────────────────────────────────────────
+     Same-page links stop short of the target by the height of the fixed nav,
+     otherwise the heading you clicked hides underneath it. */
+  $$('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (!href || href.length < 2) return;
+      const target = document.getElementById(href.slice(1));
+      if (!target) return;
       e.preventDefault();
-      var offset = nav ? nav.offsetHeight + 12 : 0;
-      window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+      const offset = nav ? nav.offsetHeight + 12 : 0;
+      window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
     });
   });
 
-  /* --- 15. Current year in footers ------------------------------------- */
-  $$('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
+  /* ── 15. Footer year ──────────────────────────────────────────────────
+     So the copyright line never goes stale. */
+  $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();
 /* =========================================================================
    /v2/ — 3D layer runtime. Appended after the shared app.js runtime.

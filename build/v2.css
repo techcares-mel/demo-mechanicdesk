@@ -1,9 +1,22 @@
 /* =========================================================================
-   MECHANICDESK — "GRAPHITE"
-   Dark, precision-engineered. Graphite surfaces, orange as a signal light.
-   Automotive cues: hazard tape, carbon weave, tyre-tread edge, spec plates.
-   Deliberately few borders and boxes: sections are separated by space and
-   hairlines, not by cards inside cards.
+   MECHANICDESK — stylesheet
+   Plain CSS3. No preprocessor, no build step, no framework. Custom properties
+   in :root are the whole design system — change a token here and it changes
+   everywhere it is used.
+
+   Reading order below, in the order the page uses them:
+     tokens (:root) · reset · chrome (watermark, progress, back-to-top) · nav ·
+     buttons · hero · product mock · section headings · disclosures · cards ·
+     features (Aurora glass) · workshop band · integrations (circuit board) ·
+     testimonials · pricing table · support · blog · CTA band · contact ·
+     footer · reveal animations · responsive
+
+   Two things to know before editing:
+   · The circuit board's own CSS is appended to the end of this file at build
+     time from build/lab2-board.cjs. Do not edit that tail here — edit the
+     module, or your change is lost on the next build.
+   · Breakpoints are 1180 / 1024 / 860 / 620 / 520px, all in the responsive
+     section at the bottom, so a component's mobile rules are not next to it.
    ========================================================================= */
 
 :root {
@@ -524,7 +537,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .row-cta td, .row-cta th { border-bottom: 0; }
 .addons { margin-top: 1.75rem; }
 .addon-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 0.5rem; }
-.addon h4 { margin-bottom: 0.35rem; font-size: 0.97rem; }
+.addon h3 { margin-bottom: 0.35rem; font-size: 0.97rem; }
 .addon p { font-size: 0.93rem; color: var(--text-2); }
 .addons-note { margin-top: 1rem; font-family: var(--mono); font-size: 0.77rem; line-height: 1.7; color: var(--muted); }
 
