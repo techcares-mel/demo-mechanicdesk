@@ -9,6 +9,36 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
+  /* --- 0b. The page's one popup -----------------------------------------
+     A trigger carries data-pop="<key>"; the body with the matching
+     data-pop-body is cloned in. Used by the feature tiles and by the marks on
+     the integration board. */
+  var pop = $('#pop');
+  var popSlot = pop && $('[data-pop-slot]', pop);
+  var popOpener = null;
+  var openPop = function (key, trigger) {
+    if (!pop || !popSlot) return false;
+    var src = $('[data-pop-body="' + key + '"]');
+    if (!src) return false;
+    popSlot.innerHTML = src.innerHTML;
+    popSlot.scrollTop = 0;
+    popOpener = trigger || null;
+    if (pop.showModal) pop.showModal();
+    else pop.setAttribute('open', '');
+    return true;
+  };
+  if (pop) {
+    $$('[data-pop]').forEach(function (t) {
+      t.addEventListener('click', function () { openPop(t.getAttribute('data-pop'), t); });
+    });
+    $$('[data-pop-close]', pop).forEach(function (b) {
+      b.addEventListener('click', function () { pop.close(); });
+    });
+    /* a click that lands on the dialog itself is a click on the backdrop */
+    pop.addEventListener('click', function (e) { if (e.target === pop) pop.close(); });
+    pop.addEventListener('close', function () { if (popOpener) popOpener.focus(); });
+  }
+
   /* --- 1. Nav: solid background after 50px --------------------------------- */
   var nav = $('[data-nav]');
   var onScrollNav = function () {
@@ -159,15 +189,18 @@
   var brdPanels = $$('[data-brd-panel]');
   if (brdNodes.length) {
     var chords = $$('[data-chord]');
+    var quietBrd = false;
     var pickBrd = function (n) {
       var key = n.getAttribute('data-brd-node');
       var cat = n.getAttribute('data-cat');
       brdNodes.forEach(function (o) { o.classList.toggle('active', o === n); });
       brdPanels.forEach(function (pn) { pn.classList.toggle('active', pn.getAttribute('data-brd-panel') === key); });
       chords.forEach(function (c) { c.classList.toggle('lit', !!cat && c.getAttribute('data-chord') === cat); });
+      if (!quietBrd) openPop('int-' + key, n);
     };
     brdNodes.forEach(function (n) { n.addEventListener('click', function () { pickBrd(n); }); });
-    pickBrd(brdNodes[0]);
+    /* the first mark is selected without opening anything */
+    quietBrd = true; pickBrd(brdNodes[0]); quietBrd = false;
   }
 
   /* --- 9. Accordion (mobile features / v3 cards) ------------------------ */
@@ -179,31 +212,6 @@
       btn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   });
-
-  /* --- 9b. Feature tiles: the detail opens over the grid, not under it --- */
-  var featTiles = $$('[data-feat-tile]');
-  var featModal = $('#featModal');
-  if (featTiles.length && featModal) {
-    var slot = $('[data-feat-slot]', featModal);
-    var opener = null;
-    var openFeat = function (key, tile) {
-      var src = $('[data-feat-body="' + key + '"]');
-      if (!src || !slot) return;
-      slot.innerHTML = src.innerHTML;
-      opener = tile;
-      if (featModal.showModal) featModal.showModal();
-      else featModal.setAttribute('open', '');
-    };
-    featTiles.forEach(function (t) {
-      t.addEventListener('click', function () { openFeat(t.getAttribute('data-feat-tile'), t); });
-    });
-    $$('[data-feat-close]', featModal).forEach(function (b) {
-      b.addEventListener('click', function () { featModal.close(); });
-    });
-    /* clicking the backdrop is a click on the dialog element itself */
-    featModal.addEventListener('click', function (e) { if (e.target === featModal) featModal.close(); });
-    featModal.addEventListener('close', function () { if (opener) opener.focus(); });
-  }
 
   /* --- 10. Integration category filter --------------------------------- */
   var catBtns = $$('[data-cat]');

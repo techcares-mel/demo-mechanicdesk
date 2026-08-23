@@ -24,7 +24,18 @@ const IN = { x: 270, y: 150, w: 660, h: 360, r: 90 };      /* 270..930 / 150..51
 const OUT = { x: 70, y: 56, w: 1060, h: 548, r: 140 };     /*  70..1130 /  56..604 */
 
 const AREA = 2400;
-const BOOST = { 'ams_rewards.png': 1.7 };
+/* Equal optical area is the rule, and these are the exceptions to it. Each of
+   these marks is either near-black ink or very fine type at 20-27px, which is
+   not readable on this ground; they get the extra area they need. */
+const BOOST = {
+  'ams_rewards.png': 1.7,
+  'repco_navigator.png': 1.9,
+  'windcave.png': 1.6,
+  'mailchimplogo.png': 1.6,
+  'quickbooks.png': 1.5,
+  'vehicle_visual.png': 2,
+  'ezyparts_logo2025.png': 1.5
+};
 const size = (it) => it.file
   ? markSize(it.file, AREA * (BOOST[it.file] || 1), 20, 66)
   : { w: 76, h: 22 };

@@ -39,9 +39,8 @@ there); they sit after Blog because this demo is a single page. Section rhythm i
 `--pad: clamp(2.6rem, 4.55vw, 4.55rem)`.
 
 Gone at the client's request: the logo marquee under the hero, the notification chip on the hero
-mock, the photograph behind the "Suitable for" band, the 20,000+ cell of the stats strip (the other
-three stay put and its own cell is held open for whatever goes there next), the Mag & Turbo
-customer card, and the
+mock, the photograph behind the "Suitable for" band, the whole four-number stats strip under it, the
+Mag & Turbo customer card, and the
 hazard tape that sat under the board.
 
 ## Design system
@@ -110,16 +109,22 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
   and `4.2%` of screen height at `1.3%` from the top. Rail is Deep Blue `#32374A` (an Apple Pro
   finish).
 
-### Features — twelve tiles and a modal
+### Features — twelve tiles and the popup
 
 `#features` is a 6x2 grid of small square tiles (`.feat-tile`: module number, icon, name, a `+` that
 turns on hover, an accent wash rising from the bottom edge and a tick strip drawing across it).
-Clicking one opens its detail in a native `<dialog>` over the grid rather than unfolding a panel
+Clicking one opens its detail in the page's popup over the grid rather than unfolding a panel
 underneath it, so the page never shifts under the reader. The twelve bodies — spec plate, icon,
 name, blurb, every bullet, the highlight and the deep link — are rendered once into a hidden
-`.feat-bodies` well and cloned into the dialog on click (`app.js` 9b). Escape and a backdrop click
-close it, and focus returns to the tile that opened it. The tiles hold a size rather than a column count: 6 across, then 5 / 4 / 3 / 2 as the
-viewport narrows, so they stay about 180px square at every width.
+`.pop-well` and cloned in on click. The tiles hold a size rather than a column count: 6 across, then
+5 / 4 / 3 / 2 as the viewport narrows, so they stay about 180px square at every width.
+
+**The popup** — `#pop`, one `<dialog>` for the whole page (`app.js` 0b). A trigger carries
+`data-pop="<key>"`; the matching `[data-pop-body]` is cloned into it. The feature tiles and the
+partner marks on the board both use it. Escape and a backdrop click close it and focus returns to
+whatever opened it. The animated box clips, and a separate `.pop-scroll` inside carries the overflow
+with its own styled thin scrollbar: Chrome's overlay scrollbar was appearing on open and fading out
+a second later, which read as a glitch.
 
 ### Minimalism by disclosure
 
@@ -134,9 +139,9 @@ rounded-rect buses around the MechanicDesk chip: four spokes chip → inner bus,
 vias inner → outer, and a chord between every pair of partners in the same category. Light runs the
 traces (amber on the inner bus, blue on the outer, violet through the vias, white down the spokes);
 nothing rotates. Clicking a mark opens that partner's category, description and link underneath and
-lights its own category's chords — `data-brd-node`, `app.js` 8c. There is no detail panel: the
-client wanted the board to be the whole section, so "More details" rides at the end of the section's
-sub line and the marks only light up.
+lights its own category's chords and opens that partner in the page's shared popup — `data-brd-node`
+plus `data-pop-body="int-<slug>"`, `app.js` 8c and 0b. "More details" rides at the end of the
+section's sub line.
 
 Geometry, layout and CSS live in **`build/lab2-board.cjs`**, shared with the idea lab.
 `html({ prefix, attr })` lets each host ask for its own asset prefix and click hook; `.css` is
@@ -146,13 +151,16 @@ appended to `styles.css` at build time by `build.cjs`. Computed at build time:
   border (so white *inside* a mark survives) and writes `images/logos-alpha/` + a manifest with each
   mark's size and ink luminance. Logos that are a coloured block, or already transparent, are skipped.
 - **optical-size normalisation** — every mark is rendered at the height that gives it the same AREA
-  (`shared.cjs markSize()`), so a 5:1 wordmark cannot dwarf a 1:1 roundel. AMS Rewards carries a
-  deliberate 1.7x boost.
+  (`shared.cjs markSize()`), so a 5:1 wordmark cannot dwarf a 1:1 roundel. Seven marks carry a
+  deliberate boost in `lab2-board.cjs BOOST` (AMS 1.7, Repco Navigator 1.9, Vehicle Visual 2.0,
+  Windcave and MailChimp 1.6, QuickBooks and Burson EzyParts 1.5): equal area leaves a long thin
+  wordmark only 20px tall, which is unreadable when its ink is near-black as well.
 - **slot assignment** — categories stay contiguous on their bus so the chords are short and the
   grouping reads without a legend; the widest marks go on the horizontal runs, where there is room.
 - **dark marks** — anything whose own ink is near-black (`needsLift` in the alpha manifest, plus
-  `vehicle_visual` by eye) gets a white light traced around its letterforms, never a plate:
-  `shared.cjs markLift()` + `--lift` / `--lift-on`.
+  `vehicle_visual` by eye) gets a **tight white outline**, never a plate: `shared.cjs markLift()` +
+  `--lift` / `--lift-on`. The outline is a stack of 1px drop-shadows on purpose — the soft glow it
+  replaced smeared fine type.
 
 Two things that will break it if changed carelessly:
 

@@ -22,6 +22,16 @@ const secHead = (label, title, sub, extra, mod) => `
 
 const tape = () => '<div class="tape" aria-hidden="true"></div>';
 
+/* One popup for the whole page. A trigger carries data-pop="<key>"; the body
+   with the matching data-pop-body is cloned in by app.js. */
+const pop = () => `
+<dialog class="pop" id="pop" aria-label="Details">
+  <div class="pop-in">
+    <button class="pop-x" data-pop-close aria-label="Close">&times;</button>
+    <div class="pop-scroll" data-pop-slot></div>
+  </div>
+</dialog>`;
+
 
 /* ---------------------------------------------------------------- nav ---- */
 const navBar = () => `
@@ -103,32 +113,21 @@ const bay = () => `
         <h3>${esc(s.title)}</h3>
       </article>`).join('')}
     </div>
-    <div class="bay-stats reveal">
-      ${C.proven.stats.map((st, i) => i === 0
-        /* the 20,000+ cell is out but its place is held, for whatever goes there next */
-        ? '<div class="stat is-blank" aria-hidden="true"></div>'
-        : `
-      <div class="stat">
-        <strong data-target="${st.value}" data-suffix="${st.suffix}">0${st.suffix}</strong>
-        <span>${esc(st.label)}</span>
-        <i class="stat-ticks" aria-hidden="true"></i>
-      </div>`).join('')}
-    </div>
   </div>
 </section>`;
 
 /* ------------------------------------------------------------ features --- */
 /* Twelve square tiles. The detail used to unfold in a panel under the grid,
-   which pushed the page around; it now opens in a modal, so the grid stays put
+   which pushed the page around; it now opens in a popup, so the grid stays put
    and the reading happens over the top of it. Bodies are rendered once into a
-   hidden well and cloned in on click (app.js 9b). */
+   hidden well and cloned in on click (app.js 0b). */
 const features = () => `
 <section id="features" class="sec sec-features">
   <div class="wrap">
     ${secHead(C.features.eyebrow, esc(C.features.heading), null, null, 'centered')}
     <div class="feat-grid">
       ${C.features.items.map((f, i) => `
-      <button class="feat-tile reveal d${(i % 4) + 1}" data-feat-tile="${slug(f.name)}"
+      <button class="feat-tile reveal d${(i % 4) + 1}" data-pop="feat-${slug(f.name)}"
               aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
         <span class="feat-tile-top">
           <span class="feat-tile-no">${n2(i)}</span>
@@ -139,9 +138,9 @@ const features = () => `
       </button>`).join('')}
     </div>
 
-    <div class="feat-bodies" hidden>
+    <div class="pop-well" hidden>
       ${C.features.items.map((f, i) => `
-      <div data-feat-body="${slug(f.name)}">
+      <div data-pop-body="feat-${slug(f.name)}"><div class="pop-feat">
         <div class="feat-plate">
           <span class="feat-plate-no">MODULE ${n2(i)}/12</span>
           <span class="feat-plate-bolt">${icons.bolt}</span>
@@ -154,15 +153,8 @@ const features = () => `
         <ul class="feat-list">${f.bullets.map((bl) => `<li>${icons.check}<span>${esc(bl)}</span></li>`).join('')}</ul>
         ${f.highlight ? `<div class="feat-highlight"><span class="eyebrow">Highlight</span><p>${esc(f.highlight)}</p></div>` : ''}
         <a class="link-arrow" href="${f.link.url}" target="_blank" rel="noopener">${esc(f.link.label)}${icons.arrow}</a>
-      </div>`).join('')}
+      </div></div>`).join('')}
     </div>
-
-    <dialog class="feat-modal" id="featModal" aria-label="Feature detail">
-      <div class="feat-modal-in">
-        <button class="feat-modal-x" data-feat-close aria-label="Close">&times;</button>
-        <div data-feat-slot></div>
-      </div>
-    </dialog>
   </div>
 </section>`;
 
@@ -171,9 +163,9 @@ const features = () => `
    around the MechanicDesk chip, with light running the traces and a link
    between every partner in the same category. Geometry, layout solving and
    CSS all live in build/lab2-board.cjs (shared with the idea lab); this page
-   asks for root-relative assets and the data-brd-* hook that app.js 8c uses
-   to light a partner and its category when you tap it. No detail panel: the
-   board is the whole point of the section. */
+   asks for root-relative assets and the data-brd-* hook that app.js 8c uses:
+   tapping a mark lights it and its category, and opens that partner in the
+   page's shared popup. */
 const circuit = () => {
   const items = [];
   C.integrations.categories.forEach((g) => g.items.forEach((it) => items.push({ ...it, cat: g.name })));
@@ -191,8 +183,23 @@ const circuit = () => {
         <a class="link-arrow sm" href="${C.integrations.moreUrl}" target="_blank" rel="noopener">${esc(C.integrations.moreLabel)}${icons.arrow}</a></p>`,
       'centered')}
     <div class="int-board reveal">
-      <p class="int-hint">All ${items.length} partners</p>
+      <p class="int-hint">All ${items.length} partners — tap one to read it</p>
       ${board.html({ prefix: '', attr: 'data-brd-node' })}
+    </div>
+
+    <div class="pop-well" hidden>
+      ${items.map((it) => `
+      <div data-pop-body="int-${slug(it.name)}"><div class="pop-int">
+        <div class="int-panel-head">
+          ${mark(it, 'int-mark', 1900)}
+          <span>
+            <span class="eyebrow">${esc(it.cat)}</span>
+            <h3>${esc(it.name)}</h3>
+          </span>
+        </div>
+        ${it.lines.map((l) => `<p>${esc(l)}</p>`).join('')}
+        ${it.url ? `<a class="link-arrow sm" href="${it.url}" target="_blank" rel="noopener">${esc(it.url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}${icons.arrow}</a>` : ''}
+      </div></div>`).join('')}
     </div>
   </div>
 </section>`;
@@ -445,6 +452,7 @@ ${blog()}
 ${support()}
 ${ctaBand()}
 ${contact()}
+${pop()}
 </main>
 ${footer()}
 ${S.pricingDataScript()}

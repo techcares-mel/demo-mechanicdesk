@@ -19,7 +19,7 @@ fs.writeFileSync(qa, fs.readFileSync(src, 'utf8')
   .replace('</body>', '<script>setTimeout(function(){' + probe + '}, 400);</script></body>'), 'utf8');
 
 const dom = execFileSync(CH, ['--headless=new', '--disable-gpu', '--no-sandbox',
-  '--user-data-dir=' + SP + '/chrome-profile', '--virtual-time-budget=5000', '--window-size=1440,1000',
+  '--user-data-dir=' + SP + '/chrome-profile', '--virtual-time-budget=9000', '--window-size=1440,1000',
   '--dump-dom', 'file:///' + qa.split(String.fromCharCode(92)).join('/').split(' ').join('%20')],
   { encoding: 'utf8', maxBuffer: 1 << 26 });
 
