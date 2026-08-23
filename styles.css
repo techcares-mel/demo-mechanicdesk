@@ -354,14 +354,19 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* One popup for the page. The animated box clips; a separate scroller inside
    it carries the overflow, with its own thin always-there scrollbar — Chrome's
    overlay scrollbar was appearing on open and fading out a second later. */
-.pop { margin: auto; border: 0; padding: 0; background: transparent; width: min(700px, 92vw); }
+/* The UA stylesheet gives <dialog> overflow:auto. The entry animation used to
+   translate the box down 16px, which counts as scrollable overflow, so Chrome
+   put a scrollbar on the dialog for the length of the animation and then took
+   it away again — the flicker the client kept seeing. The animation no longer
+   moves the box out of its own bounds, and the dialog cannot scroll at all. */
+.pop { margin: auto; border: 0; padding: 0; background: transparent; overflow: hidden; width: min(700px, 92vw); }
 .pop::backdrop { background: rgba(5, 7, 9, 0.78); backdrop-filter: blur(6px); }
 .pop-in {
   position: relative; max-height: 86vh; overflow: hidden;
   background: var(--card); border: 1px solid var(--line-2); border-radius: var(--radius);
 }
 .pop[open] .pop-in { animation: modalIn 0.34s cubic-bezier(.2, .9, .3, 1) both; }
-@keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(0.975); } to { opacity: 1; transform: none; } }
+@keyframes modalIn { from { opacity: 0; transform: scale(0.955); } to { opacity: 1; transform: none; } }
 .pop-scroll {
   max-height: 86vh; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable;
   padding: clamp(1.3rem, 2.6vw, 1.9rem);

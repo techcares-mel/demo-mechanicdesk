@@ -123,8 +123,13 @@ name, blurb, every bullet, the highlight and the deep link — are rendered once
 `data-pop="<key>"`; the matching `[data-pop-body]` is cloned into it. The feature tiles and the
 partner marks on the board both use it. Escape and a backdrop click close it and focus returns to
 whatever opened it. The animated box clips, and a separate `.pop-scroll` inside carries the overflow
-with its own styled thin scrollbar: Chrome's overlay scrollbar was appearing on open and fading out
-a second later, which read as a glitch.
+with its own styled thin scrollbar.
+
+The scrollbar that kept flickering on open was the **dialog's own**: the UA stylesheet gives
+`<dialog>` `overflow: auto`, and the entry animation translated the box 16px down, which counts as
+scrollable overflow — so Chrome showed a scrollbar for the length of the animation and then removed
+it. The keyframes now only scale and fade (nothing leaves the box) and `.pop` is `overflow: hidden`.
+If you ever animate a dialog's child, keep it inside the dialog's own bounds.
 
 ### Minimalism by disclosure
 
