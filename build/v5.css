@@ -88,7 +88,8 @@ html:not(.flat) .mock-badge { transform: translateZ(120px); }
    feel lit from the side, not enough to notice as an effect. */
 html:not(.flat) .card,
 html:not(.flat) .bay-type,
-html:not(.flat) .blog-card {
+html:not(.flat) .blog-card,
+html:not(.flat) .cust-card {
   transform-style: preserve-3d;
   transform: perspective(900px) rotateX(calc(var(--my, 0) * -5deg)) rotateY(calc(var(--mx, 0) * 7deg));
   transition: transform 0.45s cubic-bezier(.2, .7, .3, 1), box-shadow 0.45s ease;

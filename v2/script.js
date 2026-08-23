@@ -462,5 +462,5 @@
   var mock = $('.hero-art .mock');
   if (mock) track(mock.parentNode, { target: mock });
 
-  $$('.card, .bay-type, .blog-card, .feat-tile').forEach(function (el) { track(el); });
+  $$('.card, .bay-type, .blog-card, .cust-card, .feat-tile').forEach(function (el) { track(el); });
 })();

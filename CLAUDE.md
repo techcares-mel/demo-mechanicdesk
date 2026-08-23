@@ -39,10 +39,10 @@ there); they sit after Blog because this demo is a single page. Section rhythm i
 `--pad: clamp(2.6rem, 4.55vw, 4.55rem)`.
 
 Gone at the client's request: the logo marquee under the hero, the notification chip on the hero
-mock, the photograph behind the "Suitable for" band, the four-number stats strip (its vertical space
-is deliberately kept as `.bay-gap`), the three customer photo cards under the reviews, and the
-hazard tape that sat under the board. The stats' `data-target` count-up therefore no longer appears
-anywhere on the page, though `app.js` 6 still supports it.
+mock, the photograph behind the "Suitable for" band, the 20,000+ cell of the stats strip (the other
+three stay put and its own cell is held open for whatever goes there next), the Mag & Turbo
+customer card, and the
+hazard tape that sat under the board.
 
 ## Design system
 
@@ -112,14 +112,14 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
 
 ### Features — twelve tiles and a modal
 
-`#features` is a 4x3 grid of square tiles (`.feat-tile`: module number, icon, name, a `+` that
+`#features` is a 6x2 grid of small square tiles (`.feat-tile`: module number, icon, name, a `+` that
 turns on hover, an accent wash rising from the bottom edge and a tick strip drawing across it).
 Clicking one opens its detail in a native `<dialog>` over the grid rather than unfolding a panel
 underneath it, so the page never shifts under the reader. The twelve bodies — spec plate, icon,
 name, blurb, every bullet, the highlight and the deep link — are rendered once into a hidden
 `.feat-bodies` well and cloned into the dialog on click (`app.js` 9b). Escape and a backdrop click
-close it, and focus returns to the tile that opened it. Grid drops to 3 columns at 1024px and 2 at
-860px.
+close it, and focus returns to the tile that opened it. The tiles hold a size rather than a column count: 6 across, then 5 / 4 / 3 / 2 as the
+viewport narrows, so they stay about 180px square at every width.
 
 ### Minimalism by disclosure
 

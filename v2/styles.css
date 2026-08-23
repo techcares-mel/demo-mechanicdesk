@@ -307,13 +307,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* Twelve squares. Everything about the hover is one gesture: the tile lifts,
    an accent wash rises from the bottom edge and a tick strip draws across it. */
 .feat-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(0.6rem, 1.1vw, 1rem);
-  margin-top: clamp(1.75rem, 3vw, 2.5rem);
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: clamp(0.5rem, 0.8vw, 0.75rem);
+  margin-top: clamp(1.5rem, 2.6vw, 2.25rem);
 }
 .feat-tile {
   position: relative; overflow: hidden; aspect-ratio: 1; text-align: left; cursor: pointer;
-  display: grid; grid-template-rows: auto 1fr auto; gap: 0.5rem;
-  padding: clamp(0.9rem, 1.5vw, 1.25rem);
+  display: grid; grid-template-rows: auto 1fr auto; gap: 0.4rem;
+  padding: clamp(0.7rem, 1vw, 0.9rem);
   background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); color: var(--text);
   transition: transform 0.35s cubic-bezier(.2, .8, .3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
 }
@@ -323,7 +323,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   transition: opacity 0.35s ease;
 }
 .feat-tile::after {
-  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px;
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
   transform: scaleX(0); transform-origin: left; transition: transform 0.45s cubic-bezier(.2, .8, .3, 1);
   background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
 }
@@ -333,20 +333,20 @@ ul { margin: 0; padding: 0; list-style: none; }
 .feat-tile:hover::before, .feat-tile:focus-visible::before { opacity: 1; }
 .feat-tile:hover::after, .feat-tile:focus-visible::after { transform: scaleX(1); }
 .feat-tile-top { display: flex; align-items: center; justify-content: space-between; }
-.feat-tile-no { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; color: var(--muted); }
+.feat-tile-no { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.12em; color: var(--muted); }
 .feat-tile-go { color: var(--muted); display: inline-flex; transition: color 0.3s ease, transform 0.3s ease; }
-.feat-tile-go svg { width: 14px; height: 14px; }
+.feat-tile-go svg { width: 12px; height: 12px; }
 .feat-tile:hover .feat-tile-go { color: var(--accent); transform: rotate(90deg); }
 .feat-tile-ico {
-  width: clamp(46px, 4.2vw, 58px); aspect-ratio: 1; border-radius: 14px; display: grid; place-items: center;
+  width: clamp(34px, 2.9vw, 40px); aspect-ratio: 1; border-radius: 10px; display: grid; place-items: center;
   align-self: center; justify-self: start; background: rgba(252, 163, 17, 0.1); color: var(--accent);
   transition: transform 0.35s ease, background 0.35s ease;
 }
-.feat-tile-ico svg { width: 23px; height: 23px; }
+.feat-tile-ico svg { width: 17px; height: 17px; }
 .feat-tile:hover .feat-tile-ico { transform: translateY(-2px) scale(1.06); background: rgba(252, 163, 17, 0.2); }
 .feat-tile-name {
-  font-family: var(--head); font-weight: 600; letter-spacing: -0.015em; line-height: 1.22;
-  font-size: clamp(0.95rem, 1.15vw, 1.08rem);
+  font-family: var(--head); font-weight: 600; letter-spacing: -0.015em; line-height: 1.2;
+  font-size: clamp(0.78rem, 0.82vw, 0.88rem);
 }
 
 .feat-modal { margin: auto; border: 0; padding: 0; background: transparent; width: min(660px, 92vw); }
@@ -397,7 +397,20 @@ ul { margin: 0; padding: 0; list-style: none; }
 .bay-type-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.15) contrast(1.04) brightness(0.92); transition: transform 0.5s ease, filter 0.4s ease; }
 .bay-type:hover .bay-type-img img { transform: scale(1.05); filter: none; }
 .bay-type h3 { font-size: 0.96rem; margin-top: 0.8rem; font-weight: 600; }
-.bay-gap { min-height: clamp(5rem, 9vw, 9rem); }
+.bay-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: clamp(2rem, 4vw, 2.75rem);
+  padding-top: clamp(1.5rem, 3vw, 2.25rem); position: relative;
+}
+.bay-stats::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background-image: var(--dash); }
+.stat { text-align: center; }
+/* held open on purpose — something else goes here later */
+.stat.is-blank { min-height: 1px; }
+.stat strong { display: block; font-family: var(--head); font-size: clamp(1.8rem, 3.2vw, 2.6rem); font-weight: 700; color: var(--text); letter-spacing: -0.03em; line-height: 1; }
+.stat span { display: block; margin-top: 0.5rem; font-family: var(--mono); font-size: 0.76rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); }
+.stat-ticks {
+  display: block; height: 8px; margin: 0.7rem auto 0; max-width: 96px;
+  background: repeating-linear-gradient(90deg, rgba(252,163,17,.55) 0 1px, transparent 1px 7px);
+}
 
 /* ------------------------------------- integrations: the circuit board --- */
 /* Geometry and motion live in build/lab2-board.cjs, whose CSS is appended to
@@ -634,11 +647,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 
 /* ------------------------------------------------------------ responsive -- */
 @media (max-width: 1180px) {
+  /* the tiles hold a size rather than a column count, so they stay compact */
+  .feat-grid { grid-template-columns: repeat(5, 1fr); }
   .bay-types { grid-template-columns: repeat(3, 1fr); }
   .foot-top { grid-template-columns: 1.4fr 1fr 1fr; }
 }
 @media (max-width: 1024px) {
-  .feat-grid { grid-template-columns: repeat(3, 1fr); }
+  .feat-grid { grid-template-columns: repeat(4, 1fr); }
   .nav-links { display: none; }
   .burger { display: block; }
   .nav-login { display: none; }
@@ -650,7 +665,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .cta-box { grid-template-columns: 1fr; }
 }
 @media (max-width: 860px) {
-  .feat-grid { grid-template-columns: repeat(2, 1fr); }
+  .bay-stats { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
   .cols-3 { grid-template-columns: 1fr; }
   .quote-grid, .reviews-more .quote-grid { grid-template-columns: 1fr; }
   .bay-types { grid-template-columns: repeat(2, 1fr); }
@@ -661,6 +676,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .foot-brand { grid-column: 1 / -1; max-width: none; }
 }
 @media (max-width: 620px) {
+  .feat-grid { grid-template-columns: repeat(3, 1fr); }
   .bay-types { grid-template-columns: 1fr 1fr; }
   .addon-grid { grid-template-columns: 1fr; }
   .cf-row { grid-template-columns: 1fr; }
@@ -671,7 +687,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   }
   .foot-top { grid-template-columns: 1fr; }
   .demo-watermark { display: none; }
-  .feat-tile { aspect-ratio: 1.15; }
+  .feat-grid { grid-template-columns: repeat(2, 1fr); }
+  .feat-tile { aspect-ratio: 1.2; }
   .mock { padding: 0 0 12% 0; }
   .mock-phone { width: 34%; right: 2%; }
   .mock-badge { display: none; }
@@ -823,7 +840,8 @@ html:not(.flat) .mock-badge { transform: translateZ(120px); }
    feel lit from the side, not enough to notice as an effect. */
 html:not(.flat) .card,
 html:not(.flat) .bay-type,
-html:not(.flat) .blog-card {
+html:not(.flat) .blog-card,
+html:not(.flat) .cust-card {
   transform-style: preserve-3d;
   transform: perspective(900px) rotateX(calc(var(--my, 0) * -5deg)) rotateY(calc(var(--mx, 0) * 7deg));
   transition: transform 0.45s cubic-bezier(.2, .7, .3, 1), box-shadow 0.45s ease;
