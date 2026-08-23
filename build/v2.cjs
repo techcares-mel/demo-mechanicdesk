@@ -117,25 +117,29 @@ const bay = () => `
 </section>`;
 
 /* ------------------------------------------------------------ features --- */
-/* Twelve square tiles. The detail used to unfold in a panel under the grid,
-   which pushed the page around; it now opens in a popup, so the grid stays put
-   and the reading happens over the top of it. Bodies are rendered once into a
-   hidden well and cloned in on click (app.js 0b). */
+/* Twelve tiles of frosted glass over a slow aurora (the "Aurora glass"
+   treatment from /features/): hovering one clears its own glass so the light
+   behind it comes through, and a spotlight follows the cursor across the grid.
+   The detail opens in the page's popup rather than unfolding a panel under the
+   grid, so nothing shifts under the reader; the twelve bodies are rendered once
+   into a hidden well and cloned in on click (app.js 0b). */
 const features = () => `
 <section id="features" class="sec sec-features">
   <div class="wrap">
     ${secHead(C.features.eyebrow, esc(C.features.heading), null, null, 'centered')}
-    <div class="feat-grid">
-      ${C.features.items.map((f, i) => `
-      <button class="feat-tile reveal d${(i % 4) + 1}" data-pop="feat-${slug(f.name)}"
-              aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
-        <span class="feat-tile-top">
-          <span class="feat-tile-no">${n2(i)}</span>
-          <span class="feat-tile-go">${icons.plus}</span>
-        </span>
-        <span class="feat-tile-ico">${ico(f.icon, 'ico')}</span>
-        <span class="feat-tile-name">${esc(f.name)}</span>
-      </button>`).join('')}
+    <div class="au reveal">
+      <i class="au-blob b1" aria-hidden="true"></i>
+      <i class="au-blob b2" aria-hidden="true"></i>
+      <i class="au-blob b3" aria-hidden="true"></i>
+      <div class="au-grid" data-spot>
+        ${C.features.items.map((f, i) => `
+        <button class="au-tile" data-pop="feat-${slug(f.name)}"
+                aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
+          <span class="au-no">${n2(i)}</span>
+          <span class="au-ico">${ico(f.icon, 'ico')}</span>
+          <span class="au-name">${esc(f.name)}</span>
+        </button>`).join('')}
+      </div>
     </div>
 
     <div class="pop-well" hidden>

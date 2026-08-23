@@ -213,6 +213,26 @@
     });
   });
 
+  /* --- 9b. Aurora grid: a spotlight that follows the cursor -------------- */
+  $$('[data-spot]').forEach(function (el) {
+    if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+    var queued = false, x = 0, y = 0;
+    el.addEventListener('pointermove', function (e) {
+      var r = el.getBoundingClientRect();
+      x = e.clientX - r.left; y = e.clientY - r.top;
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(function () {
+          queued = false;
+          el.style.setProperty('--mx', x + 'px');
+          el.style.setProperty('--my', y + 'px');
+        });
+      }
+    }, { passive: true });
+    el.addEventListener('pointerenter', function () { el.style.setProperty('--spot', 1); });
+    el.addEventListener('pointerleave', function () { el.style.setProperty('--spot', 0); });
+  });
+
   /* --- 10. Integration category filter --------------------------------- */
   var catBtns = $$('[data-cat]');
   var catGroups = $$('[data-cat-group]');

@@ -306,49 +306,48 @@ ul { margin: 0; padding: 0; list-style: none; }
 .card .link-arrow { margin-top: auto; padding-top: 0.6rem; }
 
 /* -------------------------------------------------------------- features -- */
-/* Twelve squares. Everything about the hover is one gesture: the tile lifts,
-   an accent wash rises from the bottom edge and a tick strip draws across it. */
-.feat-grid {
-  display: grid; grid-template-columns: repeat(6, 1fr); gap: clamp(0.5rem, 0.8vw, 0.75rem);
-  margin-top: clamp(1.5rem, 2.6vw, 2.25rem);
+/* Aurora glass. Three slow-drifting lights sit behind a sheet of frosted tiles;
+   the tile you point at clears its glass and lets its own patch of aurora
+   through, and a spotlight tracks the cursor across the whole grid. The
+   backdrop-filter is the whole effect — keep the blobs inside .au or there is
+   nothing behind the glass to blur. */
+.au { position: relative; padding: clamp(.75rem, 1.6vw, 1.5rem); border-radius: 22px; overflow: hidden; isolation: isolate; }
+.au-blob { position: absolute; border-radius: 50%; filter: blur(70px); z-index: -1; pointer-events: none; }
+.au-blob.b1 { width: 46%; height: 120%; left: -4%; top: -30%; background: radial-gradient(circle, rgba(252,163,17,.42), transparent 66%); animation: auDrift 30s ease-in-out infinite alternate; }
+.au-blob.b2 { width: 52%; height: 130%; right: -8%; bottom: -40%; background: radial-gradient(circle, rgba(74,125,255,.40), transparent 66%); animation: auDrift 42s ease-in-out infinite alternate-reverse; }
+.au-blob.b3 { width: 38%; height: 100%; left: 36%; top: -14%; background: radial-gradient(circle, rgba(139,92,246,.34), transparent 68%); animation: auDrift 52s ease-in-out infinite alternate; }
+@keyframes auDrift { from { transform: translate3d(-6%, -5%, 0) scale(1); } to { transform: translate3d(8%, 7%, 0) scale(1.22); } }
+
+.au-grid { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: clamp(.5rem, .8vw, .8rem); }
+.au-grid::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: 18px; opacity: var(--spot, 0);
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.10), transparent 70%);
+  transition: opacity .4s ease;
 }
-.feat-tile {
-  position: relative; overflow: hidden; aspect-ratio: 1; text-align: left; cursor: pointer;
-  display: grid; grid-template-rows: auto 1fr auto; gap: 0.4rem;
-  padding: clamp(0.7rem, 1vw, 0.9rem);
-  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); color: var(--text);
-  transition: transform 0.35s cubic-bezier(.2, .8, .3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+.au-tile {
+  position: relative; aspect-ratio: 1; display: grid; grid-template-rows: auto 1fr auto; gap: .4rem;
+  padding: clamp(.7rem, 1vw, .9rem); text-align: left; cursor: pointer; color: inherit;
+  border-radius: 18px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.10);
+  backdrop-filter: blur(16px) saturate(1.25); -webkit-backdrop-filter: blur(16px) saturate(1.25);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 20px 40px -30px #000;
+  transition: transform .4s cubic-bezier(.2,.8,.3,1), background .4s ease, backdrop-filter .4s ease, border-color .4s ease;
 }
-.feat-tile::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0;
-  background: radial-gradient(130% 85% at 50% 122%, rgba(252, 163, 17, 0.24), transparent 62%);
-  transition: opacity 0.35s ease;
+.au-tile:hover, .au-tile:focus-visible {
+  transform: translateY(-5px); background: rgba(255,255,255,.02); border-color: rgba(255,255,255,.28);
+  backdrop-filter: blur(3px) saturate(1.5); -webkit-backdrop-filter: blur(3px) saturate(1.5);
 }
-.feat-tile::after {
-  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
-  transform: scaleX(0); transform-origin: left; transition: transform 0.45s cubic-bezier(.2, .8, .3, 1);
-  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 12px);
+.au-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.au-no { font-family: var(--mono); font-size: .96rem; letter-spacing: .1em; color: var(--muted); }
+.au-ico {
+  width: clamp(34px, 2.9vw, 40px); aspect-ratio: 1; border-radius: 12px; display: grid; place-items: center;
+  align-self: center; background: rgba(255,255,255,.10); color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.25); transition: transform .4s ease, background .4s ease;
 }
-.feat-tile:hover, .feat-tile:focus-visible {
-  transform: translateY(-5px); border-color: var(--line-2); box-shadow: 0 26px 44px -26px rgba(0, 0, 0, 0.9);
-}
-.feat-tile:hover::before, .feat-tile:focus-visible::before { opacity: 1; }
-.feat-tile:hover::after, .feat-tile:focus-visible::after { transform: scaleX(1); }
-.feat-tile-top { display: flex; align-items: center; justify-content: space-between; }
-.feat-tile-no { font-family: var(--mono); font-size: 0.96rem; letter-spacing: 0.1em; color: var(--muted); }
-.feat-tile-go { color: var(--muted); display: inline-flex; transition: color 0.3s ease, transform 0.3s ease; }
-.feat-tile-go svg { width: 12px; height: 12px; }
-.feat-tile:hover .feat-tile-go { color: var(--accent); transform: rotate(90deg); }
-.feat-tile-ico {
-  width: clamp(34px, 2.9vw, 40px); aspect-ratio: 1; border-radius: 10px; display: grid; place-items: center;
-  align-self: center; justify-self: start; background: rgba(252, 163, 17, 0.1); color: var(--accent);
-  transition: transform 0.35s ease, background 0.35s ease;
-}
-.feat-tile-ico svg { width: 17px; height: 17px; }
-.feat-tile:hover .feat-tile-ico { transform: translateY(-2px) scale(1.06); background: rgba(252, 163, 17, 0.2); }
-.feat-tile-name {
-  font-family: var(--head); font-weight: 600; letter-spacing: -0.015em; line-height: 1.2;
-  font-size: clamp(0.78rem, 0.82vw, 0.88rem);
+.au-ico svg { width: 18px; height: 18px; }
+.au-tile:hover .au-ico { transform: translateY(-2px) scale(1.08); background: rgba(252,163,17,.35); }
+.au-name {
+  font-family: var(--head); font-weight: 600; font-size: clamp(.8rem, .85vw, .92rem); line-height: 1.2;
+  color: var(--text); letter-spacing: -.015em;
 }
 
 /* One popup for the page. The animated box clips; a separate scroller inside
@@ -644,12 +643,12 @@ ul { margin: 0; padding: 0; list-style: none; }
 /* ------------------------------------------------------------ responsive -- */
 @media (max-width: 1180px) {
   /* the tiles hold a size rather than a column count, so they stay compact */
-  .feat-grid { grid-template-columns: repeat(5, 1fr); }
+  .au-grid { grid-template-columns: repeat(5, 1fr); }
   .bay-types { grid-template-columns: repeat(3, 1fr); }
   .foot-top { grid-template-columns: 1.4fr 1fr 1fr; }
 }
 @media (max-width: 1024px) {
-  .feat-grid { grid-template-columns: repeat(4, 1fr); }
+  .au-grid { grid-template-columns: repeat(4, 1fr); }
   .nav-links { display: none; }
   .burger { display: block; }
   .nav-login { display: none; }
@@ -671,7 +670,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .foot-brand { grid-column: 1 / -1; max-width: none; }
 }
 @media (max-width: 620px) {
-  .feat-grid { grid-template-columns: repeat(3, 1fr); }
+  .au-grid { grid-template-columns: repeat(3, 1fr); }
   .bay-types { grid-template-columns: 1fr 1fr; }
   .addon-grid { grid-template-columns: 1fr; }
   .cf-row { grid-template-columns: 1fr; }
@@ -682,8 +681,8 @@ ul { margin: 0; padding: 0; list-style: none; }
   }
   .foot-top { grid-template-columns: 1fr; }
   .demo-watermark { display: none; }
-  .feat-grid { grid-template-columns: repeat(2, 1fr); }
-  .feat-tile { aspect-ratio: 1.2; }
+  .au-grid { grid-template-columns: repeat(2, 1fr); }
+  .au-tile { aspect-ratio: 1.15; }
   .mock { padding: 0 0 12% 0; }
   .mock-phone { width: 34%; right: 2%; }
   .mock-badge { display: none; }

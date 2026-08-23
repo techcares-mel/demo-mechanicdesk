@@ -109,11 +109,15 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
   and `4.2%` of screen height at `1.3%` from the top. Rail is Deep Blue `#32374A` (an Apple Pro
   finish).
 
-### Features — twelve tiles and the popup
+### Features — Aurora glass
 
-`#features` is a 6x2 grid of small square tiles (`.feat-tile`: module number, icon, name, a `+` that
-turns on hover, an accent wash rising from the bottom edge and a tick strip drawing across it).
-Clicking one opens its detail in the page's popup over the grid rather than unfolding a panel
+`#features` is the **Aurora glass** treatment chosen from `/features/`: three slow-drifting lights
+(amber, blue, violet) behind a 6x2 sheet of frosted tiles. Hovering a tile drops its own blur from
+16px to 3px, so that tile clears and lets its patch of aurora through, and a spotlight follows the
+cursor across the grid (`[data-spot]`, `app.js` 9b). The whole effect rests on `backdrop-filter`, so
+the three `.au-blob`s must stay inside `.au` — move them out and there is nothing behind the glass
+to blur.
+Clicking a tile opens its detail in the page's popup over the grid rather than unfolding a panel
 underneath it, so the page never shifts under the reader. The twelve bodies — spec plate, icon,
 name, blurb, every bullet, the highlight and the deep link — are rendered once into a hidden
 `.pop-well` and cloned in on click. The tiles hold a size rather than a column count: 6 across, then
