@@ -437,7 +437,6 @@
      B  gauge rail      the needle follows the scroll, stops light as you pass
      C  status line     one short readout in the nav, typed out on load
      D  cursor light    one soft light that follows the pointer, in soft-light
-     E  scan height     tells the CSS how far a slot's scan line should travel
 
    Written for the same browser baseline as the rest: const/let, arrows,
    IntersectionObserver. Every block guards for its own markup.
@@ -540,16 +539,4 @@
     document.addEventListener('pointerleave', () => glimmer.style.setProperty('--glimmer-on', '0'));
   }
 
-  /* ── E. Scan height ───────────────────────────────────────────────────
-     The scan line on a module slot travels the height of that slot. The slots
-     are square-ish and fluid, so the distance is measured rather than guessed,
-     and re-measured if the window changes. */
-  const slots = $$('.slot');
-  if (slots.length && !reducedMotion) {
-    const measure = () => {
-      slots.forEach((slot) => slot.style.setProperty('--scan', `${slot.offsetHeight}px`));
-    };
-    measure();
-    window.addEventListener('resize', measure, { passive: true });
-  }
 })();

@@ -436,17 +436,22 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
 }
 .slot:hover::before { opacity: 1; animation: gloss 1.4s var(--ease) infinite; }
 @keyframes gloss { from { transform: translateX(-60%); } to { transform: translateX(60%); } }
-.slot-scan { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; }
-.slot:hover .slot-scan { animation: scan 1.1s var(--ease) infinite; }
-@keyframes scan { 0% { opacity: 0; transform: translateY(0); } 15% { opacity: 1; } 85% { opacity: 1; } 100% { opacity: 0; transform: translateY(var(--scan, 150px)); } }
-.slot-top { display: flex; align-items: center; justify-content: space-between; }
+/* the accent wipe, the same gesture as the main page: it crosses from the left
+   rather than sweeping down, so both pages answer a hover the same way */
+.slot-wipe {
+  position: absolute; inset: 0; pointer-events: none; transform: scaleX(0); transform-origin: left;
+  transition: transform .5s var(--ease);
+  background: linear-gradient(90deg, rgba(252, 163, 17, .22), rgba(252, 163, 17, .05) 58%, transparent);
+}
+.slot:hover .slot-wipe, .slot:focus-visible .slot-wipe { transform: scaleX(1); }
+.slot-top { position: relative; display: flex; align-items: center; justify-content: space-between; }
 
 .slot-plus { color: var(--muted); display: inline-flex; transition: color .3s ease, transform .3s var(--ease); }
 .slot-plus svg { width: 11px; height: 11px; }
 .slot:hover .slot-plus { color: var(--accent); transform: rotate(90deg); }
 /* icon and name on one line, at the foot of the slot: the number holds the top
    corner, so the pair reads as the label of the module rather than two things */
-.slot-body { display: flex; align-items: center; gap: .75rem; align-self: end; min-width: 0; }
+.slot-body { position: relative; display: flex; align-items: center; gap: .75rem; align-self: end; min-width: 0; }
 .slot-ico {
   width: clamp(51px, 4.35vw, 60px); aspect-ratio: 1; flex: 0 0 auto; display: grid; place-items: center;
   border: 1px solid var(--line-2); color: var(--text-2);
@@ -718,5 +723,5 @@ html.booting .boot-8 { opacity: 0; }
   .reveal { opacity: 1; transform: none; transition: none; }
   html.booting .boot-1, html.booting .boot-2, html.booting .boot-3, html.booting .boot-4,
   html.booting .boot-5, html.booting .boot-6, html.booting .boot-7, html.booting .boot-8 { opacity: 1; transform: none; }
-  .led, .slot-scan { animation: none !important; }
+  .led { animation: none !important; }
 }

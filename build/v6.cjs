@@ -204,7 +204,7 @@ const integrations = () => {
         <span class="bezel-meta">tap a mark to read it</span>
         <span class="led" aria-hidden="true"></span>
       </div>
-      ${board.html({ prefix: '', attr: 'data-brd-node' })}
+      ${board.html({ prefix: '', attr: 'data-brd-node', chords: false, backdrop: false })}
     </div>
 
     <div class="pop-well" hidden>
@@ -261,8 +261,9 @@ const proven = () => {
 };
 
 /* ---------------------------------------------------------------- features -- */
-/* The module bay: twelve slots in a machined grid. Hovering one runs a scan
-   line across it; clicking opens its full detail in the shared popup. */
+/* The module bay: twelve slots in a machined grid. Hovering one runs an accent
+   wipe across it from the left — the same gesture the main page uses — and
+   clicking opens its full detail in the shared popup. */
 const features = () => module_({
   id: 'features', n: '05', name: C.features.eyebrow, meta: C.features.items.length + ' modules',
   body: `
@@ -271,7 +272,7 @@ const features = () => module_({
       ${C.features.items.map((f, i) => `
       <button class="slot" data-pop="feat-${slug(f.name)}"
               aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
-        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-wipe" aria-hidden="true"></span>
         <span class="slot-top"><span class="slot-no">${n2(i)}</span><span class="slot-plus">${icons.plus}</span></span>
         <span class="slot-body">
           <span class="slot-ico">${ico(f.icon, 'ico')}</span>

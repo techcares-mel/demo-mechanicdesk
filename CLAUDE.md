@@ -339,10 +339,12 @@ page is an instrument cluster.
   stylesheet. A `<noscript>` block neutralises it, because a hero that needs JavaScript to be
   visible is not acceptable.
 - **Modules**: every section is a bezel with an ID, a name, a dashed rule and a status light. The
-  features block is a "module bay" — twelve machined slots, a scan line crossing the hovered one
-  (its travel distance is measured in JS, since the slots are fluid), click opens the shared popup.
-  Inside a slot the number holds the top corner while the icon (60px) sits on the same line as the
-  name at the foot, so the pair reads as one label; the slots are `aspect-ratio: 1.9` to suit that.
+  features block is a "module bay" — twelve machined slots; hovering one runs the same accent wipe
+  across it that the main page uses, and clicking opens the shared popup. Inside a slot the number
+  holds the top corner while the icon (60px) sits on the same line as the name at the foot, so the
+  pair reads as one label; the slots are `aspect-ratio: 1.9` to suit that.
+- **The board is the same stripped-back one as the main page**: `html({ chords: false,
+  backdrop: false })`, and the slower all-white light comes from the shared module.
 - **The two console boxes are the same height**: the grid stretches them and the message field grows
   into the slack, so the form fills its box instead of leaving a hole under the note.
 - **The circuit board** is reused as-is from `lab2-board.cjs`, inside a bezel.
