@@ -766,90 +766,82 @@ ul { margin: 0; padding: 0; list-style: none; }
    below the tokens is a place where a dark page had been assumed.
    ========================================================================= */
 :root {
-  --bg: #f1f7f5;                 /* mint paper */
-  --bg-2: #e6f0ed;
-  --surface: #dbeae5;
+  --bg: #f1f5fb;                 /* cool ice paper */
+  --bg-2: #e7eef8;
+  --surface: #dce7f4;
   --card: #ffffff;
-  --line: rgba(11, 40, 34, 0.10);
-  --line-2: rgba(11, 40, 34, 0.18);
-  --line-3: rgba(11, 40, 34, 0.28);
-  --text: #0c1f1b;               /* deep green-black */
-  --text-2: #3d544d;
-  --muted: #68807a;
+  --line: rgba(14, 24, 38, 0.10);
+  --line-2: rgba(14, 24, 38, 0.18);
+  --line-3: rgba(14, 24, 38, 0.28);
+  --text: #0e1826;               /* deep navy ink */
+  --text-2: #41506a;
+  --muted: #6a7893;
 
-  /* two greens: the darker one carries text and 1px marks, the brighter one is
-     for fills, glows and anything with area */
-  --accent: #0e8f78;
-  --accent-2: #22c3a6;
-  --accent-ink: #0a6b5a;
-  --accent-glow: rgba(34, 195, 166, 0.22);
-  --redline: #d9534f;
+  /* the brand amber does not move: buttons, icon plates, icon glyphs, the logo
+     tint, the status lights and the light on the board all stay #fca311. Blue
+     is amber's opposite, so it reads brighter here than it did on grey. */
+  --accent: #fca311;
+  --accent-2: #ff8a00;
+  --accent-glow: rgba(252, 163, 17, 0.24);
+  /* amber used as small TEXT measures about 2:1 on this ground, so type takes a
+     darker one from the same family — see the overrides below */
+  --accent-ink: #a35c04;
+  --redline: #e0492a;
 }
 
-/* ---- everything the light tone turns over, in mint ---------------------- */
-.nav-inner { background: rgba(241, 247, 245, 0.86) !important; box-shadow: 0 10px 30px rgba(11, 40, 34, 0.09) !important; }
-.drawer { background: rgba(241, 247, 245, 0.98); }
-.cf { background: rgba(11, 40, 34, 0.03); }
-.segmented { background: rgba(11, 40, 34, 0.04); }
-.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(11, 40, 34, 0.34); }
+/* ---- the same structural turns as the light tone, in cool ink ----------- */
+.nav-inner { background: rgba(241, 245, 251, 0.86) !important; box-shadow: 0 10px 30px rgba(14, 24, 38, 0.10) !important; }
+.drawer { background: rgba(241, 245, 251, 0.98); }
+.cf { background: rgba(14, 24, 38, 0.03); }
+.segmented { background: rgba(14, 24, 38, 0.04); }
+.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(14, 24, 38, 0.36); }
 .bay-type-img { background: var(--surface); }
 .footer { background: var(--bg-2); border-top: 1px solid var(--line); }
 .footer::before { opacity: .05; }
 :root {
-  --carbon: repeating-linear-gradient(45deg, rgba(11,40,34,.03) 0 1px, transparent 1px 3px),
-            repeating-linear-gradient(-45deg, rgba(11,40,34,.022) 0 1px, transparent 1px 3px);
-  --brushed: repeating-linear-gradient(90deg, rgba(11,40,34,.05) 0 1px, transparent 1px 4px);
-  --tape-bg: repeating-linear-gradient(-45deg, var(--accent-2) 0 6px, #0c1f1b 6px 12px);
-  --dash: repeating-linear-gradient(90deg, rgba(11,40,34,.22) 0 3px, transparent 3px 7px);
+  --carbon: repeating-linear-gradient(45deg, rgba(14,24,38,.03) 0 1px, transparent 1px 3px),
+            repeating-linear-gradient(-45deg, rgba(14,24,38,.022) 0 1px, transparent 1px 3px);
+  --brushed: repeating-linear-gradient(90deg, rgba(14,24,38,.05) 0 1px, transparent 1px 4px);
+  --tape-bg: repeating-linear-gradient(-45deg, var(--accent) 0 6px, #0e1826 6px 12px);
+  --dash: repeating-linear-gradient(90deg, rgba(14,24,38,.22) 0 3px, transparent 3px 7px);
 }
-.hero-grid-lines { background-image: linear-gradient(90deg, rgba(11, 40, 34, 0.06) 1px, transparent 1px); }
-.hero-glow { background: radial-gradient(circle, rgba(34, 195, 166, 0.16) 0%, rgba(34, 195, 166, 0.05) 40%, transparent 68%); }
-.feat-plate-bolt { color: rgba(11, 40, 34, 0.18); }
-.demo-watermark { color: var(--accent-2); opacity: 0.12; }
-.pop-scroll { scrollbar-color: rgba(11, 40, 34, 0.25) transparent; }
-.pop-scroll::-webkit-scrollbar-thumb { background: rgba(11, 40, 34, 0.22); }
-.pop::backdrop { background: rgba(11, 40, 34, 0.45); }
+.hero-grid-lines { background-image: linear-gradient(90deg, rgba(14, 24, 38, 0.06) 1px, transparent 1px); }
+.hero-glow { background: radial-gradient(circle, rgba(252, 163, 17, 0.13) 0%, rgba(252, 163, 17, 0.04) 40%, transparent 68%); }
+.feat-plate-bolt { color: rgba(14, 24, 38, 0.18); }
+.demo-watermark { opacity: 0.12; }
+.pop-scroll { scrollbar-color: rgba(14, 24, 38, 0.25) transparent; }
+.pop-scroll::-webkit-scrollbar-thumb { background: rgba(14, 24, 38, 0.22); }
+.pop::backdrop { background: rgba(14, 24, 38, 0.45); }
 .bay-type-img img, .blog-img img { filter: none; }
 
-/* ---- every hard-coded amber turns teal ---------------------------------- */
-#backToTop { background: var(--accent); }
-#backToTop:hover { background: var(--accent-2); }
-.btn-primary { background: var(--accent); color: #fff; }
-.btn-primary:hover { background: var(--accent-2); color: #04231d; }
-.seg.active, .badge { background: var(--accent); color: #fff; }
-.social:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-.au-wipe { background: linear-gradient(90deg, rgba(34, 195, 166, .26), rgba(34, 195, 166, .06) 58%, transparent); }
-.au-ico { background: rgba(14, 143, 120, .10); }
-.au-tile:hover .au-ico { background: rgba(14, 143, 120, .20); }
-.feat-head-ico, .card-ico { background: rgba(14, 143, 120, .10); }
-.cta-box { background: linear-gradient(120deg, #0e8f78 0%, #22c3a6 100%); color: #04231d; }
-.cta-box h2 { color: #04231d; }
-.cta-box .btn-primary { background: #04231d; color: #7ff0d8; }
-.btn-ghost { border-color: rgba(4, 35, 29, 0.4); color: #04231d; }
-.price-table .featured, .cell-price .featured { background: rgba(34, 195, 166, .05); }
+/* ---- amber as small type only ------------------------------------------ */
+/* Buttons, icon plates, icon glyphs, the logo tint and the board's light are
+   left alone; these are the places amber was doing the work of ink. */
+.eyebrow, .link-arrow, .sec-head .link-arrow { color: var(--accent-ink); }
+.au-tile:hover .au-plus, .disc.open .disc-plus { color: var(--accent-ink); }
+.brand em { color: var(--accent-ink); }
+.quote-mark { color: rgba(163, 92, 4, 0.28); }
 
-/* the tour keeps its own dark, amber-branded island: those are real
-   screenshots of the app and cannot be recoloured */
+/* the tour keeps a dark island so its own chrome stays legible */
 .mock {
-  --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e; --accent: #ffb43a;
+  --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e;
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
 }
-.mock-browser { box-shadow: 0 30px 70px -32px rgba(11, 40, 34, 0.4); }
+.mock-browser { box-shadow: 0 30px 70px -32px rgba(14, 24, 38, 0.42); }
 
-/* same as the light tone, with the light running the traces in teal */
-.bus { stroke: rgba(11, 40, 34, 0.16); }
-.spoke { stroke: rgba(11, 40, 34, 0.15); }
-.via { stroke: rgba(11, 40, 34, 0.18); }
-.p-in, .p-out, .p-spoke, .p-via { stroke: var(--accent-2); filter: drop-shadow(0 0 7px rgba(34, 195, 166, 0.7)); }
-.brd-node .mk { filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 4px #fff) drop-shadow(0 6px 12px rgba(11, 40, 34, 0.16)); }
+/* the board keeps its amber light — only the ink of the traces changes */
+.bus { stroke: rgba(14, 24, 38, 0.16); }
+.spoke { stroke: rgba(14, 24, 38, 0.15); }
+.via { stroke: rgba(14, 24, 38, 0.18); }
+.p-in, .p-out, .p-spoke, .p-via { stroke: var(--accent); filter: drop-shadow(0 0 7px rgba(252, 163, 17, 0.75)); }
+.brd-node .mk { filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 4px #fff) drop-shadow(0 6px 12px rgba(14, 24, 38, 0.16)); }
 .node .mk.lift, .node:hover .mk.lift, .node.active .mk.lift {
-  filter: drop-shadow(0 0 8px #fff) drop-shadow(0 6px 12px rgba(11, 40, 34, 0.16));
+  filter: drop-shadow(0 0 8px #fff) drop-shadow(0 6px 12px rgba(14, 24, 38, 0.16));
 }
-.brd-chip { background: #fff; box-shadow: 0 0 0 1px rgba(11, 40, 34, 0.12), 0 18px 40px -18px rgba(11, 40, 34, 0.3); }
+.brd-chip { background: #fff; box-shadow: 0 0 0 1px rgba(14, 24, 38, 0.12), 0 18px 40px -18px rgba(14, 24, 38, 0.3); }
 .brd-chip-label { background: rgba(255, 255, 255, 0.85); color: var(--text); }
-.brd-halo { background: conic-gradient(from 0deg, transparent 0 62%, rgba(34, 195, 166, .5) 78%, transparent 88%); opacity: .6; }
-.brd-ping { border-color: rgba(34, 195, 166, 0.5); }
-.brd-dots { background-image: radial-gradient(circle, rgba(11, 40, 34, 0.13) 1px, transparent 1.4px); }
+.brd-halo { opacity: .55; }
+.brd-dots { background-image: radial-gradient(circle, rgba(14, 24, 38, 0.13) 1px, transparent 1.4px); }
 .brd-node.active .mk {
-  filter: brightness(1.02) drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px rgba(34, 195, 166, 0.5)) !important;
+  filter: brightness(1.02) drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px rgba(252, 163, 17, 0.5)) !important;
 }

@@ -157,7 +157,7 @@ the site, and all safe to delete along with their `build/lab*.cjs` generators:
 | `/integrations/` | Five treatments for the Integrations block. The circuit board is the one now on the page. |
 | `/v2/` | The same page with a 3D layer over it (tilt, depth, parallax) and a toggle to switch it off. |
 | `/v3/` | A different design of the same content — "Flight deck": the page as an instrument cluster. |
-| `/mid/`, `/light/`, `/cool/` | The main design in three more tones — lifted graphite, paper, and mint with a teal accent. |
+| `/mid/`, `/light/`, `/cool/` | The main design in three more tones — lifted graphite, paper, and cool ice-blue. |
 | `/v3-mid/`, `/v3-light/`, `/v3-cool/` | V3 in the same three tones. |
 
 ---
