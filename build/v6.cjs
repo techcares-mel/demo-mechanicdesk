@@ -273,8 +273,10 @@ const features = () => module_({
               aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
         <span class="slot-scan" aria-hidden="true"></span>
         <span class="slot-top"><span class="slot-no">${n2(i)}</span><span class="slot-plus">${icons.plus}</span></span>
-        <span class="slot-ico">${ico(f.icon, 'ico')}</span>
-        <span class="slot-name">${esc(f.name)}</span>
+        <span class="slot-body">
+          <span class="slot-ico">${ico(f.icon, 'ico')}</span>
+          <span class="slot-name">${esc(f.name)}</span>
+        </span>
       </button>`).join('')}
     </div>
 

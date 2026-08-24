@@ -423,7 +423,7 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
 /* 05 · the module bay */
 .bay { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); margin-top: clamp(2rem, 4vw, 3rem); }
 .slot {
-  position: relative; overflow: hidden; aspect-ratio: 1.35; display: grid; grid-template-rows: auto 1fr auto;
+  position: relative; overflow: hidden; aspect-ratio: 1.9; display: grid; grid-template-rows: auto 1fr;
   gap: .5rem; padding: clamp(.9rem, 1.4vw, 1.2rem); text-align: left; background: var(--bg-2); color: inherit;
   border: 0; transition: background .35s ease;
 }
@@ -444,10 +444,17 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
 .slot-plus { color: var(--muted); display: inline-flex; transition: color .3s ease, transform .3s var(--ease); }
 .slot-plus svg { width: 11px; height: 11px; }
 .slot:hover .slot-plus { color: var(--accent); transform: rotate(90deg); }
-.slot-ico { width: 34px; height: 34px; display: grid; place-items: center; align-self: center; justify-self: start; border: 1px solid var(--line-2); color: var(--text-2); transition: color .3s ease, border-color .3s ease, transform .35s var(--ease); }
-.slot-ico svg { width: 16px; height: 16px; }
+/* icon and name on one line, at the foot of the slot: the number holds the top
+   corner, so the pair reads as the label of the module rather than two things */
+.slot-body { display: flex; align-items: center; gap: .75rem; align-self: end; min-width: 0; }
+.slot-ico {
+  width: clamp(51px, 4.35vw, 60px); aspect-ratio: 1; flex: 0 0 auto; display: grid; place-items: center;
+  border: 1px solid var(--line-2); color: var(--text-2);
+  transition: color .3s ease, border-color .3s ease, transform .35s var(--ease);
+}
+.slot-ico svg { width: 24px; height: 24px; }
 .slot:hover .slot-ico { color: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
-.slot-name { font-family: var(--head); font-weight: 500; font-size: clamp(.82rem, .95vw, .95rem); line-height: 1.25; color: var(--text); }
+.slot-name { font-family: var(--head); font-weight: 500; font-size: clamp(.82rem, .95vw, .95rem); line-height: 1.25; color: var(--text); min-width: 0; }
 
 /* 06 · the spec sheet */
 .regions { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; margin-top: 1.6rem; }
