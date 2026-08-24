@@ -130,39 +130,42 @@ const hero = () => `
   <i class="deck-grid" aria-hidden="true"></i>
   <i class="deck-glow" aria-hidden="true"></i>
 
-  <div class="wrap deck-in">
-    <p class="deck-eyebrow boot-1">
-      <span>${esc(C.brand.product)}</span>
-      <span class="sep" aria-hidden="true"></span>
-      <span>AU · NZ · UK · Global</span>
-    </p>
+  <div class="wrap deck-cols">
+    <div class="deck-copy">
+      <p class="deck-eyebrow boot-1">
+        <span>${esc(C.brand.product)}</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span>AU · NZ · UK · Global</span>
+      </p>
 
-    <h1 class="deck-h1">
-      <span class="line boot-2"><b class="chrome">Workshop</b></span>
-      <span class="line boot-3"><b class="chrome gold">Management</b></span>
-      <span class="line boot-4"><b class="chrome">Software</b></span>
-    </h1>
+      <h1 class="deck-h1">
+        <span class="line boot-2"><b class="chrome">Workshop</b></span>
+        <span class="line boot-3"><b class="chrome gold">Management</b></span>
+        <span class="line boot-4"><b class="chrome">Software</b></span>
+      </h1>
 
-    <p class="deck-sub boot-5">${esc(C.brand.heroSub)}</p>
+      <p class="deck-sub boot-5">${esc(C.brand.heroSub)}</p>
 
-    <div class="deck-cta boot-6">
-      <a class="btn btn-key btn-lg" href="${C.brand.signup.url}" target="_blank" rel="noopener">${esc(C.brand.cta)}</a>
-      <a class="btn btn-line btn-lg" href="#contact">Book a demo</a>
+      <div class="deck-cta boot-6">
+        <a class="btn btn-key btn-lg" href="${C.brand.signup.url}" target="_blank" rel="noopener">${esc(C.brand.cta)}</a>
+        <a class="btn btn-line btn-lg" href="#contact">Book a demo</a>
+      </div>
     </div>
 
     <!-- the product tour, in a bezel with its own readout -->
-    <div class="scope boot-7">
-      <div class="scope-bar">
-        <span class="scope-id">LIVE VIEW</span>
-        <span class="scope-rule" aria-hidden="true"></span>
-        <span class="scope-meta">${esc(C.productTour.url)}</span>
-        <span class="led" aria-hidden="true"></span>
-      </div>
-      <div class="scope-body">
-        ${S.productMock({ badge: false })}
+    <div class="deck-art boot-7">
+      <div class="scope">
+        <div class="scope-bar">
+          <span class="scope-id">LIVE VIEW</span>
+          <span class="scope-rule" aria-hidden="true"></span>
+          <span class="scope-meta">${esc(C.productTour.url)}</span>
+          <span class="led" aria-hidden="true"></span>
+        </div>
+        <div class="scope-body">
+          ${S.productMock({ badge: false })}
+        </div>
       </div>
     </div>
-
   </div>
 </section>`;
 
@@ -394,47 +397,71 @@ const blog = () => module_({
 /* ----------------------------------------------------------------- console -- */
 /* Support, the closing call to action and contact in one console, because by
    this point the reader wants one thing: how to start and who to ask. */
+/* ----------------------------------------------------------------- console -- */
+/* Support, the closing call to action and contact in one console. The layout is
+   the point: a header across the top, two bezels of equal width side by side so
+   their bars and their first lines align, and the map full width underneath. */
 const console_ = () => module_({
   id: 'contact', n: '08', name: C.contact.eyebrow, meta: 'open a channel', mod: 'mod-console',
   body: `
     <div class="console">
-      <div class="console-l">
-        ${head(`Start your <em>${esc(C.pricing.trial)}</em>`, C.support.sub, `
-          <p class="mod-out"><a class="btn btn-key btn-lg" href="${C.brand.signup.url}" target="_blank" rel="noopener">${esc(C.brand.cta)}</a></p>`)}
+      <header class="console-head reveal">
+        <h2>Start your <em>${esc(C.pricing.trial)}</em></h2>
+        <p class="mod-sub">${esc(C.support.sub)}</p>
+        <p class="mod-out">
+          <a class="btn btn-key btn-lg" href="${C.brand.signup.url}" target="_blank" rel="noopener">${esc(C.brand.cta)}</a>
+        </p>
+      </header>
 
-        <ul class="channels reveal">
-          ${C.support.items.map((s, i) => `
-          <li>
-            <span class="ch-no">${n2(i)}</span>
-            <span class="ch-ico">${ico(s.icon, 'ico')}</span>
-            <span class="ch-txt">
-              <strong>${esc(s.title)}</strong>
-              <span>${esc(s.text)}</span>
-              ${s.action ? `<a class="lnk sm" href="${s.action.url}"${s.action.url.startsWith('#') ? '' : ' target="_blank" rel="noopener"'}>${esc(s.action.label)}${icons.arrow}</a>` : ''}
-            </span>
-          </li>`).join('')}
-        </ul>
+      <div class="bezel console-ch reveal">
+        <div class="bezel-bar">
+          <span class="bezel-id">Channels</span>
+          <span class="bezel-rule" aria-hidden="true"></span>
+          <span class="bezel-meta">${C.support.items.length} ways in</span>
+          <span class="led" aria-hidden="true"></span>
+        </div>
+        <div class="bezel-body">
+          <ul class="channels">
+            ${C.support.items.map((s2, i) => `
+            <li>
+              <span class="ch-no">${n2(i)}</span>
+              <span class="ch-ico">${ico(s2.icon, 'ico')}</span>
+              <span class="ch-txt">
+                <strong>${esc(s2.title)}</strong>
+                <span>${esc(s2.text)}</span>
+                ${s2.action ? `<a class="lnk sm" href="${s2.action.url}"${s2.action.url.startsWith('#') ? '' : ' target="_blank" rel="noopener"'}>${esc(s2.action.label)}${icons.arrow}</a>` : ''}
+              </span>
+            </li>`).join('')}
+          </ul>
 
-        ${S.phoneDisclosure()}
+          ${S.phoneDisclosure()}
 
-        <dl class="det reveal">
-          <dt>Email</dt><dd><a href="mailto:${C.brand.email}">${esc(C.brand.email)}</a></dd>
-          <dt>Support</dt><dd><a href="mailto:${C.brand.supportEmail}">${esc(C.brand.supportEmail)}</a></dd>
-          <dt>Office</dt><dd>${esc(C.brand.address.line1)}<br>${esc(C.brand.address.line2)} ${esc(C.brand.address.line3)}</dd>
-        </dl>
-
-        <div class="map reveal">${S.mapsIframe(240)}</div>
+          <dl class="det">
+            <dt>Email</dt><dd><a href="mailto:${C.brand.email}">${esc(C.brand.email)}</a></dd>
+            <dt>Support</dt><dd><a href="mailto:${C.brand.supportEmail}">${esc(C.brand.supportEmail)}</a></dd>
+            <dt>Office</dt><dd>${esc(C.brand.address.line1)}, ${esc(C.brand.address.line2)} ${esc(C.brand.address.line3)}</dd>
+          </dl>
+        </div>
       </div>
 
-      <div class="console-r reveal">
-        <div class="bezel">
-          <div class="bezel-bar">
-            <span class="bezel-id">${esc(C.contact.sub)}</span>
-            <span class="bezel-rule" aria-hidden="true"></span>
-            <span class="led" aria-hidden="true"></span>
-          </div>
-          <div class="bezel-body">${S.contactForm()}</div>
+      <div class="bezel console-form reveal">
+        <div class="bezel-bar">
+          <span class="bezel-id">${esc(C.contact.sub)}</span>
+          <span class="bezel-rule" aria-hidden="true"></span>
+          <span class="bezel-meta">we reply in 10–15 min</span>
+          <span class="led" aria-hidden="true"></span>
         </div>
+        <div class="bezel-body">${S.contactForm()}</div>
+      </div>
+
+      <div class="bezel console-map reveal">
+        <div class="bezel-bar">
+          <span class="bezel-id">Head office</span>
+          <span class="bezel-rule" aria-hidden="true"></span>
+          <span class="bezel-meta">${esc(C.brand.address.oneLine)}</span>
+          <span class="led" aria-hidden="true"></span>
+        </div>
+        <div class="map">${S.mapsIframe(320)}</div>
       </div>
     </div>`
 });

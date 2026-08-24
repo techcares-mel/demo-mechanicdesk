@@ -304,6 +304,18 @@ page is an instrument cluster.
   shorthand — the shorthand resets `background-clip: text` and the word paints as a solid block.
 - Each module's rule lights up left-to-right as that module arrives (`.mod-bar.visible .mod-rule`).
 - The four-number telemetry strip under the hero was removed at the client's request.
+- **The hero uses the main page's layout**: copy left, the live view right, `.86fr / 1.14fr`,
+  vertically centred. Careful with names — `.deck-grid` is the decorative column-lines layer, so the
+  layout wrapper is `.deck-cols`; reusing the name made the whole hero paint at half opacity behind
+  a mask.
+- **Index numbers are set 50% larger than the labels** around them (`1.02rem` against `0.68rem`):
+  the module IDs, the rail stops, the slot numbers, MSG numbers, channel numbers. They are the
+  page's structure, so they read as structure.
+- **The rail is 198px** wide with everything on it scaled to match (label `0.93rem`, ticks 15/30px,
+  needle 10px).
+- **The console is built for alignment**: a header across the top, two bezels of equal width whose
+  bars and first lines line up, and the map full width underneath. The map keeps **its own colours**
+  — a grey-filtered map reads as broken.
 - **Type**: Archivo at 112% width (a wide, engineered display face — the width axis is pinned in the
   Google Fonts request, so `font-stretch` in CSS does nothing extra), Sora 300 for body, JetBrains
   Mono for every label, ID and unit. Numbers are `tabular-nums` so figures line up like a readout.
