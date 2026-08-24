@@ -156,6 +156,7 @@ the site, and all safe to delete along with their `build/lab*.cjs` generators:
 | `/features/` | Five treatments for the Features block. Aurora glass is the one now on the page. |
 | `/integrations/` | Five treatments for the Integrations block. The circuit board is the one now on the page. |
 | `/v2/` | The same page with a 3D layer over it (tilt, depth, parallax) and a toggle to switch it off. |
+| `/v3/` | A different design of the same content — "Flight deck": the page as an instrument cluster. |
 
 ---
 

@@ -31,6 +31,18 @@ fs.writeFileSync(path.join(d3Dir, 'script.js'),
   runtime + fs.readFileSync(path.join(__dirname, 'v5.js'), 'utf8'), 'utf8');
 console.log('v2/index.html  ' + (d3html.length / 1024).toFixed(1) + ' KB  (3D layer)');
 
+/* V3 "Flight deck" — a third design direction at /v3/, its own template and
+   stylesheet, sharing the runtime and the content with the main page. */
+const v3Dir = path.join(root, 'v3');
+fs.mkdirSync(v3Dir, { recursive: true });
+const v3html = require('./v6.cjs')();
+fs.writeFileSync(path.join(v3Dir, 'index.html'), v3html, 'utf8');
+fs.writeFileSync(path.join(v3Dir, 'styles.css'),
+  fs.readFileSync(path.join(__dirname, 'v6.css'), 'utf8') + require('./lab2-board.cjs').css, 'utf8');
+fs.writeFileSync(path.join(v3Dir, 'script.js'),
+  runtime + fs.readFileSync(path.join(__dirname, 'v6.js'), 'utf8'), 'utf8');
+console.log('v3/index.html  ' + (v3html.length / 1024).toFixed(1) + ' KB  (Flight deck)');
+
 /* Comparison page for the features-block treatments (noindex). */
 const featDir = path.join(root, 'features');
 fs.mkdirSync(featDir, { recursive: true });

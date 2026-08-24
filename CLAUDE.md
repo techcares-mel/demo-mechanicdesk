@@ -278,6 +278,42 @@ so a still frame shows the parallax a pointer would produce.
 
 Live: **https://demo-mechanicdesk.vercel.app/v2/**
 
+## /v3/ — "Flight deck", a third direction
+
+The root page is untouched by this. `/v3/` is a different design of the same content, for the
+client to compare: `build/v6.cjs` + `build/v6.css` + `build/v6.js` → `v3/index.html`,
+`v3/styles.css` (v6.css **plus** the board's CSS) and `v3/script.js` (`app.js` **plus** v6.js).
+`content.cjs` is still the only place words live, and the popup, disclosures, product tour and
+pricing switcher are the same runtime the main page uses.
+
+**The idea comes from the subject, not a trend**: a workshop is a room full of instruments, so the
+page is an instrument cluster.
+
+- **Restraint is the effect.** Amber appears only on things that are *live* — the gauge needle, the
+  status lights, the active rail stop, the one primary button, a hovered slot. Everything else is
+  graphite and hairlines. That is what reads as expensive; a second accent would undo it.
+- **Type**: Archivo at 112% width (a wide, engineered display face — the width axis is pinned in the
+  Google Fonts request, so `font-stretch` in CSS does nothing extra), Sora 300 for body, JetBrains
+  Mono for every label, ID and unit. Numbers are `tabular-nums` so figures line up like a readout.
+- **The rail** (`build/v6.js` B) is a gauge down the left edge: `--p` is scroll progress written on
+  `.rail`, so only a transform moves; the eight stops light from the same pass. It appears at
+  ≥1280px, where `body` and the fixed nav both step across by `--rail`.
+- **The boot sequence** (`v6.js` A) is the one orchestrated moment: `<html class="booting">` holds
+  the eyebrow, the three headline lines, the buttons, the live view and the telemetry out of
+  position; removing the class lets staggered CSS transitions run, so all the timing lives in the
+  stylesheet. A `<noscript>` block neutralises it, because a hero that needs JavaScript to be
+  visible is not acceptable.
+- **Modules**: every section is a bezel with an ID, a name, a dashed rule and a status light. The
+  features block is a "module bay" — twelve machined slots, a scan line crossing the hovered one
+  (its travel distance is measured in JS, since the slots are fluid), click opens the shared popup.
+- **The circuit board** is reused as-is from `lab2-board.cjs`, inside a bezel.
+
+Screenshots: `node build/qa8.cjs home:1350` (or `why` / `integrations` / `suitable` / `proven` /
+`features` / `pricing` / `contact` / `foot` / `all`, then `:height:width`). The still frames force
+the booted state, because the boot transitions freeze under Chrome's virtual time.
+
+Live: **https://demo-mechanicdesk.vercel.app/v3/**
+
 ## Redeployment
 
 From the project root (one level up):

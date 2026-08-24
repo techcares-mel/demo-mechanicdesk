@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en" class="v3 booting">
+<head>
+<!--
+  MechanicDesk — V3 "Flight deck". A third design direction: same content, same
+  graphite-and-amber tone, framed as an instrument cluster.
+  Generated from build/v6.cjs + build/v6.css + build/v6.js. The main page at /
+  is a different design and is not affected by anything in here.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workshop Software - Software for Automotive, Mechanical and Electrical Workshops | MechanicDesk · V3</title>
+<meta name="description" content="MechanicDesk is workshop management software for automotive, mechanical and electrical workshops. Bookings, jobs, invoicing, inventory, service reminders and reporting in one place.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="../images/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,500;112,600;112,700&family=Sora:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<!-- The deck boots by removing .booting from <html>. If JavaScript never runs,
+     this makes sure the hero is visible anyway. -->
+<noscript><style>html.booting [class*="boot-"] { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+<div class="demo-watermark" aria-hidden="true">DEMO</div>
+<div id="scrollProgress" aria-hidden="true"></div>
+<button id="backToTop" aria-label="Back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+
+<header class="nav" data-nav>
+  <div class="wrap nav-in">
+    <a class="brand" href="#home">
+      <img src="../images/logo.png" alt="" width="30" height="31">
+      <span>Mechanic<em>Desk</em></span>
+    </a>
+
+    <!-- the status line: mono, tiny, and the only place the word "online"
+         appears. It is what tells you this is an instrument, not a brochure. -->
+    <p class="nav-status" aria-hidden="true">
+      <span class="led"></span><span data-boot-line>SYSTEM READY · 20,000+ WORKSHOPS</span>
+    </p>
+
+    <nav class="nav-links" aria-label="Sections">
+      <a data-navlink href="#integrations">Integrations</a><a data-navlink href="#proven">Testimonials</a><a data-navlink href="#features">Features</a><a data-navlink href="#pricing">Pricing</a><a data-navlink href="#support">Support/Demo</a><a data-navlink href="#contact">Contact Us</a>
+    </nav>
+
+    <div class="nav-acts">
+      <a class="ghost" href="https://www.mechanicdesk.com.au/auto_workshop/login" target="_blank" rel="noopener">Login</a>
+      <a class="btn btn-key" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Start free trial</a>
+      <button class="burger" data-menu-open aria-expanded="false" aria-label="Open menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer" data-menu>
+  <button class="drawer-x" data-menu-close aria-label="Close menu">&times;</button>
+  <a href="#integrations"><span>01</span>Integrations</a><a href="#proven"><span>02</span>Testimonials</a><a href="#features"><span>03</span>Features</a><a href="#pricing"><span>04</span>Pricing</a><a href="#support"><span>05</span>Support/Demo</a><a href="#contact"><span>06</span>Contact Us</a>
+  <a class="btn btn-key" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Start free trial</a>
+</div>
+
+<aside class="rail" aria-hidden="true">
+  <span class="rail-track"></span>
+  <span class="rail-needle" data-needle></span>
+  <ol class="rail-stops">
+    
+    <li class="rail-stop" data-stop="home">
+      <span class="rail-tick"></span>
+      <span class="rail-no">01</span>
+      <span class="rail-label">Deck</span>
+    </li>
+    <li class="rail-stop" data-stop="why">
+      <span class="rail-tick"></span>
+      <span class="rail-no">02</span>
+      <span class="rail-label">Why</span>
+    </li>
+    <li class="rail-stop" data-stop="integrations">
+      <span class="rail-tick"></span>
+      <span class="rail-no">03</span>
+      <span class="rail-label">Links</span>
+    </li>
+    <li class="rail-stop" data-stop="suitable">
+      <span class="rail-tick"></span>
+      <span class="rail-no">04</span>
+      <span class="rail-label">Fits</span>
+    </li>
+    <li class="rail-stop" data-stop="proven">
+      <span class="rail-tick"></span>
+      <span class="rail-no">05</span>
+      <span class="rail-label">Field</span>
+    </li>
+    <li class="rail-stop" data-stop="features">
+      <span class="rail-tick"></span>
+      <span class="rail-no">06</span>
+      <span class="rail-label">Modules</span>
+    </li>
+    <li class="rail-stop" data-stop="pricing">
+      <span class="rail-tick"></span>
+      <span class="rail-no">07</span>
+      <span class="rail-label">Plans</span>
+    </li>
+    <li class="rail-stop" data-stop="contact">
+      <span class="rail-tick"></span>
+      <span class="rail-no">08</span>
+      <span class="rail-label">Contact</span>
+    </li>
+  </ol>
+</aside>
+<main>
+
+<section class="deck" id="home">
+  <!-- corner ticks draw themselves in during the boot sequence -->
+  <i class="tick tl" aria-hidden="true"></i><i class="tick tr" aria-hidden="true"></i>
+  <i class="tick bl" aria-hidden="true"></i><i class="tick br" aria-hidden="true"></i>
+  <i class="deck-grid" aria-hidden="true"></i>
+  <i class="deck-glow" aria-hidden="true"></i>
+
+  <div class="wrap deck-in">
+    <p class="deck-eyebrow boot-1">
+      <span>Workshop Management Software</span>
+      <span class="sep" aria-hidden="true"></span>
+      <span>AU · NZ · UK · Global</span>
+    </p>
+
+    <h1 class="deck-h1">
+      <span class="line boot-2">Workshop</span>
+      <span class="line boot-3"><em>Management</em></span>
+      <span class="line boot-4">Software</span>
+    </h1>
+
+    <p class="deck-sub boot-5">Effectively manage all aspects of your workshop with ease</p>
+
+    <div class="deck-cta boot-6">
+      <a class="btn btn-key btn-lg" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Start Your 14 Days Free Trial</a>
+      <a class="btn btn-line btn-lg" href="#contact">Book a demo</a>
+    </div>
+
+    <!-- the product tour, in a bezel with its own readout -->
+    <div class="scope boot-7">
+      <div class="scope-bar">
+        <span class="scope-id">LIVE VIEW</span>
+        <span class="scope-rule" aria-hidden="true"></span>
+        <span class="scope-meta">mechanicdesk.com.au/auto_workshop/app</span>
+        <span class="led" aria-hidden="true"></span>
+      </div>
+      <div class="scope-body">
+        
+<div class="mock">
+  <figure class="mock-browser" data-tour>
+    <div class="mb-bar">
+      <span class="mb-lights"><i></i><i></i><i></i></span>
+      <span class="mb-url"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5.2" y="10.4" width="13.6" height="9.4" rx="2"/><path d="M8.6 10.4V7.9a3.4 3.4 0 0 1 6.8 0v2.5"/></svg><span>mechanicdesk.com.au/auto_workshop/app</span></span>
+      <span class="mb-tab" data-tour-tab>Diary</span>
+    </div>
+    <div class="mb-screen">
+      
+      <img class="mb-slide is-active" src="../images/app/diary.png"
+           alt="MechanicDesk — Booking diary with drag and drop scheduling" width="1400" height="743"
+           data-caption="Booking diary with drag and drop scheduling" data-tab="Diary"
+           loading="eager" fetchpriority="high">
+      <img class="mb-slide" src="../images/app/app-dashboard.png"
+           alt="MechanicDesk — Current jobs, unpaid invoices and jobs on hold" width="1400" height="743"
+           data-caption="Current jobs, unpaid invoices and jobs on hold" data-tab="Jobs"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/app-jobcard.png"
+           alt="MechanicDesk — Job card and invoice side by side" width="1400" height="743"
+           data-caption="Job card and invoice side by side" data-tab="Job #10"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/app-checksheet.png"
+           alt="MechanicDesk — Check sheet, photos and clock on" width="1400" height="743"
+           data-caption="Check sheet, photos and clock on" data-tab="Job #10"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/app-timesheet.png"
+           alt="MechanicDesk — Timesheets recorded against the job" width="1400" height="743"
+           data-caption="Timesheets recorded against the job" data-tab="Timesheets"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/app-invoice.png"
+           alt="MechanicDesk — Invoice lines, discounts and GST" width="1400" height="743"
+           data-caption="Invoice lines, discounts and GST" data-tab="Invoice"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/app-taxinvoice.png"
+           alt="MechanicDesk — Tax invoice ready to print or email" width="1400" height="743"
+           data-caption="Tax invoice ready to print or email" data-tab="Print"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/app-jobcard-print.png"
+           alt="MechanicDesk — Printed job card with barcode" width="1400" height="743"
+           data-caption="Printed job card with barcode" data-tab="Print"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/inventory.png"
+           alt="MechanicDesk — Stock control with reorder alerts" width="1400" height="743"
+           data-caption="Stock control with reorder alerts" data-tab="Inventory"
+           loading="lazy">
+      <img class="mb-slide" src="../images/app/reports.png"
+           alt="MechanicDesk — Reports on sales, hours and stock" width="1400" height="743"
+           data-caption="Reports on sales, hours and stock" data-tab="Reports"
+           loading="lazy">
+      <span class="mb-glare" aria-hidden="true"></span>
+    </div>
+    <figcaption class="mb-player">
+      <button class="mb-play" data-tour-toggle aria-label="Pause the product tour">
+        <span class="is-pause"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><rect x="7" y="5" width="3.4" height="14" rx="1.2"/><rect x="13.6" y="5" width="3.4" height="14" rx="1.2"/></svg></span><span class="is-play"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8.2 5.4 19 12 8.2 18.6Z"/></svg></span>
+      </button>
+      <span class="mb-track"><i data-tour-bar></i></span>
+      <span class="mb-cap" data-tour-caption>Booking diary with drag and drop scheduling</span>
+      <span class="mb-count"><b data-tour-index>01</b>/10</span>
+    </figcaption>
+  </figure>
+  
+  <div class="mock-phone" data-phone>
+    <div class="mp-body">
+      <span class="mp-btn mp-silent"></span><span class="mp-btn mp-up"></span>
+      <span class="mp-btn mp-down"></span><span class="mp-btn mp-power"></span>
+      <div class="mp-screen">
+        <img class="mp-slide is-active" src="../images/app-mobile/m1.png" alt="MechanicDesk Mobile app screen" loading="lazy"><img class="mp-slide" src="../images/app-mobile/m2.png" alt="MechanicDesk Mobile app screen" loading="lazy"><img class="mp-slide" src="../images/app-mobile/m3.png" alt="MechanicDesk Mobile app screen" loading="lazy">
+        <span class="mp-island"></span>
+      </div>
+    </div>
+  </div>
+  
+</div>
+      </div>
+    </div>
+
+    <!-- telemetry: the four real numbers, as a readout -->
+    <dl class="tele boot-8">
+      
+      <div class="tele-cell">
+        <dt>Mechanics on MechanicDesk</dt>
+        <dd><b data-target="20000" data-suffix="+">0+</b></dd>
+      </div>
+      <div class="tele-cell">
+        <dt>Days free trial</dt>
+        <dd><b data-target="14" data-suffix="">0</b></dd>
+      </div>
+      <div class="tele-cell">
+        <dt>Partner integrations</dt>
+        <dd><b data-target="18" data-suffix="">0</b></dd>
+      </div>
+      <div class="tele-cell">
+        <dt>Countries supported</dt>
+        <dd><b data-target="4" data-suffix="">0</b></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<section class="mod" id="why">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">01</span>
+      <span class="mod-name">Why MechanicDesk</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">three reasons</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>Intuitive. <em>Comprehensive.</em> Too&nbsp;Easy.</h2>
+  
+  
+</div>
+    <div class="reasons">
+      
+      <article class="reason reveal d1">
+        <span class="reason-no">01</span>
+        <div class="reason-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H7a4.5 4.5 0 0 1-.9-8.9A6 6 0 0 1 17.7 11a4 4 0 0 1-.2 8Z"/></svg></span></div>
+        <h3>Truly hassle-free</h3>
+        <p>No installation or manual data backup required. We take care of this so you can focus on your workshop, accessing it anywhere, anytime, on any device.</p>
+      </article>
+      <article class="reason reveal d2">
+        <span class="reason-no">02</span>
+        <div class="reason-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8.5" width="19" height="11" rx="2"/><path d="M9 8.5V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5v2"/><path d="M2.5 13h19"/><path d="M10 13v2.5h4V13"/></svg></span></div>
+        <h3>Everything you need</h3>
+        <p>We have it all - from bookings, job management, inventory management, custom invoices to vehicle history and service reminders via email or SMS.</p>
+      </article>
+      <article class="reason reveal d3">
+        <span class="reason-no">03</span>
+        <div class="reason-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z"/></svg></span></div>
+        <h3>Simple and easy to use</h3>
+        <p>Intelligent auto-suggest, auto-complete and automatic address verification all mean less typing and a smoother workflow.</p>
+      </article>
+    </div>
+
+    <!-- the four things the live site puts in its trust strip, as a readout -->
+    <ul class="strip reveal">
+      <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>No installation required</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>Automatic data backup</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>Any device, anywhere</li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg>14 days free trial</li>
+    </ul>
+  </div>
+</section>
+
+<section class="mod" id="integrations">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">02</span>
+      <span class="mod-name">Integrations</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">18 linked</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>Powerful. Streamlined. Connected.</h2>
+  <p class="mod-sub">Integrate with various software systems to streamline your workshop's workflows and processes</p>
+  <p class="mod-out"><a class="lnk" href="https://www.mechanicdesk.com.au/integrations.html" target="_blank" rel="noopener">More details<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div>
+
+    <div class="bezel reveal">
+      <div class="bezel-bar">
+        <span class="bezel-id">PARTNER NETWORK</span>
+        <span class="bezel-rule" aria-hidden="true"></span>
+        <span class="bezel-meta">tap a mark to read it</span>
+        <span class="led" aria-hidden="true"></span>
+      </div>
+      
+<div class="brd-scroll">
+<div class="brd" data-scope="brd">
+  <i class="brd-dots" aria-hidden="true"></i>
+  <svg class="brd-wires" viewBox="0 0 1200 660" aria-hidden="true">
+    <path class="chord" data-chord="accounting" d="M 460 150 Q 600.0 175.2 740 150"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="accounting" d="M 740 150 Q 802.1 227.7 930 272"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="eftpos-terminals" d="M 930 388 Q 802.1 432.3 740 510"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="vehicle-look-up" d="M 460 510 Q 397.9 432.3 270 388"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="vehicle-look-up" d="M 270 388 Q 316.2 330.0 270 272"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 870 56 Q 944.0 177.8 1130 250"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 1130 250 Q 1055.8 330.0 1130 410"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 1130 410 Q 944.0 482.2 870 604"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 870 604 Q 716.1 565.6 600 604"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 600 604 Q 483.9 565.6 330 604"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 330 604 Q 256.0 482.2 70 410"
+      vector-effect="non-scaling-stroke" fill="none"></path><path class="chord" data-chord="supplier" d="M 70 410 Q 144.2 330.0 70 250"
+      vector-effect="non-scaling-stroke" fill="none"></path>
+
+    <path class="bus" d="M 210 56 H 990 A 140 140 0 0 1 1130 196 V 464 A 140 140 0 0 1 990 604 H 210 A 140 140 0 0 1 70 464 V 196 A 140 140 0 0 1 210 56 Z" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="bus" d="M 360 150 H 840 A 90 90 0 0 1 930 240 V 420 A 90 90 0 0 1 840 510 H 360 A 90 90 0 0 1 270 420 V 240 A 90 90 0 0 1 360 150 Z" vector-effect="non-scaling-stroke" fill="none"></path>
+
+    <path class="spoke" d="M 600 330 V 150" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-spoke" d="M 600 330 V 150" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:180px;--t:2.4s;--lag:0.00s"></path><path class="spoke" d="M 600 330 V 510" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-spoke" d="M 600 330 V 510" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:180px;--t:2.4s;--lag:0.60s"></path><path class="spoke" d="M 600 330 H 270" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-spoke" d="M 600 330 H 270" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:330px;--t:2.4s;--lag:1.20s"></path><path class="spoke" d="M 600 330 H 930" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-spoke" d="M 600 330 H 930" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:330px;--t:2.4s;--lag:1.80s"></path>
+
+    <path class="via" d="M 296.4 176.4 L 151.0 176.4 Q 111.0 176.4 111.0 136.4 L 111.0 97.0" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-via" d="M 296.4 176.4 L 151.0 176.4 Q 111.0 176.4 111.0 136.4 L 111.0 97.0" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:248px;--t:3.4s;--lag:1.20s"></path><path class="via" d="M 903.6 176.4 L 1049.0 176.4 Q 1089.0 176.4 1089.0 136.4 L 1089.0 97.0" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-via" d="M 903.6 176.4 L 1049.0 176.4 Q 1089.0 176.4 1089.0 136.4 L 1089.0 97.0" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:248px;--t:3.4s;--lag:2.05s"></path><path class="via" d="M 903.6 483.6 L 1049.0 483.6 Q 1089.0 483.6 1089.0 523.6 L 1089.0 563.0" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-via" d="M 903.6 483.6 L 1049.0 483.6 Q 1089.0 483.6 1089.0 523.6 L 1089.0 563.0" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:248px;--t:3.4s;--lag:2.90s"></path><path class="via" d="M 296.4 483.6 L 151.0 483.6 Q 111.0 483.6 111.0 523.6 L 111.0 563.0" vector-effect="non-scaling-stroke" fill="none"></path>
+    <path class="pulse p-via" d="M 296.4 483.6 L 151.0 483.6 Q 111.0 483.6 111.0 523.6 L 111.0 563.0" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:248px;--t:3.4s;--lag:3.75s"></path>
+
+    <path class="pulse p-in" d="M 360 150 H 840 A 90 90 0 0 1 930 240 V 420 A 90 90 0 0 1 840 510 H 360 A 90 90 0 0 1 270 420 V 240 A 90 90 0 0 1 360 150 Z" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:1885px;--t:9s"></path>
+    <path class="pulse p-in" d="M 360 150 H 840 A 90 90 0 0 1 930 240 V 420 A 90 90 0 0 1 840 510 H 360 A 90 90 0 0 1 270 420 V 240 A 90 90 0 0 1 360 150 Z" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:1885px;--t:9s;--lag:4.5s"></path>
+    <path class="pulse p-out" d="M 210 56 H 990 A 140 140 0 0 1 1130 196 V 464 A 140 140 0 0 1 990 604 H 210 A 140 140 0 0 1 70 464 V 196 A 140 140 0 0 1 210 56 Z" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:2976px;--t:14s"></path>
+    <path class="pulse p-out" d="M 210 56 H 990 A 140 140 0 0 1 1130 196 V 464 A 140 140 0 0 1 990 604 H 210 A 140 140 0 0 1 70 464 V 196 A 140 140 0 0 1 210 56 Z" vector-effect="non-scaling-stroke" fill="none"
+      style="--len:2976px;--t:14s;--lag:7s"></path>
+  </svg>
+
+  <div class="brd-hub">
+    <i class="brd-halo" aria-hidden="true"></i>
+    <i class="brd-ping" aria-hidden="true"></i>
+    <div class="brd-chip"><img src="../images/logo.png" alt="MechanicDesk" width="36" height="37"></div>
+    <span class="brd-chip-label">MechanicDesk</span>
+  </div>
+
+  
+    <button class="brd-node node in" data-brd-node="intuit-quickbooks" data-cat="accounting"
+            aria-label="Intuit QuickBooks"
+            style="left:38.333%;top:22.727%;--lag:0.00s">
+      <img class="mk" src="../images/logos-alpha/quickbooks.png"
+       alt="" loading="lazy" style="--h:33px;--hn:33">
+    </button>
+    <button class="brd-node node in" data-brd-node="myob" data-cat="accounting"
+            aria-label="MYOB"
+            style="left:61.667%;top:22.727%;--lag:0.50s">
+      <img class="mk lift" src="../images/logos-alpha/myob.png"
+       alt="" loading="lazy" style="--h:31px;--hn:31">
+    </button>
+    <button class="brd-node node in" data-brd-node="xero" data-cat="accounting"
+            aria-label="Xero"
+            style="left:77.500%;top:41.212%;--lag:1.00s">
+      <img class="mk" src="../images/logos-alpha/xero.png"
+       alt="" loading="lazy" style="--h:49px;--hn:49">
+    </button>
+    <button class="brd-node node in" data-brd-node="till-payments" data-cat="eftpos-terminals"
+            aria-label="Till Payments"
+            style="left:77.500%;top:58.788%;--lag:1.50s">
+      <img class="mk" src="../images/logos-alpha/till_payments.png"
+       alt="" loading="lazy" style="--h:33px;--hn:33">
+    </button>
+    <button class="brd-node node in" data-brd-node="windcave" data-cat="eftpos-terminals"
+            aria-label="Windcave"
+            style="left:61.667%;top:77.273%;--lag:2.00s">
+      <img class="mk lift" src="../images/logos-alpha/windcave.png"
+       alt="" loading="lazy" style="--h:28px;--hn:28">
+    </button>
+    <button class="brd-node node in" data-brd-node="australian-vehicle-lookup" data-cat="vehicle-look-up"
+            aria-label="Australian Vehicle Lookup"
+            style="left:38.333%;top:77.273%;--lag:2.50s">
+      <img class="mk lift" src="../images/logos-alpha/vehicle_visual.png"
+       alt="" loading="lazy" style="--h:42px;--hn:42">
+    </button>
+    <button class="brd-node node in" data-brd-node="carjam-new-zealand-only" data-cat="vehicle-look-up"
+            aria-label="CarJam (New Zealand only)"
+            style="left:22.500%;top:58.788%;--lag:3.00s">
+      <img class="mk" src="../images/logos-alpha/carjam.png"
+       alt="" loading="lazy" style="--h:49px;--hn:49">
+    </button>
+    <button class="brd-node node in" data-brd-node="mycarcheck-united-kingdom-only" data-cat="vehicle-look-up"
+            aria-label="MyCarCheck (United Kingdom only)"
+            style="left:22.500%;top:41.212%;--lag:3.50s">
+      <img class="mk" src="../images/logos-alpha/mycarchecklogo.png"
+       alt="" loading="lazy" style="--h:54px;--hn:54">
+    </button>
+  
+    <button class="brd-node node out" data-brd-node="mailchimp" data-cat="mass-mail-crm"
+            aria-label="MailChimp"
+            style="left:27.500%;top:8.485%;--lag:0.00s">
+      <img class="mk lift" src="../images/logos-alpha/mailchimplogo.png"
+       alt="" loading="lazy" style="--h:35px;--hn:35">
+    </button>
+    <button class="brd-node node out" data-brd-node="ams-rewards-australia-only" data-cat="loyalty-programmes"
+            aria-label="AMS Rewards (Australia only)"
+            style="left:50.000%;top:8.485%;--lag:0.50s">
+      <img class="mk" src="../images/logos-alpha/ams_rewards.png"
+       alt="" loading="lazy" style="--h:25px;--hn:25">
+    </button>
+    <button class="brd-node node out" data-brd-node="repco-navigator-pro" data-cat="supplier"
+            aria-label="Repco Navigator Pro"
+            style="left:72.500%;top:8.485%;--lag:1.00s">
+      <img class="mk lift" src="../images/logos-alpha/repco_navigator.png"
+       alt="" loading="lazy" style="--h:27px;--hn:27">
+    </button>
+    <button class="brd-node node out" data-brd-node="bnt" data-cat="supplier"
+            aria-label="BNT"
+            style="left:94.167%;top:37.879%;--lag:1.50s">
+      <img class="mk lift" src="../images/logos-alpha/bnt.png"
+       alt="" loading="lazy" style="--h:33px;--hn:33">
+    </button>
+    <button class="brd-node node out" data-brd-node="hsy" data-cat="supplier"
+            aria-label="hsy"
+            style="left:94.167%;top:62.121%;--lag:2.00s">
+      <img class="mk lift" src="../images/logos-alpha/hsy.png"
+       alt="" loading="lazy" style="--h:31px;--hn:31">
+    </button>
+    <button class="brd-node node out" data-brd-node="autolign" data-cat="supplier"
+            aria-label="Autolign"
+            style="left:72.500%;top:91.515%;--lag:2.50s">
+      <img class="mk lift" src="../images/logos-alpha/autolign.png"
+       alt="" loading="lazy" style="--h:22px;--hn:22">
+    </button>
+    <button class="brd-node node out" data-brd-node="napa-prolink" data-cat="supplier"
+            aria-label="NAPA PROLink"
+            style="left:50.000%;top:91.515%;--lag:3.00s">
+      <img class="mk" src="../images/logos-alpha/napa_pro_link.png"
+       alt="" loading="lazy" style="--h:23px;--hn:23">
+    </button>
+    <button class="brd-node node out" data-brd-node="burson-ezyparts" data-cat="supplier"
+            aria-label="Burson EzyParts"
+            style="left:27.500%;top:91.515%;--lag:3.50s">
+      <img class="mk lift" src="../images/logos-alpha/ezyparts_logo2025.png"
+       alt="" loading="lazy" style="--h:34px;--hn:34">
+    </button>
+    <button class="brd-node node out" data-brd-node="autopro" data-cat="supplier"
+            aria-label="Autopro"
+            style="left:5.833%;top:62.121%;--lag:4.00s">
+      <img class="mk" src="../images/logos-alpha/autopro_logo.png"
+       alt="" loading="lazy" style="--h:28px;--hn:28">
+    </button>
+    <button class="brd-node node out" data-brd-node="auto-one" data-cat="supplier"
+            aria-label="Auto One"
+            style="left:5.833%;top:37.879%;--lag:4.50s">
+      <img class="mk" src="../images/logos-alpha/autoone.png"
+       alt="" loading="lazy" style="--h:29px;--hn:29">
+    </button>
+</div>
+</div>
+    </div>
+
+    <div class="pop-well" hidden>
+      
+      <div data-pop-body="int-xero"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/xero.png" alt="" loading="lazy"
+        style="--h:44px">
+          <span><span class="mono-label">Accounting</span><h3>Xero</h3></span>
+        </div>
+        <p>Xero is an easy-to-use but powerful online accounting software designed for the cloud. Xero accounting software is made for small business owners.</p><p>MechanicDesk currently integrates with all versions of Xero.</p>
+        <a class="lnk sm" href="http://www.xero.com/" target="_blank" rel="noopener">www.xero.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-myob"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/myob.png" alt="" loading="lazy"
+        style="--h:28px">
+          <span><span class="mono-label">Accounting</span><h3>MYOB</h3></span>
+        </div>
+        <p>MYOB, Mind Your Own Business, is an Australian multinational corporation that provides tax, accounting and other services to small and medium businesses.</p><p>MechanicDesk currently integrates with MYOB AccountRight and MYOB Essentials (online versions only).</p>
+        <a class="lnk sm" href="http://www.myob.com/" target="_blank" rel="noopener">www.myob.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-intuit-quickbooks"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/quickbooks.png" alt="" loading="lazy"
+        style="--h:24px">
+          <span><span class="mono-label">Accounting</span><h3>Intuit QuickBooks</h3></span>
+        </div>
+        <p>QuickBooks is Intuit's set of software solutions designed to manage payroll, inventory, sales and other needs of a small business. The software features marketing tools, merchant services, product and supplies, as well as training solutions.</p><p>MechanicDesk currently integrates with QuickBooks Online.</p>
+        <a class="lnk sm" href="http://www.intuit.com.au/" target="_blank" rel="noopener">www.intuit.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-repco-navigator-pro"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/repco_navigator.png" alt="" loading="lazy"
+        style="--h:20px">
+          <span><span class="mono-label">Supplier</span><h3>Repco Navigator Pro</h3></span>
+        </div>
+        <p>Navigator Pro is Repco's Online parts ordering solution available for trade account customers so you can order parts without picking up the phone, saving you time, effort and money in your workshop.</p>
+        <a class="lnk sm" href="http://www.repcotrade.com.au" target="_blank" rel="noopener">www.repcotrade.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-burson-ezyparts"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/ezyparts_logo2025.png" alt="" loading="lazy"
+        style="--h:24px">
+          <span><span class="mono-label">Supplier</span><h3>Burson EzyParts</h3></span>
+        </div>
+        <p>Burson EzyParts is Burson's Online parts ordering solution available for trade account customers so you can order parts without picking up the phone, saving you time, effort and money in your workshop.</p>
+        <a class="lnk sm" href="http://www.burson.com.au/trade-centre/ezyparts/" target="_blank" rel="noopener">www.burson.com.au/trade-centre/ezyparts<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-napa-prolink"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/napa_pro_link.png" alt="" loading="lazy"
+        style="--h:21px">
+          <span><span class="mono-label">Supplier</span><h3>NAPA PROLink</h3></span>
+        </div>
+        <p>NAPA PROLink streamlines the parts buying process by providing a real-time, online connection between a local shop's computer system and the nearest NAPA Auto Parts store that dispatches the parts</p>
+        <a class="lnk sm" href="https://www.napaparts.com.au/" target="_blank" rel="noopener">www.napaparts.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-autopro"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/autopro_logo.png" alt="" loading="lazy"
+        style="--h:25px">
+          <span><span class="mono-label">Supplier</span><h3>Autopro</h3></span>
+        </div>
+        <p>Autopro is the online ordering platform for Autopro Parts Professionals, Australia's oldest and largest independent automotive aftermarket parts and accessories retailer.</p>
+        <a class="lnk sm" href="http://www.autopro.com.au/" target="_blank" rel="noopener">www.autopro.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-hsy"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/hsy.png" alt="" loading="lazy"
+        style="--h:28px">
+          <span><span class="mono-label">Supplier</span><h3>hsy</h3></span>
+        </div>
+        <p>hsy Autoparts is Australia's leading distributor and supplier to the independent repairers. Specialising in BMW, Mercedes, Audi, VW, Mini, Porsche, Volvo, Skoda, Peugeot, Citroen and Renault. Providing you with a comprehensive range of new OEM and quality aftermarket spare parts for both passenger vehicles and light commercials.</p>
+        <a class="lnk sm" href="http://www.hsy.com.au/" target="_blank" rel="noopener">www.hsy.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-auto-one"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/autoone.png" alt="" loading="lazy"
+        style="--h:25px">
+          <span><span class="mono-label">Supplier</span><h3>Auto One</h3></span>
+        </div>
+        <p>Established in 1988, Auto One is an independently owned Australian business whose shareholders are the members who serve and give you professional advice at your local Auto One store.</p>
+        <a class="lnk sm" href="http://www.autoone.com.au/" target="_blank" rel="noopener">www.autoone.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-bnt"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/bnt.png" alt="" loading="lazy"
+        style="--h:29px">
+          <span><span class="mono-label">Supplier</span><h3>BNT</h3></span>
+        </div>
+        <p>BNT Automotive has been a supplier to the New Zealand aftermarket for over 60 years. BNT prides itself on offering superior service to our customers and offering an extensive range of products that service New Zealands diverse automotive marketplace. With 60 branches BNT's geographic reach has stores located throughout all major centres over the country.</p>
+        <a class="lnk sm" href="https://bntnz.co.nz/" target="_blank" rel="noopener">bntnz.co.nz<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-autolign"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/autolign.png" alt="" loading="lazy"
+        style="--h:20px">
+          <span><span class="mono-label">Supplier</span><h3>Autolign</h3></span>
+        </div>
+        <p>Autolign is New Zealand's largest Specialised Steering and Suspension Importers and Distributors. The company specialises in the supply of suspension components to wholesalers, resellers and the trade with its supply of leading brands from around the world.</p>
+        <a class="lnk sm" href="https://www.autolign.co.nz/" target="_blank" rel="noopener">www.autolign.co.nz<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-mailchimp"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/mailchimplogo.png" alt="" loading="lazy"
+        style="--h:24px">
+          <span><span class="mono-label">Mass Mail/CRM</span><h3>MailChimp</h3></span>
+        </div>
+        <p>MailChimp is a marketing automation platform and an email marketing service. MailChimp's operator is the American based company Rocket Science Group.</p>
+        <a class="lnk sm" href="http://www.mailchimp.com/" target="_blank" rel="noopener">www.mailchimp.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-windcave"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/windcave.png" alt="" loading="lazy"
+        style="--h:20px">
+          <span><span class="mono-label">EFTPOS Terminals</span><h3>Windcave</h3></span>
+        </div>
+        <p>Windcave (previously Payment Express) is a high growth, innovative global leader in payment technology. Providing PCI DSS compliant payment solutions, we're certified with all major card schemes. A global end to end platform for ecommerce, retail and unattended that facilitates payments seamlessly in real time.</p><p>MechanicDesk currently integrates with Windcave EFTPOS terminals to streamline EFTPOS payment processes in MechanicDesk.</p>
+        <a class="lnk sm" href="http://www.windcave.com/" target="_blank" rel="noopener">www.windcave.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-till-payments"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/till_payments.png" alt="" loading="lazy"
+        style="--h:29px">
+          <span><span class="mono-label">EFTPOS Terminals</span><h3>Till Payments</h3></span>
+        </div>
+        <p>Till Payments is an integrated payment solutions provider committed to accelerating growth for businesses around the world.</p><p>MechanicDesk currently integrates with Till Payments EFTPOS terminals to streamline EFTPOS payment processes in MechanicDesk.</p>
+        <a class="lnk sm" href="https://tillpayments.com/" target="_blank" rel="noopener">tillpayments.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-australian-vehicle-lookup"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/vehicle_visual.png" alt="" loading="lazy"
+        style="--h:26px">
+          <span><span class="mono-label">Vehicle Look Up</span><h3>Australian Vehicle Lookup</h3></span>
+        </div>
+        <p>This is a vehicle information lookup service for vehicles based in Australia.</p>
+        
+      </div></div>
+      <div data-pop-body="int-carjam-new-zealand-only"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/carjam.png" alt="" loading="lazy"
+        style="--h:44px">
+          <span><span class="mono-label">Vehicle Look Up</span><h3>CarJam (New Zealand only)</h3></span>
+        </div>
+        <p>CarJam is a New Zealand based online service offering automotive information and history look up services.</p>
+        <a class="lnk sm" href="http://www.carjam.co.nz/" target="_blank" rel="noopener">www.carjam.co.nz<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-mycarcheck-united-kingdom-only"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/mycarchecklogo.png" alt="" loading="lazy"
+        style="--h:48px">
+          <span><span class="mono-label">Vehicle Look Up</span><h3>MyCarCheck (United Kingdom only)</h3></span>
+        </div>
+        <p>My Car Check is a British vehicle history checking company owned by CDL Vehicle Information Services.</p>
+        <a class="lnk sm" href="http://www.mycarcheck.com/" target="_blank" rel="noopener">www.mycarcheck.com<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="int-ams-rewards-australia-only"><div class="pop-int">
+        <div class="pop-head">
+          <img class="pop-mark" src="../images/logos-alpha/ams_rewards.png" alt="" loading="lazy"
+        style="--h:20px">
+          <span><span class="mono-label">Loyalty Programmes</span><h3>AMS Rewards (Australia only)</h3></span>
+        </div>
+        <p>AMS Rewards, part of Australian Motoring Services (AMS), is the driving force behind the Australian Auto Club's Show Your Card and Save Program, which offers Members high value discounts at a range of retailers and on goods and services throughout Australia.</p>
+        <a class="lnk sm" href="https://amsrewards.com.au/" target="_blank" rel="noopener">amsrewards.com.au<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="mod" id="suitable">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">03</span>
+      <span class="mod-name">Suitable for</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">5 types</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>Suitable for any service centers</h2>
+  
+  
+</div>
+    <div class="film reveal">
+      
+      <figure class="frame">
+        <span class="frame-no">01</span>
+        <img src="../images/pexels/type-auto.jpg" alt="Auto Service Centre" loading="lazy" width="400" height="300">
+        <figcaption>Auto Service Centre</figcaption>
+      </figure>
+      <figure class="frame">
+        <span class="frame-no">02</span>
+        <img src="../images/pexels/type-marine.jpg" alt="Marine Service Centre" loading="lazy" width="400" height="300">
+        <figcaption>Marine Service Centre</figcaption>
+      </figure>
+      <figure class="frame">
+        <span class="frame-no">03</span>
+        <img src="../images/pexels/type-machinery.jpg" alt="Heavy Machinery &amp; Equipments" loading="lazy" width="400" height="300">
+        <figcaption>Heavy Machinery &amp; Equipments</figcaption>
+      </figure>
+      <figure class="frame">
+        <span class="frame-no">04</span>
+        <img src="../images/pexels/type-bikes.jpg" alt="Bikes &amp; Bicycle Service Centre" loading="lazy" width="400" height="300">
+        <figcaption>Bikes &amp; Bicycle Service Centre</figcaption>
+      </figure>
+      <figure class="frame">
+        <span class="frame-no">05</span>
+        <img src="../images/pexels/type-tyres.jpg" alt="Tyres &amp; Spare Parts Shop" loading="lazy" width="400" height="300">
+        <figcaption>Tyres &amp; Spare Parts Shop</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="mod" id="proven">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">04</span>
+      <span class="mod-name">Testimonials</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">from the field</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>Proven. Loved. Relied on.</h2>
+  <p class="mod-sub">More than 20,000+ Mechanics love MechanicDesk</p>
+  
+</div>
+    <div class="tx-grid">
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 01</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>The team at MechanicDesk are always improving the software and the integration with Xero makes invoicing and accounting a breeze at work or at home... A must for any vehicle based workshop</blockquote>
+      <figcaption><strong>Brett Horsfall</strong><span>Mag &amp; Turbo Tyre &amp; Service Centre · New Zealand</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 02</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>I constantly invoice and receipt people through-out the day, I need to be able to do this fast and efficiently and I can with MechanicDesk</blockquote>
+      <figcaption><strong>Suzi McClure</strong><span>McClure's Vehicle Maintenance · NSW, Australia</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 03</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>Absolutely brilliant. This best describes MechanicDesk. Not just the software, but most importantly the back up service that comes with it. The team are innovative, responsive, and it's a pleasure to receive such great service...</blockquote>
+      <figcaption><strong>Simon Price</strong><span>Airlie Auto Electrics &amp; Mechanical · QLD, Australia</span></figcaption>
+    </figure></div>
+    
+<div class="disc more reveal" data-acc>
+  <button class="disc-head" data-acc-toggle aria-expanded="false">
+    
+    <span class="disc-label">Read more reviews</span>
+    
+    <span class="disc-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+  </button>
+  <div class="disc-body"><div class="tx-grid">
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 04</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>We trialled several different software packages before deciding on MechanicDesk, and are very happy with our choice. The design is clear and easy to use, which has meant our staff have all learned the program quickly...</blockquote>
+      <figcaption><strong>James</strong><span>Gardiners Garage · VIC, Australia</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 05</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>Since joining MechanicDesk we are operating more efficiently and productively. Linking MechanicDesk with Xero is the icing on the cake as it has cut our data entry in half. I highly recommended MechanicDesk to anyone looking for mechanical software, nothing comes close to the excellent service, support and functionality from them.</blockquote>
+      <figcaption><strong>Melissa Sultana</strong><span>Better Truck Repairs P/L · NSW, Australia</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 06</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>We have had experience using 3 Workshop management Add-Ons and after trying and testing MechanicDesk for us it ticks all the boxes. MechanicDesk integrates strongly with Xero and integrates really well with inventory. From an end user point of view the automotive industry has been crying out for a simple to use yet powerful system.</blockquote>
+      <figcaption><strong>Todd Dunick</strong><span>Worksmarter · New Zealand</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 07</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>For me MechanicDesk has made life much easier, from being able to check and take bookings from my smart phone, easily able to customise invoice and job descriptions. I particular like how quickly I can make an invoice and assign parts where appropriate. MechanicDesk has been well thought and was very easy to make the change without having to take weeks to learn a new system.</blockquote>
+      <figcaption><strong>Nigel</strong><span>Aussie Tune Dandenong · VIC, Australia</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 08</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>I searched everywhere for a system that would suit our workshop needs and couldn't find one to suit, until I discovered MechanicDesk. It is perfect for our booking diary and the team even customised it to suit our individual needs. Any change we required to our account was implemented almost immediately and was never too much trouble for the team at MechaniDesk to do it for us.</blockquote>
+      <figcaption><strong>Adam Hurle</strong><span>Peter Hood Holden · SA, Australia</span></figcaption>
+    </figure>
+    <figure class="tx reveal">
+      <header><span class="tx-id">MSG 09</span><span class="tx-rule" aria-hidden="true"></span></header>
+      <blockquote>We needed to switch to Mechanic Desk in a hurry as our other system could not keep pace with Xero. Vinh and the team were great. I had a lot of questions and wanted a specific invoice format. They were able to address my questions with patience and design the invoice template we required. Together we looked at how we could best bring the data over from our current system and this was done very quickly</blockquote>
+      <figcaption><strong>Monique Clow</strong><span>Truck Alignment Services · Christchurch, New Zealand</span></figcaption>
+    </figure></div>
+        <p class="mod-out"><a class="lnk sm" href="https://www.mechanicdesk.com.au/testimonials.html" target="_blank" rel="noopener">More happy customers<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p></div>
+</div>
+  </div>
+</section>
+
+<section class="mod" id="features">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">05</span>
+      <span class="mod-name">Features</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">12 modules</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>Everything you need in one place</h2>
+  
+  
+</div>
+    <div class="bay reveal">
+      
+      <button class="slot" data-pop="feat-booking-diary"
+              aria-haspopup="dialog" aria-label="Booking Diary — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">01</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+        <span class="slot-name">Booking Diary</span>
+      </button>
+      <button class="slot" data-pop="feat-invoicing-quoting"
+              aria-haspopup="dialog" aria-label="Invoicing/Quoting — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">02</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+        <span class="slot-name">Invoicing/Quoting</span>
+      </button>
+      <button class="slot" data-pop="feat-stock-control"
+              aria-haspopup="dialog" aria-label="Stock Control — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">03</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+        <span class="slot-name">Stock Control</span>
+      </button>
+      <button class="slot" data-pop="feat-service-scheduling"
+              aria-haspopup="dialog" aria-label="Service Scheduling — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">04</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+        <span class="slot-name">Service Scheduling</span>
+      </button>
+      <button class="slot" data-pop="feat-reporting"
+              aria-haspopup="dialog" aria-label="Reporting — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">05</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+        <span class="slot-name">Reporting</span>
+      </button>
+      <button class="slot" data-pop="feat-multisite-management"
+              aria-haspopup="dialog" aria-label="Multisite Management — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">06</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+        <span class="slot-name">Multisite Management</span>
+      </button>
+      <button class="slot" data-pop="feat-job-management"
+              aria-haspopup="dialog" aria-label="Job Management — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">07</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+        <span class="slot-name">Job Management</span>
+      </button>
+      <button class="slot" data-pop="feat-customer-and-vehicle-management"
+              aria-haspopup="dialog" aria-label="Customer and Vehicle Management — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">08</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+        <span class="slot-name">Customer and Vehicle Management</span>
+      </button>
+      <button class="slot" data-pop="feat-supplier-management"
+              aria-haspopup="dialog" aria-label="Supplier Management — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">09</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+        <span class="slot-name">Supplier Management</span>
+      </button>
+      <button class="slot" data-pop="feat-point-of-sales"
+              aria-haspopup="dialog" aria-label="Point of Sales — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">10</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+        <span class="slot-name">Point of Sales</span>
+      </button>
+      <button class="slot" data-pop="feat-data-import-export"
+              aria-haspopup="dialog" aria-label="Data Import/Export — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">11</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+        <span class="slot-name">Data Import/Export</span>
+      </button>
+      <button class="slot" data-pop="feat-superhero-support"
+              aria-haspopup="dialog" aria-label="Superhero Support — read what it covers">
+        <span class="slot-scan" aria-hidden="true"></span>
+        <span class="slot-top"><span class="slot-no">12</span><span class="slot-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span></span>
+        <span class="slot-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+        <span class="slot-name">Superhero Support</span>
+      </button>
+    </div>
+
+    <div class="pop-well" hidden>
+      
+      <div data-pop-body="feat-booking-diary"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 01/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/><path d="M8 14h3v3H8z"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Booking Diary</h3></span>
+        </div>
+        <p class="pop-blurb">Create, reschedule or delete bookings in just a few clicks. Bookings are readily convertible to jobs, saving you time.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Create bookings and reschedule them via an intuitive drag and drop diary.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Automatic booking reminders are sent to your customers the day before the appointment via either email or SMS.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Diary entries are colour coded to help you identify the state of any job quickly.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Diary entries automatically span as you go along so you always have the most up to date overview of your workshop schedule.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Filters on the Diary help you filter out irrelevant information.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>The Diary supports many different views such as the day view, week view, month view, etc.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-booking.html" target="_blank" rel="noopener">Show me more about Booking Diary<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-invoicing-quoting"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 02/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2V3Z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Invoicing/Quoting</h3></span>
+        </div>
+        <p class="pop-blurb">Quick and easy invoicing/quoting with preconfigured invoice items. Convert invoices/quotes to jobs or bookings directly.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Save commonly used invoice items to use on other invoices and quotes.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Convert invoices directly into jobs or bookings with one click.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Convert quotes directly into invoices or jobs or bookings with one click.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Easily print invoices/quotes or send them to your clients via email.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>All invoice templates are fully customisable so your invoice can look exactly the way you want it to look.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-invoice.html" target="_blank" rel="noopener">Show me more about Invoicing/Quoting<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-stock-control"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 03/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7.6" y="3.2" width="8.8" height="5.4" rx="1"/><path d="M9.2 5.2h5.6M9.2 6.9h5.6"/><path d="M10.4 8.6 9.4 16.2M13.6 8.6l1 7.6"/><path d="M9.4 16.2h5.2"/><circle cx="12" cy="18.8" r="2.3"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Stock Control</h3></span>
+        </div>
+        <p class="pop-blurb">Know exactly what your workshop has in stock at all times. Paired with our stock alert and stock reordering helpers, your workshop will never run out of stock again.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Straightforward stock level control.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Stock alerts are unobtrusive and stock reordering based on stock levels is intuitive and quick.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Multiple searchable fields help you find any stock item with minimal effort.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Each stock item holds its own complete sales and purchase history.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk supports most barcode scanners and label printers. Just plug and play!</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk also supports quick and easy stock takes, all of which are kept for your record and can be accessed at any time.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-inventory.html" target="_blank" rel="noopener">Show me more about Stock Control<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-service-scheduling"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 04/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 12.5h9.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18Z"/><path d="M13 14h3l4.5-4.5"/><path d="M6 12.5V10h5v2.5"/><path d="M18 4.5c1.2 1.5 1.8 2.6 1.8 3.3a1.8 1.8 0 0 1-3.6 0c0-.7.6-1.8 1.8-3.3Z"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Service Scheduling</h3></span>
+        </div>
+        <p class="pop-blurb">Easily know which vehicles are due or overdue for service. Easily send reminders to your customers via both email and SMS.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We support scheduling for services, registrations and warrant of fitnesses (NZ).</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>You have full control over when, how and what is sent in your service reminders to your customers.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Both email and SMS reminders are supported.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-service-schedule.html" target="_blank" rel="noopener">Show me more about Service Scheduling<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-reporting"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 05/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 17a9 9 0 1 1 17 0"/><path d="M12 17v-.01"/><path d="m15.5 10.5-3.1 5"/><path d="M5.6 13h1.2M17.2 13h1.2M8 8.4l.9.9M16 8.4l-.9.9M12 6.5v1.2"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Reporting</h3></span>
+        </div>
+        <p class="pop-blurb">Better understand your business with our reporting system - everything from sales and received payments to stock value and employee efficiency.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We support Income, Expense, Work in Progress, Employee, Marketing and Stock report categories, each with their own set of reports.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-report.html" target="_blank" rel="noopener">Show me more about Reporting<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-multisite-management"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 06/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="5" rx="1.5"/><rect x="2.5" y="16" width="6" height="5" rx="1.5"/><rect x="15.5" y="16" width="6" height="5" rx="1.5"/><path d="M12 8v4M5.5 16v-2h13v2"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Multisite Management</h3></span>
+        </div>
+        <p class="pop-blurb">Managing multiple workshops is a breeze with MechanicDesk. View reports, move stock, etc. all in one place.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Link multiple workshops together so they can share customers, vehicles, service histories and stock information.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Manage workshops at different sites centrally through one workstation.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Switch between different sites with ease to see reports, stock levels, etc.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Transfer stock between sites in just a few clicks.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Each workshop may require a separately purchased MechanicDesk account</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-multisite.html" target="_blank" rel="noopener">Show me more about Multisite Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-job-management"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 07/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5h2.5A1.5 1.5 0 0 1 19 6.5v13A1.5 1.5 0 0 1 17.5 21h-11A1.5 1.5 0 0 1 5 19.5v-13A1.5 1.5 0 0 1 6.5 5H9"/><path d="M9 3.6h6v3H9z"/><path d="M13.8 10.6a2.3 2.3 0 0 0-3 3l-2.6 2.6 1.2 1.2 2.6-2.6a2.3 2.3 0 0 0 3-3l-1.2 1.2-1-1 1-1.4Z"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Job Management</h3></span>
+        </div>
+        <p class="pop-blurb">The essence of MechanicDesk - keeping you up to date with each and every job in your workshop at a glance. Manage jobs with your colleagues centrally and in real time.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Quickly locate jobs with our powerful search engine.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Each job holds all information pertaining to it e.g. invoices, bills, purchase orders, job cards, etc. in an unobtrusive way.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Jobs allow you to link to many other functions and utilites in MechanicDesk such as service scheduling, productivity tracking, etc.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Easily print job cards or send them to your technicians via email.</span></li></ul>
+        <div class="pop-hl"><span class="mono-label">Highlight</span><p>MechanicDesk's Job Type functionality helps you save commonly done jobs and services as templates to be used over and over again, drastically cutting down time spent on preparing job cards and/or invoices.</p></div>
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-job.html" target="_blank" rel="noopener">Show me more about Job Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-customer-and-vehicle-management"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 08/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14.5h18"/><path d="M4.5 14.5 6.3 9a2 2 0 0 1 1.9-1.4h7.6A2 2 0 0 1 17.7 9l1.8 5.5"/><path d="M3 14.5V18h2.2M21 14.5V18h-2.2"/><circle cx="7.2" cy="17.8" r="1.7"/><circle cx="16.8" cy="17.8" r="1.7"/><path d="M9 17.8h6"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Customer and Vehicle Management</h3></span>
+        </div>
+        <p class="pop-blurb">Easily store your workshop's customers details for use throughout the system via MechanicDesk's intelligent auto-suggest and auto-complete functions.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>All of your customers information at your fingertips. You will never have to fumble around looking for phone numbers or email addresses ever again.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk supports unlimited customer entries in your database.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We also support complete customer and vehicle histories as well as the ability to upload photos and documents against any customer or vehicle.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Send statements or communicate with your customers via email directly from MechanicDesk.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-customer.html" target="_blank" rel="noopener">Show me more about Customer and Vehicle Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-supplier-management"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 09/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 7.5h10v9h-10z"/><path d="M12.5 11h4l3 3v2.5h-7z"/><circle cx="6.5" cy="18.5" r="1.8"/><circle cx="16.5" cy="18.5" r="1.8"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Supplier Management</h3></span>
+        </div>
+        <p class="pop-blurb">Reorder from your trusted suppliers in a dash. Stay on top of your bills and bill payments with ease.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>All of your supplier information at your fingertips. You will never have to fumble around looking for phone numbers or email addresses ever again.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>MechanicDesk supports unlimited supplier entries in your database.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We also support complete supplier purchase histories as well as the ability to upload photos and documents against any supplier.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Send statements or communicate with your suppliers via email or SMS directly from MechanicDesk.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Raise purchase orders and send them via email to your suppliers in under a minute.</span></li></ul>
+        <div class="pop-hl"><span class="mono-label">Highlight</span><p>MechanicDesk supports integrations with major automotive supplier platforms such as Repco Navigator Pro, Burson EzyParts, etc. and more.</p></div>
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-supplier.html" target="_blank" rel="noopener">Show me more about Supplier Management<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-point-of-sales"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 10/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5v14M7 5v14M10 5v10M13 5v14M16.5 5v10M20 5v14"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Point of Sales</h3></span>
+        </div>
+        <p class="pop-blurb">Make lightning quick sales on the spot with only a few clicks. If you have barcode scanners and label printers, even better!</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Most commercial barcode scanners and label printers are supported.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Track your workshop sources of business at the POS.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/integrations.html#eftpos" target="_blank" rel="noopener">Show me more about Point of Sales<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-data-import-export"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 11/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3v14M7 3 4 6.5M7 3l3 3.5"/><path d="M17 21V7M17 21l3-3.5M17 21l-3-3.5"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Data Import/Export</h3></span>
+        </div>
+        <p class="pop-blurb">We help you import your workshop data so you don't have to start over from scratch. Your data is available to you at all times.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We understand how valuable your data is to your business. Hence we strive to do all we can to import your data into your MechanicDesk. We do this at no additional cost to you and hope that it helps to make your transition to MechanicDesk as smooth as possible.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We are able to help you import customer, vehicle, supplier, stock and vehicle history data (up to 3 years prior to the present day).</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Data is typically imported into the system within 1-3 days.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Any data you enter into MechanicDesk via any means is your data. Thus you can export all or some portion of it at any time via our data export function. You can do this as many times as you require to serve as a secondary backup of your data in addition to MechanicDesk's backup and safeguard routines, again, at no additional cost to you.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-import-export.html" target="_blank" rel="noopener">Show me more about Data Import/Export<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+      <div data-pop-body="feat-superhero-support"><div class="pop-feat">
+        <div class="pop-plate"><span>MODULE 12/12</span><span class="pop-bolt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.6 17.4 6.8v6.4L12 16.4 6.6 13.2V6.8Z"/><circle cx="12" cy="10" r="2.6"/></svg></span></div>
+        <div class="pop-head">
+          <span class="pop-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><rect x="2.5" y="13" width="4" height="6" rx="1.6"/><rect x="17.5" y="13" width="4" height="6" rx="1.6"/><path d="M19.5 19v.5a2.5 2.5 0 0 1-2.5 2.5h-2"/></svg></span></span>
+          <span><span class="mono-label">Features</span><h3>Superhero Support</h3></span>
+        </div>
+        <p class="pop-blurb">We believe that software is only as good as the support that follows it. Your support team is here whenever you need us, and that's a promise.</p>
+        <ul class="pop-list"><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>The team at MechanicDesk understands the frustration of having unanswered questions hamper your entire day of productivity. This forms the backbone of our customer support efforts. With us, you will never have to wait until the next day for answers.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>Our typical turnaround time is 10-15 minutes of your initial contact.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We are reachable via chat from this website, email or phone. Please refer to the Support/Demo tab for more details.</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m4.5 12.5 5 5 10-11"/></svg><span>We provide the same high standard of support to you, regardless of your subscription plan.</span></li></ul>
+        
+        <a class="lnk" href="https://www.mechanicdesk.com.au/feature-support.html" target="_blank" rel="noopener">Show me more about MechanicDesk Support<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<section class="mod" id="pricing">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">06</span>
+      <span class="mod-name">Pricing plans</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">4 regions</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>A plan for any workshop</h2>
+  
+  
+      <div class="regions">
+        <button class="chip active" data-region="australia">Australia</button><button class="chip" data-region="newZealand">New Zealand</button><button class="chip" data-region="unitedKingdom">United Kingdom</button><button class="chip" data-region="global">Global</button>
+        <select id="regionSelect" class="chip-select" aria-label="Select region">
+          <option value="australia">Australia</option><option value="newZealand">New Zealand</option><option value="unitedKingdom">United Kingdom</option><option value="global">Global</option>
+        </select>
+      </div>
+</div>
+
+    <div class="sheet-scroll reveal">
+      <table class="sheet">
+        <thead>
+          <tr>
+            <th><span class="mono-label">Plan · <span data-region-name>Australia</span></span></th>
+            <th class="">
+              
+              <span class="plan">Starter</span></th><th class="">
+              
+              <span class="plan">Small</span></th><th class="pick">
+              <span class="pick-tag">Most popular</span>
+              <span class="plan">Team</span></th><th class="">
+              
+              <span class="plan">Large</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            <th scope="row">Monthly</th>
+            <td class=" big">
+                <span data-price-cell data-plan="starter" data-field="cost">$85.00</span><em data-month-unit>/ month + GST</em>
+              </td><td class=" big">
+                <span data-price-cell data-plan="small" data-field="cost">$115.00</span><em data-month-unit>/ month + GST</em>
+              </td><td class="pick big">
+                <span data-price-cell data-plan="team" data-field="cost">$150.00</span><em data-month-unit>/ month + GST</em>
+              </td><td class=" big">
+                <span data-price-cell data-plan="large" data-field="cost">$250.00</span><em data-month-unit>/ month + GST</em>
+              </td>
+          </tr>
+          <tr>
+            <th scope="row">Users included</th>
+            <td class="">
+                <span>1 user/employee</span>
+              </td><td class="">
+                <span>3 users/employees</span>
+              </td><td class="pick">
+                <span>6 users/employees</span>
+              </td><td class="">
+                <span>15 users/employees</span>
+              </td>
+          </tr>
+          <tr>
+            <th scope="row">Extra user / month</th>
+            <td class="">
+                <span data-price-cell data-plan="starter" data-field="costPerExtraUser">+ $15/m</span>
+              </td><td class="">
+                <span data-price-cell data-plan="small" data-field="costPerExtraUser">+ $15/m</span>
+              </td><td class="pick">
+                <span data-price-cell data-plan="team" data-field="costPerExtraUser">+ $10/m</span>
+              </td><td class="">
+                <span data-price-cell data-plan="large" data-field="costPerExtraUser">+ $10/m</span>
+              </td>
+          </tr>
+          <tr>
+            <th scope="row">Per SMS</th>
+            <td class="">
+                <span data-price-cell data-plan="starter" data-field="costPerSms">+ $0.10</span>
+              </td><td class="">
+                <span data-price-cell data-plan="small" data-field="costPerSms">+ $0.10</span>
+              </td><td class="pick">
+                <span data-price-cell data-plan="team" data-field="costPerSms">+ $0.10</span>
+              </td><td class="">
+                <span data-price-cell data-plan="large" data-field="costPerSms">+ $0.10</span>
+              </td>
+          </tr>
+          <tr>
+            <th scope="row">Stock items</th>
+            <td class="">
+                <span data-price-cell data-plan="starter" data-field="stockCountLimit">50,000</span>
+              </td><td class="">
+                <span data-price-cell data-plan="small" data-field="stockCountLimit">100,000</span>
+              </td><td class="pick">
+                <span data-price-cell data-plan="team" data-field="stockCountLimit">Unlimited</span>
+              </td><td class="">
+                <span data-price-cell data-plan="large" data-field="stockCountLimit">Unlimited</span>
+              </td>
+          </tr>
+          <tr>
+            <th scope="row">Free trial</th>
+            <td class="">14 days free trial</td><td class="">14 days free trial</td><td class="pick">14 days free trial</td><td class="">14 days free trial</td>
+          </tr>
+          <tr>
+            <th scope="row">Support</th>
+            <td class="">Full support from our support team</td><td class="">Full support from our support team</td><td class="pick">Full support from our support team</td><td class="">Full support from our support team</td>
+          </tr>
+          <tr class="row-go">
+            <th scope="row"></th>
+            <td class="">
+              <a class="btn btn-line btn-sm" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Sign Up</a></td><td class="">
+              <a class="btn btn-line btn-sm" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Sign Up</a></td><td class="pick">
+              <a class="btn btn-key btn-sm" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Sign Up</a></td><td class="">
+              <a class="btn btn-line btn-sm" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Sign Up</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    
+<div class="disc more reveal" data-acc>
+  <button class="disc-head" data-acc-toggle aria-expanded="false">
+    
+    <span class="disc-label">Optional Addons</span>
+    <span class="disc-meta">2 available</span>
+    <span class="disc-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+  </button>
+  <div class="disc-body"><div class="addons">
+        <article class="addon"><h3>Customized Templates</h3><p>Customized print templates allow you to have your own uniquely designed invoice, job card, quote etc..</p></article><article class="addon"><h3>Digital Signatures</h3><p>Capture your customer signature for job card and purchasing authorizations directly from your phone or tablet.</p></article>
+      </div><p class="fine">* Available at additional charges, please contact our support for more details</p></div>
+</div>
+  </div>
+</section>
+
+<section class="mod" id="blog">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">07</span>
+      <span class="mod-name">Our Latest Blog Posts</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">2 posts</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    
+<div class="mod-head reveal">
+  <h2>News, tips thoughts, stories and ideas</h2>
+  
+  <p class="mod-out"><a class="lnk sm" href="https://www.mechanicdesk.com.au/blog/" target="_blank" rel="noopener">view more<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div>
+    <div class="posts">
+      
+      <a class="post reveal d1" href="https://www.mechanicdesk.com.au/blog/" target="_blank" rel="noopener">
+        <span class="post-img"><img src="../images/pexels/blog-vehicle-visuals.jpg" alt="" loading="lazy" width="400" height="260"></span>
+        <span class="post-body">
+          <span class="post-no">01</span>
+          <strong>Vehicle Visuals: A picture is worth a thousand words</strong>
+          <em>We at MechanicDesk would like to introduce you to our newest integration, Vehicle Visuals!...</em>
+          <span class="post-go"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+      <a class="post reveal d2" href="https://www.mechanicdesk.com.au/blog/" target="_blank" rel="noopener">
+        <span class="post-img"><img src="../images/pexels/blog-time-clocking.jpg" alt="" loading="lazy" width="400" height="260"></span>
+        <span class="post-body">
+          <span class="post-no">02</span>
+          <strong>Clocking your time has never been easier</strong>
+          <em>With our most recent update we have implemented a new feature called The Workstation...</em>
+          <span class="post-go"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="mod mod-console" id="contact">
+  <div class="wrap">
+    <header class="mod-bar reveal">
+      <span class="mod-id">08</span>
+      <span class="mod-name">Contact Us</span>
+      <span class="mod-rule" aria-hidden="true"></span>
+      <span class="mod-meta">open a channel</span>
+      <span class="led" aria-hidden="true"></span>
+    </header>
+    
+    <div class="console">
+      <div class="console-l">
+        
+<div class="mod-head reveal">
+  <h2>Start your <em>14 days free trial</em></h2>
+  <p class="mod-sub">Our typical turnaround time is 10-15 minutes of your initial contact.</p>
+  
+          <p class="mod-out"><a class="btn btn-key btn-lg" href="https://www.mechanicdesk.com.au/signup.html" target="_blank" rel="noopener">Start Your 14 Days Free Trial</a></p>
+</div>
+
+        <ul class="channels reveal">
+          
+          <li>
+            <span class="ch-no">01</span>
+            <span class="ch-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H12v18H5.5A1.5 1.5 0 0 1 4 19.5Z"/><path d="M20 4.5A1.5 1.5 0 0 0 18.5 3H12v18h6.5A1.5 1.5 0 0 0 20 19.5Z"/></svg></span></span>
+            <span class="ch-txt">
+              <strong>Online manual</strong>
+              <span>Please click the button below to access our online manual</span>
+              <a class="lnk sm" href="https://mechanicdesk.zendesk.com/hc/en-au" target="_blank" rel="noopener">Online Manual<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </span>
+          </li>
+          <li>
+            <span class="ch-no">02</span>
+            <span class="ch-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h3l1.5 4.5-2 1.5a10 10 0 0 0 6.5 6.5l1.5-2L21 15v3a2.5 2.5 0 0 1-2.7 2.5A16 16 0 0 1 3.5 5.7A2.5 2.5 0 0 1 6 3Z"/></svg></span></span>
+            <span class="ch-txt">
+              <strong>Give us a call</strong>
+              <span>Our support line numbers are</span>
+              
+            </span>
+          </li>
+          <li>
+            <span class="ch-no">03</span>
+            <span class="ch-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M9 20.5h6M12 16.5v4"/><path d="m9.5 8 2.5 2.2L14.5 8"/></svg></span></span>
+            <span class="ch-txt">
+              <strong>TeamViewer</strong>
+              <span>We perform all support/demo functions via TeamViewer</span>
+              <a class="lnk sm" href="#contact">Book a demo<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </span>
+          </li>
+          <li>
+            <span class="ch-no">04</span>
+            <span class="ch-ico"><span class="ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="m3.5 6.5 8.5 7 8.5-7"/></svg></span></span>
+            <span class="ch-txt">
+              <strong>Send us a message</strong>
+              <span>Please click the button below to send us an online message</span>
+              <a class="lnk sm" href="#contact">Message<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            </span>
+          </li>
+        </ul>
+
+        
+<div class="disc phones" data-acc>
+  <button class="disc-head" data-acc-toggle aria-expanded="false">
+    <span class="disc-ico"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h3l1.5 4.5-2 1.5a10 10 0 0 0 6.5 6.5l1.5-2L21 15v3a2.5 2.5 0 0 1-2.7 2.5A16 16 0 0 1 3.5 5.7A2.5 2.5 0 0 1 6 3Z"/></svg></span>
+    <span class="disc-label">Support line numbers</span>
+    <span class="disc-meta">4 regions</span>
+    <span class="disc-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+  </button>
+  <div class="disc-body"><ul class="phone-list"><li class="phone-row"><span>Australia</span><a href="tel:1300737100">1300 737 100</a></li>
+<li class="phone-row"><span>New Zealand</span><a href="tel:0800110259">0800 110 259</a></li>
+<li class="phone-row"><span>United Kingdom</span><a href="tel:08000968794">0800 096 8794</a></li>
+<li class="phone-row"><span>Global</span><a href="tel:+611300737100">+61 1300 737 100</a></li></ul></div>
+</div>
+
+        <dl class="det reveal">
+          <dt>Email</dt><dd><a href="mailto:contact@mechanicdesk.com.au">contact@mechanicdesk.com.au</a></dd>
+          <dt>Support</dt><dd><a href="mailto:support@mechanicdesk.com.au">support@mechanicdesk.com.au</a></dd>
+          <dt>Office</dt><dd>Suite 2, Level 10, 34 Queen Street<br>Melbourne Victoria 3000, Australia</dd>
+        </dl>
+
+        <div class="map reveal"><iframe title="MechanicDesk head office on Google Maps" src="https://maps.google.com/maps?q=Suite%202%2C%20Level%2010%2C%2034%20Queen%20Street%2C%20Melbourne%20Victoria%203000%2C%20Australia&output=embed" width="100%" height="240" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;"></iframe></div>
+      </div>
+
+      <div class="console-r reveal">
+        <div class="bezel">
+          <div class="bezel-bar">
+            <span class="bezel-id">Send us a Message</span>
+            <span class="bezel-rule" aria-hidden="true"></span>
+            <span class="led" aria-hidden="true"></span>
+          </div>
+          <div class="bezel-body">
+<form class="cf" data-contact-form novalidate
+      data-thanks-title="Thank you!" data-thanks-text="We have received your message and will be in touch shortly.">
+  <div class="cf-row">
+    <label class="cf-field">
+      <span class="cf-label">Name</span>
+      <input type="text" name="name" autocomplete="name" placeholder="Your name">
+    </label>
+    <label class="cf-field">
+      <span class="cf-label">Email <em>*</em></span>
+      <input type="email" name="email" required autocomplete="email" placeholder="you@workshop.com.au">
+    </label>
+  </div>
+  <label class="cf-field">
+    <span class="cf-label">Phone</span>
+    <input type="tel" name="phone" autocomplete="tel" placeholder="Phone number">
+  </label>
+  <label class="cf-field">
+    <span class="cf-label">Message <em>*</em></span>
+    <textarea name="message" rows="5" required placeholder="Tell us about your workshop"></textarea>
+  </label>
+  <button type="submit" class="btn btn-primary cf-submit">Send Message</button>
+  <p class="cf-note">Demo form — no message is actually sent.</p>
+</form></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<dialog class="pop" id="pop" aria-label="Details">
+  <div class="pop-in">
+    <button class="pop-x" data-pop-close aria-label="Close">&times;</button>
+    <div class="pop-scroll" data-pop-slot></div>
+  </div>
+</dialog>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="brand" href="#home"><img src="../images/logo.png" alt="" width="28" height="29"><span>Mechanic<em>Desk</em></span></a>
+        <p>Workshop Management Software · Autodeck Pty. Ltd.</p>
+        
+<div class="app-badges">
+  <a class="app-badge" href="https://apps.apple.com/au/app/mechanicdesk-mobile/id1441067162" target="_blank" rel="noopener">
+    <span class="app-badge-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.7-1.8-3.3-1.8-1.4-.1-2.6.8-3.3.8-.7 0-1.7-.8-2.9-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.8-.4 6.9 1.1 9.1.8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7 1.4 0 1.8.7 3 .7 1.2 0 2-1.1 2.8-2.2.9-1.3 1.3-2.5 1.3-2.6-.1 0-2.5-1-2.5-3.5ZM14.3 5.7c.6-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.1 1.8-1 2.9 1.1.1 2.2-.6 2.8-1.4Z"/></svg></span>
+    <span><small>Available on the</small><strong>App Store</strong></span>
+  </a>
+  <a class="app-badge" href="https://play.google.com/store/apps/details?id=mobile.mechanicdesk" target="_blank" rel="noopener">
+    <span class="app-badge-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.4c-.4.3-.6.8-.6 1.5v16.2c0 .7.2 1.2.6 1.5l9.1-9.6-9.1-9.6Zm10.3 8.4 2.7-2.9L5.9 2.1c-.3-.2-.6-.2-.9-.2l8.9 8.9Zm0 2.4L5 22.1c.3 0 .6 0 .9-.2l10.7-5.8-2.7-2.9Zm3.9-4.1 3.5 1.9c.7.4.7 1.5 0 1.9l-3.5 1.9-3-3.2 3-2.5Z"/></svg></span>
+    <span><small>Get it on</small><strong>Google Play</strong></span>
+  </a>
+</div>
+        <div class="socials"><a class="social" href="http://www.facebook.com/mechanicdesk" target="_blank" rel="noopener" aria-label="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.6V3.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.3H7.5V13h2.8v8h3.2Z"/></svg></a><a class="social" href="https://twitter.com/mechanicdesk" target="_blank" rel="noopener" aria-label="X / Twitter"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.3 3h3.3l-7.2 8.3L21.5 21h-6l-4.7-5.6L5.4 21H2.1l7.5-8.6L2.5 3h6.1l4.4 5.2L17.3 3Zm-1.1 16h1.8L7.7 4.9H5.8L16.2 19Z"/></svg></a></div>
+      </div>
+      
+      <nav class="foot-col" aria-label="Integrations">
+        <p class="mono-label">Integrations</p>
+        <a href="https://www.mechanicdesk.com.au/integrations.html" target="_blank" rel="noopener">All Integrations</a><a href="https://www.mechanicdesk.com.au/addon-xero.html" target="_blank" rel="noopener">Xero</a><a href="https://www.mechanicdesk.com.au/addon-myob.html" target="_blank" rel="noopener">MYOB</a><a href="https://www.mechanicdesk.com.au/addon-navigator-pro.html" target="_blank" rel="noopener">Repco Navigator Pro</a><a href="https://www.mechanicdesk.com.au/addon-burson-ezyparts.html" target="_blank" rel="noopener">Burson EzyParts</a><a href="https://www.mechanicdesk.com.au/addon-mailchimp.html" target="_blank" rel="noopener">Mailchimp</a>
+      </nav>
+      <nav class="foot-col" aria-label="Partners">
+        <p class="mono-label">Partners</p>
+        <a href="https://www.mechanicdesk.com.au/partner-list.html" target="_blank" rel="noopener">Our Partners</a><a href="https://www.mechanicdesk.com.au/partners.html" target="_blank" rel="noopener">Our Partner Program</a><a href="https://www.mechanicdesk.com.au/partner/partner/login" target="_blank" rel="noopener">Partner Login</a>
+      </nav>
+      <nav class="foot-col" aria-label="Company">
+        <p class="mono-label">Company</p>
+        <a href="https://www.mechanicdesk.com.au/blog/" target="_blank" rel="noopener">Our Blog</a><a href="#contact" target="_blank" rel="noopener">Contact Us</a><a href="https://www.mechanicdesk.com.au/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a><a href="https://www.mechanicdesk.com.au/terms-and-conditions.html" target="_blank" rel="noopener">Terms of Service</a>
+      </nav>
+    </div>
+    
+<div class="disc more" data-acc>
+  <button class="disc-head" data-acc-toggle aria-expanded="false">
+    
+    <span class="disc-label">About us</span>
+    
+    <span class="disc-plus"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg></span>
+  </button>
+  <div class="disc-body"><p class="foot-about">MechanicDesk is a product of Autodeck Pty. Ltd. We are a web based company providing innovative ideas for people and businesses. We are passionate about creating products that help people solve everyday problems and make their lives easier. We will always work hard to please our customers and are always happy to do business with you.</p></div>
+</div>
+    <p class="foot-end">
+      <span>Copyright 2014 - <span data-year>2026</span>. MechanicDesk. All rights reserved.</span>
+      <span class="mono-label">V3 · Flight deck · design demo</span>
+    </p>
+  </div>
+</footer>
+<script type="application/json" id="pricing-data">{"australia":{"name":"Australia","monthUnit":"/ month + GST","starter":{"cost":"$85.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"50,000"},"small":{"cost":"$115.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"100,000"},"team":{"cost":"$150.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"},"large":{"cost":"$250.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"}},"newZealand":{"name":"New Zealand","monthUnit":"/ month","starter":{"cost":"NZD $85.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"50,000"},"small":{"cost":"NZD $115.00","costPerExtraUser":"+ $15/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"100,000"},"team":{"cost":"NZD $150.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"},"large":{"cost":"NZD $250.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"}},"unitedKingdom":{"name":"United Kingdom","monthUnit":"/ month","starter":{"cost":"£45","costPerExtraUser":"+ £10/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"50,000"},"small":{"cost":"£60","costPerExtraUser":"+ £10/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"100,000"},"team":{"cost":"£75","costPerExtraUser":"+ £5/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"Unlimited"},"large":{"cost":"£120","costPerExtraUser":"+ £5/m","costPerSms":"+ £0.05","costPerSmsText":"5 cents","stockCountLimit":"Unlimited"}},"global":{"name":"Global","monthUnit":"/ month","starter":{"cost":"USD $50.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"50,000"},"small":{"cost":"USD $60.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"100,000"},"team":{"cost":"USD $85.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"},"large":{"cost":"USD $165.00","costPerExtraUser":"+ $10/m","costPerSms":"+ $0.10","costPerSmsText":"10 cents","stockCountLimit":"Unlimited"}}}</script>
+<script src="script.js"></script>
+</body>
+</html>
