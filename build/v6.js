@@ -8,7 +8,8 @@
      A  boot sequence   the deck powers up once, then the class comes off
      B  gauge rail      the needle follows the scroll, stops light as you pass
      C  status line     one short readout in the nav, typed out on load
-     D  scan height     tells the CSS how far a slot's scan line should travel
+     D  cursor light    one soft light that follows the pointer, in soft-light
+     E  scan height     tells the CSS how far a slot's scan line should travel
 
    Written for the same browser baseline as the rest: const/let, arrows,
    IntersectionObserver. Every block guards for its own markup.
@@ -87,7 +88,31 @@
     }
   }
 
-  /* ── D. Scan height ───────────────────────────────────────────────────
+  /* ── D. The cursor light ──────────────────────────────────────────────
+     One fixed layer, two custom properties. Nothing else in the page has to
+     know about the pointer: the layer blends in soft-light, so it lifts the
+     rims and the glass wherever it happens to be. */
+  const glimmer = $('.glimmer');
+  if (glimmer && !window.matchMedia?.('(pointer: coarse)').matches && !reducedMotion) {
+    let queued = false;
+    let x = 0;
+    let y = 0;
+    document.addEventListener('pointermove', (e) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        glimmer.style.setProperty('--gx', `${x}px`);
+        glimmer.style.setProperty('--gy', `${y}px`);
+        glimmer.style.setProperty('--glimmer-on', '1');
+      });
+    }, { passive: true });
+    document.addEventListener('pointerleave', () => glimmer.style.setProperty('--glimmer-on', '0'));
+  }
+
+  /* ── E. Scan height ───────────────────────────────────────────────────
      The scan line on a module slot travels the height of that slot. The slots
      are square-ish and fluid, so the distance is measured rather than guessed,
      and re-measured if the window changes. */

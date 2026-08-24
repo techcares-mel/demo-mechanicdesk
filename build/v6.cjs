@@ -138,9 +138,9 @@ const hero = () => `
     </p>
 
     <h1 class="deck-h1">
-      <span class="line boot-2">Workshop</span>
-      <span class="line boot-3"><em>Management</em></span>
-      <span class="line boot-4">Software</span>
+      <span class="line boot-2"><b class="chrome">Workshop</b></span>
+      <span class="line boot-3"><b class="chrome gold">Management</b></span>
+      <span class="line boot-4"><b class="chrome">Software</b></span>
     </h1>
 
     <p class="deck-sub boot-5">${esc(C.brand.heroSub)}</p>
@@ -163,14 +163,6 @@ const hero = () => `
       </div>
     </div>
 
-    <!-- telemetry: the four real numbers, as a readout -->
-    <dl class="tele boot-8">
-      ${C.proven.stats.map((s) => `
-      <div class="tele-cell">
-        <dt>${esc(s.label)}</dt>
-        <dd><b data-target="${s.value}" data-suffix="${s.suffix}">0${esc(s.suffix)}</b></dd>
-      </div>`).join('')}
-    </dl>
   </div>
 </section>`;
 
@@ -508,6 +500,9 @@ ${FONTS}
 <noscript><style>html.booting [class*="boot-"] { opacity: 1 !important; transform: none !important; }</style></noscript>
 </head>
 <body>
+<!-- one big soft light that follows the cursor: it only shows where there is
+     an edge or a pane of glass to catch it (see .glimmer in styles.css) -->
+<div class="glimmer" aria-hidden="true"></div>
 ${S.watermark()}
 ${S.chrome()}
 ${navBar()}

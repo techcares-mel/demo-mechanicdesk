@@ -292,6 +292,18 @@ page is an instrument cluster.
 - **Restraint is the effect.** Amber appears only on things that are *live* — the gauge needle, the
   status lights, the active rail stop, the one primary button, a hovered slot. Everything else is
   graphite and hairlines. That is what reads as expensive; a second accent would undo it.
+- **Lit, not black.** The ground is `#0f1319` with a soft "sky" over the top of the page
+  (`radial-gradient` on `body`, fixed), so the dark reads as a lit room rather than a void.
+- **Light behaves like light.** Every machined edge is a 1px *gradient* border — bright at the
+  top-left, gone at the bottom-right — done with `padding-box`/`border-box` on one element, plus an
+  inset highlight (`--rim`, `--sheen`). A hovered slot gets a specular pass across it, the primary
+  button has its own gloss, and one big soft light follows the cursor across the whole page in
+  `soft-light` blend (`.glimmer`, `v6.js` D) so rims glint as you move.
+- **The headline is brushed chrome**, the accent word warm gold, with a single sheen crossing it as
+  the deck boots. Note: `.chrome.gold` must set `background-image`, never the `background`
+  shorthand — the shorthand resets `background-clip: text` and the word paints as a solid block.
+- Each module's rule lights up left-to-right as that module arrives (`.mod-bar.visible .mod-rule`).
+- The four-number telemetry strip under the hero was removed at the client's request.
 - **Type**: Archivo at 112% width (a wide, engineered display face — the width axis is pinned in the
   Google Fonts request, so `font-stretch` in CSS does nothing extra), Sora 300 for body, JetBrains
   Mono for every label, ID and unit. Numbers are `tabular-nums` so figures line up like a readout.
