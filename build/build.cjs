@@ -46,8 +46,8 @@ console.log('v3/index.html  ' + (v3html.length / 1024).toFixed(1) + ' KB  (Fligh
 /* Two more tones for each design, from build/themes.cjs: a mid (lifted
    graphite, still dark) and a light (paper). Each is the same markup with the
    tone appended to its stylesheet, in its own folder:
-     /mid/  /light/        the main design
-     /v3-mid/  /v3-light/  V3 "Flight deck"                                   */
+     /mid/  /light/  /cool/              the main design
+     /v3-mid/  /v3-light/  /v3-cool/  V3 "Flight deck"                        */
 const themes = require('./themes.cjs');
 const boardCss = require('./lab2-board.cjs').css;
 const baseCss = fs.readFileSync(path.join(__dirname, 'v2.css'), 'utf8') + boardCss;
@@ -57,7 +57,7 @@ const deckJs = fs.readFileSync(path.join(__dirname, 'v6.js'), 'utf8');
 const lift = (h) => h.replace(/(["'(])images\//g, '$1../images/');
 const tone = (h, name) => h.replace(/<title>([^<]*)<\/title>/, `<title>$1 · ${name}</title>`);
 
-[['mid', 'Mid tone'], ['light', 'Light tone']].forEach(([key, name]) => {
+[['mid', 'Mid tone'], ['light', 'Light tone'], ['cool', 'Cool tone']].forEach(([key, name]) => {
   const a = path.join(root, key);
   fs.mkdirSync(a, { recursive: true });
   fs.writeFileSync(path.join(a, 'index.html'), tone(lift(html), name), 'utf8');

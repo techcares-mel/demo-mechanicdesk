@@ -367,6 +367,8 @@ folder. The markup is identical to the design it comes from — only the palette
 | `/light/` | main | paper: near-white ground, graphite ink |
 | `/v3-mid/` | V3 | the same lift applied to the flight deck |
 | `/v3-light/` | V3 | paper, with the chrome headline in brushed graphite |
+| `/cool/` | main | mint paper, teal accent — the first tone that moves the hue |
+| `/v3-cool/` | V3 | the same, with the chrome headline cooled |
 
 What a tone is **not** only a `:root`: every place a dark page had been assumed has to turn over,
 and those are listed explicitly in `themes.cjs` rather than left half-converted —
@@ -383,6 +385,10 @@ and those are listed explicitly in `themes.cjs` rather than left half-converted 
   translucent ink.
 - V3 only: the brushed-chrome headline becomes brushed graphite, and the cursor light (a white
   soft-light wash) is switched off — on paper it only greys the type.
+- **cool** moves the hue, so every hard-coded amber has to turn over with the tokens: the wipe on a
+  feature tile, the icon plates, the CTA band, the hazard tape, the running light on the board, the
+  watermark. The one place amber stays is **inside the product tour** — those are real screenshots
+  of an amber-branded app, so the mock keeps an amber island along with its dark one.
 
 Adding a third tone means one more entry in `TOKENS` plus whatever that tone breaks; the four pages
 rebuild from `node build/build.cjs`.

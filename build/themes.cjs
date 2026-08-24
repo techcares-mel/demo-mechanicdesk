@@ -12,10 +12,14 @@
               purely a palette swap.
      light  — a proper light page: near-white paper, graphite ink, and the amber
               darkened to #d97a06 so it can carry text and small marks on white.
+     cool   — the first tone that moves the HUE: mint paper, teal accent. Every
+              hard-coded amber has to turn over with it. The one place amber
+              stays is inside the product tour: those are real screenshots of an
+              amber-branded app and cannot be recoloured.
 
    Usage:  themes(design, tone)  →  CSS appended after the design's stylesheet.
            design: 'graphite' (the main page) | 'deck' (V3)
-           tone:   'mid' | 'light'
+           tone:   'mid' | 'light' | 'cool'
    ========================================================================= */
 
 /* ---------------------------------------------------------------- tokens -- */
@@ -50,7 +54,27 @@ const TOKENS = {
   --accent-2: #ffb43a;
   --accent-ink: #a85c04;
   --accent-glow: rgba(217, 122, 6, 0.20);
-  --redline: #d43a1c;`
+  --redline: #d43a1c;`,
+
+  cool: `
+  --bg: #f1f7f5;                 /* mint paper */
+  --bg-2: #e6f0ed;
+  --surface: #dbeae5;
+  --card: #ffffff;
+  --line: rgba(11, 40, 34, 0.10);
+  --line-2: rgba(11, 40, 34, 0.18);
+  --line-3: rgba(11, 40, 34, 0.28);
+  --text: #0c1f1b;               /* deep green-black */
+  --text-2: #3d544d;
+  --muted: #68807a;
+
+  /* two greens: the darker one carries text and 1px marks, the brighter one is
+     for fills, glows and anything with area */
+  --accent: #0e8f78;
+  --accent-2: #22c3a6;
+  --accent-ink: #0a6b5a;
+  --accent-glow: rgba(34, 195, 166, 0.22);
+  --redline: #d9534f;`
 };
 
 /* --------------------------------------------------- the board, both tones -- */
@@ -88,6 +112,25 @@ const BOARD = {
 .brd-dots { background-image: radial-gradient(circle, rgba(18, 24, 33, 0.14) 1px, transparent 1.4px); }
 .brd-node.active .mk {
   filter: brightness(1.02) drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px rgba(217, 122, 6, 0.45)) !important;
+}`,
+
+  cool: `
+/* same as the light tone, with the light running the traces in teal */
+.bus { stroke: rgba(11, 40, 34, 0.16); }
+.spoke { stroke: rgba(11, 40, 34, 0.15); }
+.via { stroke: rgba(11, 40, 34, 0.18); }
+.p-in, .p-out, .p-spoke, .p-via { stroke: var(--accent-2); filter: drop-shadow(0 0 7px rgba(34, 195, 166, 0.7)); }
+.brd-node .mk { filter: drop-shadow(0 0 8px #fff) drop-shadow(0 0 4px #fff) drop-shadow(0 6px 12px rgba(11, 40, 34, 0.16)); }
+.node .mk.lift, .node:hover .mk.lift, .node.active .mk.lift {
+  filter: drop-shadow(0 0 8px #fff) drop-shadow(0 6px 12px rgba(11, 40, 34, 0.16));
+}
+.brd-chip { background: #fff; box-shadow: 0 0 0 1px rgba(11, 40, 34, 0.12), 0 18px 40px -18px rgba(11, 40, 34, 0.3); }
+.brd-chip-label { background: rgba(255, 255, 255, 0.85); color: var(--text); }
+.brd-halo { background: conic-gradient(from 0deg, transparent 0 62%, rgba(34, 195, 166, .5) 78%, transparent 88%); opacity: .6; }
+.brd-ping { border-color: rgba(34, 195, 166, 0.5); }
+.brd-dots { background-image: radial-gradient(circle, rgba(11, 40, 34, 0.13) 1px, transparent 1.4px); }
+.brd-node.active .mk {
+  filter: brightness(1.02) drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px rgba(34, 195, 166, 0.5)) !important;
 }`
 };
 
@@ -146,7 +189,58 @@ const GRAPHITE_FIX = {
 .mock {
   --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e; --accent: #ffb43a;
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
-}`
+}`,
+
+  cool: `
+/* ---- everything the light tone turns over, in mint ---------------------- */
+.nav-inner { background: rgba(241, 247, 245, 0.86) !important; box-shadow: 0 10px 30px rgba(11, 40, 34, 0.09) !important; }
+.drawer { background: rgba(241, 247, 245, 0.98); }
+.cf { background: rgba(11, 40, 34, 0.03); }
+.segmented { background: rgba(11, 40, 34, 0.04); }
+.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(11, 40, 34, 0.34); }
+.bay-type-img { background: var(--surface); }
+.footer { background: var(--bg-2); border-top: 1px solid var(--line); }
+.footer::before { opacity: .05; }
+:root {
+  --carbon: repeating-linear-gradient(45deg, rgba(11,40,34,.03) 0 1px, transparent 1px 3px),
+            repeating-linear-gradient(-45deg, rgba(11,40,34,.022) 0 1px, transparent 1px 3px);
+  --brushed: repeating-linear-gradient(90deg, rgba(11,40,34,.05) 0 1px, transparent 1px 4px);
+  --tape-bg: repeating-linear-gradient(-45deg, var(--accent-2) 0 6px, #0c1f1b 6px 12px);
+  --dash: repeating-linear-gradient(90deg, rgba(11,40,34,.22) 0 3px, transparent 3px 7px);
+}
+.hero-grid-lines { background-image: linear-gradient(90deg, rgba(11, 40, 34, 0.06) 1px, transparent 1px); }
+.hero-glow { background: radial-gradient(circle, rgba(34, 195, 166, 0.16) 0%, rgba(34, 195, 166, 0.05) 40%, transparent 68%); }
+.feat-plate-bolt { color: rgba(11, 40, 34, 0.18); }
+.demo-watermark { color: var(--accent-2); opacity: 0.12; }
+.pop-scroll { scrollbar-color: rgba(11, 40, 34, 0.25) transparent; }
+.pop-scroll::-webkit-scrollbar-thumb { background: rgba(11, 40, 34, 0.22); }
+.pop::backdrop { background: rgba(11, 40, 34, 0.45); }
+.bay-type-img img, .blog-img img { filter: none; }
+
+/* ---- every hard-coded amber turns teal ---------------------------------- */
+#backToTop { background: var(--accent); }
+#backToTop:hover { background: var(--accent-2); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-2); color: #04231d; }
+.seg.active, .badge { background: var(--accent); color: #fff; }
+.social:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+.au-wipe { background: linear-gradient(90deg, rgba(34, 195, 166, .26), rgba(34, 195, 166, .06) 58%, transparent); }
+.au-ico { background: rgba(14, 143, 120, .10); }
+.au-tile:hover .au-ico { background: rgba(14, 143, 120, .20); }
+.feat-head-ico, .card-ico { background: rgba(14, 143, 120, .10); }
+.cta-box { background: linear-gradient(120deg, #0e8f78 0%, #22c3a6 100%); color: #04231d; }
+.cta-box h2 { color: #04231d; }
+.cta-box .btn-primary { background: #04231d; color: #7ff0d8; }
+.btn-ghost { border-color: rgba(4, 35, 29, 0.4); color: #04231d; }
+.price-table .featured, .cell-price .featured { background: rgba(34, 195, 166, .05); }
+
+/* the tour keeps its own dark, amber-branded island: those are real
+   screenshots of the app and cannot be recoloured */
+.mock {
+  --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e; --accent: #ffb43a;
+  --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
+}
+.mock-browser { box-shadow: 0 30px 70px -32px rgba(11, 40, 34, 0.4); }`
 };
 
 /* --------------------------------------------------------- deck (V3) ------- */
@@ -221,13 +315,71 @@ body {
 .mock {
   --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e; --accent: #ffb43a;
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
-}`
+}`,
+
+  cool: `
+/* ---- the ground: mint paper, lit from above ----------------------------- */
+body {
+  background:
+    radial-gradient(120% 62% at 50% -12%, #ffffff 0%, rgba(255, 255, 255, 0) 62%),
+    radial-gradient(70% 40% at 88% 6%, rgba(34, 195, 166, .10), transparent 60%),
+    var(--bg);
+}
+:root {
+  --rim: linear-gradient(135deg, rgba(11, 40, 34, .2), rgba(11, 40, 34, .05) 40%, rgba(34, 195, 166, .22) 78%, rgba(11, 40, 34, .04));
+  --sheen: inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+.bezel { box-shadow: var(--sheen), 0 20px 50px -34px rgba(11, 40, 34, .4); }
+.nav.scrolled { background: rgba(241, 247, 245, 0.84); box-shadow: 0 8px 26px rgba(11, 40, 34, 0.07); }
+.drawer { background: rgba(241, 247, 245, 0.97); }
+.deck-grid { background-image: repeating-linear-gradient(90deg, rgba(11, 40, 34, .07) 0 1px, transparent 1px 25%); }
+.deck-glow { background: radial-gradient(ellipse at 50% 50%, rgba(34, 195, 166, .16), transparent 62%); }
+
+/* ---- brushed metal, cooled ---------------------------------------------- */
+.chrome { background-image: linear-gradient(176deg, #2d4a44 2%, #0f2b26 28%, #4f7d74 52%, #0b241f 70%, #2d4a44 98%); }
+.chrome.gold { background-image: linear-gradient(176deg, #0a6b5a 2%, #0e8f78 26%, #22c3a6 52%, #0a6b5a 74%, #14b39a 98%); }
+.chrome::after { background: linear-gradient(105deg, transparent 38%, rgba(255, 255, 255, .55) 48%, transparent 58%); }
+.glimmer { display: none; }
+
+/* ---- surfaces, inputs, scrollbars -------------------------------------- */
+.channels li { background: transparent; }
+.cf input, .cf textarea, .cf input:focus, .cf textarea:focus { background: #fff; }
+.slot { background: var(--card); }
+.slot:hover { background: var(--bg-2); }
+.slot-wipe { background: linear-gradient(90deg, rgba(34, 195, 166, .26), rgba(34, 195, 166, .06) 58%, transparent); }
+.bay, .film, .posts { background: var(--line); }
+.post, .frame { background: var(--card); }
+.tx { background: linear-gradient(180deg, rgba(11, 40, 34, .03), rgba(11, 40, 34, .01)) padding-box,
+      linear-gradient(135deg, rgba(11, 40, 34, .15), rgba(11, 40, 34, .04) 46%, transparent) border-box; }
+.pop-in { background: linear-gradient(180deg, #fff, var(--card)) padding-box, var(--rim) border-box; }
+.pop-x { background: rgba(255, 255, 255, .9); }
+.pop::backdrop { background: rgba(11, 40, 34, .45); }
+.pop-scroll { scrollbar-color: rgba(11, 40, 34, .25) transparent; }
+.pop-scroll::-webkit-scrollbar-thumb { background: rgba(11, 40, 34, .22); }
+.pop-bolt { color: rgba(11, 40, 34, .2); }
+.demo-watermark { color: var(--accent-2); opacity: .12; }
+.mod-rule::after { background: linear-gradient(90deg, var(--accent-2), rgba(34, 195, 166, .1) 70%, transparent); }
+.sheet .pick { background: rgba(34, 195, 166, .06); }
+.frame img, .post-img img { filter: none; }
+
+/* ---- the amber button becomes a teal one ------------------------------- */
+.btn-key { color: #fff; background: linear-gradient(180deg, #16a98e, #0e8f78 42%, #0a6b5a); }
+.btn-key:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 16px 34px -12px var(--accent-glow); }
+.mb-play { color: #17130a; }
+.foot { background: var(--bg-2); border-top: 1px solid var(--line-2); }
+
+/* the tour keeps its own dark, amber-branded island */
+.mock {
+  --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e; --accent: #ffb43a;
+  --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
+}
+.mock-browser { box-shadow: 0 30px 70px -32px rgba(11, 40, 34, .4); }`
 };
 
 const FIX = { graphite: GRAPHITE_FIX, deck: DECK_FIX };
 
 module.exports = (design, tone) => {
-  const name = tone === 'light' ? 'LIGHT' : 'MID';
+  const name = { light: 'LIGHT', mid: 'MID', cool: 'COOL' }[tone] || tone.toUpperCase();
   const label = design === 'deck' ? 'V3 "Flight deck"' : 'the main design';
   return `
 /* =========================================================================
