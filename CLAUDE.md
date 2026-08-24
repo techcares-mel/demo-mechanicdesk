@@ -227,6 +227,27 @@ Screenshots: `node build/qa2.cjs brd 980` (or `neb` / `dep` / `cons` / `son` / `
 Probes: `node build/qa3.cjs <probe.js> [dir]` runs a script inside a built page and prints what
 it reported (`.` for the site itself, `integrations` for the lab).
 
+### Integrations — the tidier lab
+
+`/integrations2/` (noindex, not linked) answers one complaint: the board is busy. It draws eighteen
+marks, two buses, eight connectors and light moving along all of them at once. `build/lab4.cjs`
+renders seven treatments that take the opposite bet — tidiness from structure, not decoration: no
+crossing lines anywhere, one alignment held throughout, and at most one thing moving.
+
+- **01 Ledger** — a spec sheet: category left, its partners right, one hairline per row.
+- **02 Plain grid** — eighteen equal cells, hairline dividers, nothing else.
+- **03 Category strips** — the ledger banded, alternating surface instead of rules.
+- **04 Name cards** — the only one where every partner name is readable without hovering.
+- **05 Quiet hub** — the board's idea with the wiring removed. Note the geometry: the x spread is
+  `R * 1.62`, so the outer ring's R cannot exceed 27 or marks fall off the edges.
+- **06 Single rail** — one slow line plus a category legend; a third of the height of the others.
+- **07 Split panel** — categories left, marks right; pointing at a category lifts its own and dims
+  the rest, so the grouping is answered without a single line and nothing is hidden.
+
+All seven keep the rules the board keeps: all eighteen on screen, one optical area each, click for
+the full detail. Screenshots: `node build/qa10.cjs led:620` (or `gr` / `st` / `cd` / `hb` / `rl` /
+`sp` / `all`).
+
 ### Pricing
 
 A spec-sheet comparison table (the layout from the Blueprint concept) in the graphite palette: one

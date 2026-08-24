@@ -31,6 +31,13 @@ fs.writeFileSync(path.join(d3Dir, 'script.js'),
   runtime + fs.readFileSync(path.join(__dirname, 'v5.js'), 'utf8'), 'utf8');
 console.log('v2/index.html  ' + (d3html.length / 1024).toFixed(1) + ' KB  (3D layer)');
 
+/* Comparison page for tidier integrations treatments (noindex). */
+const int2Dir = path.join(root, 'integrations2');
+fs.mkdirSync(int2Dir, { recursive: true });
+const int2 = require('./lab4.cjs')();
+fs.writeFileSync(path.join(int2Dir, 'index.html'), int2, 'utf8');
+console.log('integrations2/index.html  ' + (int2.length / 1024).toFixed(1) + ' KB');
+
 /* V3 "Flight deck" — a third design direction at /v3/, its own template and
    stylesheet, sharing the runtime and the content with the main page. */
 const v3Dir = path.join(root, 'v3');

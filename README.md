@@ -155,6 +155,7 @@ the site, and all safe to delete along with their `build/lab*.cjs` generators:
 |---|---|
 | `/features/` | Five treatments for the Features block. Aurora glass is the one now on the page. |
 | `/integrations/` | Five treatments for the Integrations block. The circuit board is the one now on the page. |
+| `/integrations2/` | Seven tidier treatments for the same block, for when the board reads as too busy. |
 | `/v2/` | The same page with a 3D layer over it (tilt, depth, parallax) and a toggle to switch it off. |
 | `/v3/` | A different design of the same content — "Flight deck": the page as an instrument cluster. |
 | `/mid/`, `/light/`, `/cool/`, `/duo/` | The main design in four more tones — lifted graphite, paper, cool ice-blue, and a warm-paper/dark-band split. |
