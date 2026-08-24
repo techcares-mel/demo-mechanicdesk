@@ -52,6 +52,7 @@ node build/build.cjs     # writes index.html, styles.css and script.js
 | `build/lab2-board.cjs` | The Integrations circuit board — markup **and** the CSS that is appended to `styles.css`. |
 | `build/shared.cjs` | Reusable fragments: the product tour, the contact form, disclosures, the `<head>`. |
 | `build/icons.cjs` | Every inline SVG icon, by name. |
+| `build/themes.cjs` | The alternate colour tones (mid / light) for both designs. |
 
 > **The one thing to know:** `node build/build.cjs` overwrites `index.html`,
 > `styles.css` and `script.js`. Pick one way of working. If you edit the three
@@ -156,6 +157,8 @@ the site, and all safe to delete along with their `build/lab*.cjs` generators:
 | `/integrations/` | Five treatments for the Integrations block. The circuit board is the one now on the page. |
 | `/v2/` | The same page with a 3D layer over it (tilt, depth, parallax) and a toggle to switch it off. |
 | `/v3/` | A different design of the same content — "Flight deck": the page as an instrument cluster. |
+| `/mid/`, `/light/` | The main design in two more tones — lifted graphite, and paper. |
+| `/v3-mid/`, `/v3-light/` | V3 in the same two tones. |
 
 ---
 

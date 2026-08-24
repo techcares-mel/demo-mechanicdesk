@@ -355,6 +355,40 @@ the booted state, because the boot transitions freeze under Chrome's virtual tim
 
 Live: **https://demo-mechanicdesk.vercel.app/v3/**
 
+## Two more tones per design
+
+Both designs are token-driven, so a tone is mostly a new `:root`. `build/themes.cjs` generates one
+CSS block per (design, tone) and `build.cjs` appends it after that design's stylesheet, into its own
+folder. The markup is identical to the design it comes from — only the palette moves.
+
+| Path | Design | Tone |
+|---|---|---|
+| `/mid/` | main | lifted graphite — still a dark page, but a lit room rather than a black one |
+| `/light/` | main | paper: near-white ground, graphite ink |
+| `/v3-mid/` | V3 | the same lift applied to the flight deck |
+| `/v3-light/` | V3 | paper, with the chrome headline in brushed graphite |
+
+What a tone is **not** only a `:root`: every place a dark page had been assumed has to turn over,
+and those are listed explicitly in `themes.cjs` rather than left half-converted —
+
+- **the board** is drawn in white: hairlines, the running light, the halo behind each mark. On paper
+  the traces become ink, the running light becomes amber, and the white outline that rescued
+  near-black logos is dropped (on paper their own ink is the contrast).
+- **the product tour keeps a dark island of tokens** (`.mock { --text … }`) because it is a dark
+  device — a photograph of the app, in effect — and its own chrome has to stay legible inside it.
+- **amber comes down a stop on white** (`#d97a06`) so it can carry text and 1px marks, and the
+  primary button takes white type at that darkness. The brand orange stays for large fills.
+- **photography** loses the brightness reductions that were there to sit on black.
+- **translucent white surfaces** (inputs, the segmented control, the drawer, the scrolled nav) become
+  translucent ink.
+- V3 only: the brushed-chrome headline becomes brushed graphite, and the cursor light (a white
+  soft-light wash) is switched off — on paper it only greys the type.
+
+Adding a third tone means one more entry in `TOKENS` plus whatever that tone breaks; the four pages
+rebuild from `node build/build.cjs`.
+
+Screenshots: `node build/qa9.cjs light:top:900` (or `mid` / `v3-light` / `v3-mid`, then a section id).
+
 ## Redeployment
 
 From the project root (one level up):

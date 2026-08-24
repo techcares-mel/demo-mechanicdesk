@@ -43,6 +43,35 @@ fs.writeFileSync(path.join(v3Dir, 'script.js'),
   runtime + fs.readFileSync(path.join(__dirname, 'v6.js'), 'utf8'), 'utf8');
 console.log('v3/index.html  ' + (v3html.length / 1024).toFixed(1) + ' KB  (Flight deck)');
 
+/* Two more tones for each design, from build/themes.cjs: a mid (lifted
+   graphite, still dark) and a light (paper). Each is the same markup with the
+   tone appended to its stylesheet, in its own folder:
+     /mid/  /light/        the main design
+     /v3-mid/  /v3-light/  V3 "Flight deck"                                   */
+const themes = require('./themes.cjs');
+const boardCss = require('./lab2-board.cjs').css;
+const baseCss = fs.readFileSync(path.join(__dirname, 'v2.css'), 'utf8') + boardCss;
+const deckCss = fs.readFileSync(path.join(__dirname, 'v6.css'), 'utf8') + boardCss;
+const deckJs = fs.readFileSync(path.join(__dirname, 'v6.js'), 'utf8');
+/* the themed pages live one level down, so their asset paths climb out */
+const lift = (h) => h.replace(/(["'(])images\//g, '$1../images/');
+const tone = (h, name) => h.replace(/<title>([^<]*)<\/title>/, `<title>$1 · ${name}</title>`);
+
+[['mid', 'Mid tone'], ['light', 'Light tone']].forEach(([key, name]) => {
+  const a = path.join(root, key);
+  fs.mkdirSync(a, { recursive: true });
+  fs.writeFileSync(path.join(a, 'index.html'), tone(lift(html), name), 'utf8');
+  fs.writeFileSync(path.join(a, 'styles.css'), baseCss + themes('graphite', key), 'utf8');
+  fs.writeFileSync(path.join(a, 'script.js'), runtime, 'utf8');
+
+  const b = path.join(root, 'v3-' + key);
+  fs.mkdirSync(b, { recursive: true });
+  fs.writeFileSync(path.join(b, 'index.html'), tone(v3html, name), 'utf8');
+  fs.writeFileSync(path.join(b, 'styles.css'), deckCss + themes('deck', key), 'utf8');
+  fs.writeFileSync(path.join(b, 'script.js'), runtime + deckJs, 'utf8');
+  console.log(`${key}/ + v3-${key}/  (${name})`);
+});
+
 /* Comparison page for the features-block treatments (noindex). */
 const featDir = path.join(root, 'features');
 fs.mkdirSync(featDir, { recursive: true });
