@@ -12,6 +12,13 @@
               purely a palette swap.
      light  — a proper light page: near-white paper, graphite ink, and the amber
               darkened to #d97a06 so it can carry text and small marks on white.
+     duo    — warm daylight paper for everything that has to be READ, and two
+              full-bleed dark bands for the things that have to IMPRESS: the
+              hero with the live app in it, and the integration board. Both are
+              light-on-dark by nature and go flat on white. The dark bands are
+              token islands, so every rule inside them behaves like the dark
+              design again — including the board's white traces and the white
+              outline behind near-black logos.
      cool   — fresh without touching the brand: cool ice-blue paper, deep navy
               ink, and the amber left exactly where it was. Blue is amber's
               opposite on the wheel, so the orange reads brighter here than it
@@ -23,7 +30,7 @@
 
    Usage:  themes(design, tone)  →  CSS appended after the design's stylesheet.
            design: 'graphite' (the main page) | 'deck' (V3)
-           tone:   'mid' | 'light' | 'cool'
+           tone:   'mid' | 'light' | 'cool' | 'duo'
    ========================================================================= */
 
 /* ---------------------------------------------------------------- tokens -- */
@@ -81,8 +88,53 @@ const TOKENS = {
   /* amber used as small TEXT measures about 2:1 on this ground, so type takes a
      darker one from the same family — see the overrides below */
   --accent-ink: #a35c04;
-  --redline: #e0492a;`
+  --redline: #e0492a;`,
+
+  duo: `
+  --bg: #faf8f4;                 /* warm daylight paper */
+  --bg-2: #f3f0ea;
+  --surface: #eae5dc;
+  --card: #ffffff;
+  --line: rgba(26, 23, 19, 0.10);
+  --line-2: rgba(26, 23, 19, 0.18);
+  --line-3: rgba(26, 23, 19, 0.28);
+  --text: #191612;
+  --text-2: #4b453c;
+  --muted: #7a7265;
+
+  /* the brand amber is untouched; only amber-as-small-text steps down */
+  --accent: #fca311;
+  --accent-2: #ff8a00;
+  --accent-glow: rgba(252, 163, 17, 0.24);
+  --accent-ink: #9a5804;
+  --redline: #d8462a;`
 };
+
+/* The two dark bands. Re-declaring the palette on a section turns every rule
+   inside it back into the dark design — including the board's white traces and
+   the white outline behind near-black logos, which is why the island has to
+   carry --lift as well. */
+const DARK_ISLAND = `
+  --bg: #101418; --bg-2: #14181d; --surface: #171c22; --card: #1b2129;
+  --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .15); --line-3: rgba(255, 255, 255, .24);
+  --text: #f2f5f7; --text-2: #b3bcc6; --muted: #7d8794;
+  --accent-ink: #ffb43a;
+  --lift: brightness(1.16) drop-shadow(0 0 1px rgba(255,255,255,.98)) drop-shadow(0 0 1px rgba(255,255,255,.92))
+    drop-shadow(0 0 2px rgba(255,255,255,.6)) drop-shadow(0 1px 3px rgba(0,0,0,.85));
+  --lift-on: brightness(1.2) drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff)
+    drop-shadow(0 0 3px rgba(255,255,255,.8)) drop-shadow(0 0 12px rgba(252,163,17,.45));
+  background: #101418; color: var(--text-2);`;
+
+const DARK_BOARD = `
+.bus { stroke: rgba(255, 255, 255, .14); }
+.spoke { stroke: rgba(255, 255, 255, .13); }
+.via { stroke: rgba(255, 255, 255, .17); }
+.p-in, .p-out, .p-spoke, .p-via { stroke: #fff; filter: drop-shadow(0 0 7px rgba(255, 255, 255, .85)); }
+.brd-node .mk { filter: brightness(1.14) saturate(1.05) drop-shadow(0 0 9px #101418) drop-shadow(0 0 5px #101418) drop-shadow(0 8px 16px rgba(0, 0, 0, .65)); }
+.brd-chip { background: linear-gradient(160deg, #1f262f, #0e1216); box-shadow: 0 0 0 1px rgba(255,255,255,.14), 0 18px 40px rgba(0,0,0,.6); }
+.brd-chip-label { background: rgba(16, 20, 24, .75); color: var(--text); }
+.brd-dots { background-image: radial-gradient(circle, rgba(255, 255, 255, .115) 1px, transparent 1.4px); }
+.brd-node.active .mk { filter: brightness(1.32) saturate(1.14) drop-shadow(0 0 9px #101418) drop-shadow(0 0 12px rgba(252,163,17,.5)) !important; }`;
 
 /* --------------------------------------------------- the board, both tones -- */
 /* The circuit board is the same module on every page, and it is drawn in white:
@@ -137,7 +189,10 @@ const BOARD = {
 .brd-dots { background-image: radial-gradient(circle, rgba(14, 24, 38, 0.13) 1px, transparent 1.4px); }
 .brd-node.active .mk {
   filter: brightness(1.02) drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px rgba(252, 163, 17, 0.5)) !important;
-}`
+}`,
+
+  /* the board sits inside a dark band, so it keeps the dark design's drawing */
+  duo: ''
 };
 
 const GRAPHITE_FIX = {
@@ -236,7 +291,48 @@ const GRAPHITE_FIX = {
   --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e;
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
 }
-.mock-browser { box-shadow: 0 30px 70px -32px rgba(14, 24, 38, 0.42); }`
+.mock-browser { box-shadow: 0 30px 70px -32px rgba(14, 24, 38, 0.42); }`,
+
+  duo: `
+/* ---- the light page ------------------------------------------------------ */
+.nav-inner { background: rgba(250, 248, 244, 0.86) !important; box-shadow: 0 10px 30px rgba(26, 23, 19, 0.10) !important; }
+/* the nav pill is paper from the first pixel: it sits over the dark hero band,
+   and a transparent pill there would put dark ink on a dark ground */
+.nav-inner { background: rgba(250, 248, 244, 0.92) !important; }
+.drawer { background: rgba(250, 248, 244, 0.98); }
+.cf { background: rgba(26, 23, 19, 0.03); }
+.segmented { background: rgba(26, 23, 19, 0.04); }
+.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(26, 23, 19, 0.35); }
+.bay-type-img { background: var(--surface); }
+.bay-type-img img, .blog-img img { filter: none; }
+:root {
+  --carbon: repeating-linear-gradient(45deg, rgba(26,23,19,.03) 0 1px, transparent 1px 3px),
+            repeating-linear-gradient(-45deg, rgba(26,23,19,.022) 0 1px, transparent 1px 3px);
+  --brushed: repeating-linear-gradient(90deg, rgba(26,23,19,.05) 0 1px, transparent 1px 4px);
+  --dash: repeating-linear-gradient(90deg, rgba(26,23,19,.22) 0 3px, transparent 3px 7px);
+}
+.eyebrow, .link-arrow { color: var(--accent-ink); }
+.au-tile:hover .au-plus, .disc.open .disc-plus { color: var(--accent-ink); }
+.brand em { color: var(--accent-ink); }
+.quote-mark { color: rgba(154, 88, 4, .26); }
+.feat-plate-bolt { color: rgba(26, 23, 19, .18); }
+.pop-scroll { scrollbar-color: rgba(26, 23, 19, .25) transparent; }
+.pop-scroll::-webkit-scrollbar-thumb { background: rgba(26, 23, 19, .22); }
+.pop::backdrop { background: rgba(26, 23, 19, .45); }
+.demo-watermark { opacity: .12; }
+
+/* ---- the two dark bands ------------------------------------------------- */
+.hero, .sec-integrations { ${DARK_ISLAND} }
+.hero { padding-bottom: clamp(2rem, 4vw, 3.5rem); }
+.sec-integrations { margin-top: 0; }
+.hero .eyebrow, .sec-integrations .eyebrow,
+.hero .link-arrow, .sec-integrations .link-arrow { color: var(--accent); }
+.hero-grid-lines { background-image: linear-gradient(90deg, rgba(255, 255, 255, .07) 1px, transparent 1px); }
+.hero-glow { background: radial-gradient(circle, rgba(252, 163, 17, .16) 0%, rgba(252, 163, 17, .04) 40%, transparent 68%); }
+.sec-integrations .int-hint { color: var(--muted); }
+${DARK_BOARD}
+/* the tape between the bands and the paper reads as the seam of the two */
+.sec-bay .tape, .tape { opacity: 1; }`
 };
 
 /* --------------------------------------------------------- deck (V3) ------- */
@@ -368,13 +464,68 @@ body {
   --text: #eef1f3; --text-2: #c9d1d7; --muted: #8b959e;
   --line: rgba(255, 255, 255, .08); --line-2: rgba(255, 255, 255, .14);
 }
-.mock-browser { box-shadow: 0 30px 70px -32px rgba(14, 24, 38, .42); }`
+.mock-browser { box-shadow: 0 30px 70px -32px rgba(14, 24, 38, .42); }`,
+
+  duo: `
+/* ---- the light page ------------------------------------------------------ */
+body {
+  background:
+    radial-gradient(120% 62% at 50% -12%, #ffffff 0%, rgba(255, 255, 255, 0) 62%),
+    radial-gradient(70% 40% at 88% 6%, rgba(252, 163, 17, .08), transparent 60%),
+    var(--bg);
+}
+:root {
+  --rim: linear-gradient(135deg, rgba(26, 23, 19, .2), rgba(26, 23, 19, .05) 40%, rgba(252, 163, 17, .24) 78%, rgba(26, 23, 19, .04));
+  --sheen: inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+.bezel { box-shadow: var(--sheen), 0 20px 50px -34px rgba(26, 23, 19, .4); }
+.nav.scrolled { background: rgba(250, 248, 244, .84); box-shadow: 0 8px 26px rgba(26, 23, 19, .08); }
+.drawer { background: rgba(250, 248, 244, .97); }
+.glimmer { display: none; }
+.channels li { background: transparent; }
+.cf input, .cf textarea, .cf input:focus, .cf textarea:focus { background: #fff; }
+.slot { background: var(--card); }
+.slot:hover { background: var(--bg-2); }
+.bay, .film, .posts { background: var(--line); }
+.post, .frame { background: var(--card); }
+.tx { background: linear-gradient(180deg, rgba(26, 23, 19, .03), rgba(26, 23, 19, .01)) padding-box,
+      linear-gradient(135deg, rgba(26, 23, 19, .15), rgba(26, 23, 19, .04) 46%, transparent) border-box; }
+.pop-in { background: linear-gradient(180deg, #fff, var(--card)) padding-box, var(--rim) border-box; }
+.pop-x { background: rgba(255, 255, 255, .9); }
+.pop::backdrop { background: rgba(26, 23, 19, .45); }
+.pop-scroll { scrollbar-color: rgba(26, 23, 19, .25) transparent; }
+.pop-scroll::-webkit-scrollbar-thumb { background: rgba(26, 23, 19, .22); }
+.pop-bolt { color: rgba(26, 23, 19, .2); }
+.sheet .pick { background: rgba(252, 163, 17, .07); }
+.frame img, .post-img img { filter: none; }
+.foot { background: #101418; border-top: 0; color: #b3bcc6; }
+.foot .brand { color: #f2f5f7; }
+.foot .mono-label { color: #7d8794; }
+.demo-watermark { opacity: .12; }
+
+/* amber as small type steps down on paper */
+.mod-id, .lnk, .rail-stop.on .rail-no, .slot:hover .slot-plus, .disc.open .disc-plus,
+.pick-tag, .bd-cat { color: var(--accent-ink); }
+.brand em { color: var(--accent-ink); }
+.tick::before, .tick::after { background: var(--accent-ink); }
+.chrome { background-image: linear-gradient(176deg, #3a352d 2%, #17140f 28%, #5d564a 52%, #12100c 70%, #3a352d 98%); }
+.chrome.gold { background-image: linear-gradient(176deg, #d68a12 2%, #fca311 26%, #ffbe52 52%, #b06a06 74%, #e59a17 98%); }
+
+/* ---- the two dark bands ------------------------------------------------- */
+.deck, #integrations { ${DARK_ISLAND} }
+.deck { background: linear-gradient(180deg, #101418, #14181d); }
+#integrations .mod-id, #integrations .lnk { color: var(--accent); }
+#integrations .bezel { box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 30px 70px -40px #000; }
+#integrations { --rim: linear-gradient(135deg, rgba(255,255,255,.3), rgba(255,255,255,.06) 38%, rgba(252,163,17,.16) 78%, rgba(255,255,255,.04)); }
+.deck-grid { background-image: repeating-linear-gradient(90deg, rgba(255, 255, 255, .06) 0 1px, transparent 1px 25%); }
+.deck-glow { background: radial-gradient(ellipse at 50% 50%, rgba(252, 163, 17, .15), transparent 62%); }
+${DARK_BOARD}`
 };
 
 const FIX = { graphite: GRAPHITE_FIX, deck: DECK_FIX };
 
 module.exports = (design, tone) => {
-  const name = { light: 'LIGHT', mid: 'MID', cool: 'COOL' }[tone] || tone.toUpperCase();
+  const name = { light: 'LIGHT', mid: 'MID', cool: 'COOL', duo: 'DUO' }[tone] || tone.toUpperCase();
   const label = design === 'deck' ? 'V3 "Flight deck"' : 'the main design';
   return `
 /* =========================================================================

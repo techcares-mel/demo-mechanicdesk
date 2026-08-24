@@ -57,7 +57,7 @@ const deckJs = fs.readFileSync(path.join(__dirname, 'v6.js'), 'utf8');
 const lift = (h) => h.replace(/(["'(])images\//g, '$1../images/');
 const tone = (h, name) => h.replace(/<title>([^<]*)<\/title>/, `<title>$1 · ${name}</title>`);
 
-[['mid', 'Mid tone'], ['light', 'Light tone'], ['cool', 'Cool tone']].forEach(([key, name]) => {
+[['mid', 'Mid tone'], ['light', 'Light tone'], ['cool', 'Cool tone'], ['duo', 'Duo tone']].forEach(([key, name]) => {
   const a = path.join(root, key);
   fs.mkdirSync(a, { recursive: true });
   fs.writeFileSync(path.join(a, 'index.html'), tone(lift(html), name), 'utf8');

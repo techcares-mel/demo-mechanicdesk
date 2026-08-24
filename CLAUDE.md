@@ -369,6 +369,8 @@ folder. The markup is identical to the design it comes from — only the palette
 | `/v3-light/` | V3 | paper, with the chrome headline in brushed graphite |
 | `/cool/` | main | cool ice-blue paper, deep navy ink — **the amber is untouched** |
 | `/v3-cool/` | V3 | the same, with the chrome headline in cool steel |
+| `/duo/` | main | warm daylight paper, with the hero and the board as full-bleed dark bands |
+| `/v3-duo/` | V3 | the same split applied to the flight deck |
 
 What a tone is **not** only a `:root`: every place a dark page had been assumed has to turn over,
 and those are listed explicitly in `themes.cjs` rather than left half-converted —
@@ -394,7 +396,15 @@ and those are listed explicitly in `themes.cjs` rather than left half-converted 
   (An earlier attempt turned the accent itself teal. The client did not want the brand touched, so
   the hue now lives in the paper instead.)
 
-Adding a third tone means one more entry in `TOKENS` plus whatever that tone breaks; the four pages
+**`duo` is the one to look at first.** It is not another flat palette: it puts warm daylight paper
+under everything a buyer has to *read* — twelve features, four price columns, the reviews, the
+contact form — and keeps two full-bleed **dark bands** for the two things that have to *impress*:
+the hero with the live app in it, and the integration board. Both are light-on-dark by nature and go
+flat on white. The bands are token islands (`.hero, .sec-integrations { --bg … --lift … }`), so every
+rule inside them behaves like the dark design again, board traces and logo outlines included. The
+paper is warm rather than blue or grey, which puts it in the same family as the brand amber.
+
+Adding another tone means one more entry in `TOKENS` plus whatever that tone breaks; the pages
 rebuild from `node build/build.cjs`.
 
 Screenshots: `node build/qa9.cjs light:top:900` (or `mid` / `v3-light` / `v3-mid`, then a section id).
