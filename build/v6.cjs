@@ -202,8 +202,9 @@ const integrations = () => {
   return module_({
     id: 'integrations', n: '02', name: C.integrations.eyebrow, meta: items.length + ' linked',
     body: `
-    ${head(esc(C.integrations.heading), C.integrations.sub,
-      `<p class="mod-out">${arrowLink(esc(C.integrations.moreLabel), C.integrations.moreUrl)}</p>`)}
+    ${head(esc(C.integrations.heading), null,
+      `<p class="mod-sub">${esc(C.integrations.sub)}
+        ${arrowLink(esc(C.integrations.moreLabel), C.integrations.moreUrl, 'sm')}</p>`)}
 
     <div class="bezel reveal">
       <div class="bezel-bar">

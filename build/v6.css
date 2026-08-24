@@ -378,7 +378,10 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
 .mod-meta { text-transform: none; letter-spacing: .06em; }
 .mod-head { max-width: 62ch; }
 .mod-sub { margin-top: 1rem; color: var(--text-2); }
+/* a link that finishes a sentence: it sits on the same line, a touch away */
+.mod-sub .lnk { margin-left: .6rem; vertical-align: baseline; }
 .mod-out { margin-top: 1.4rem; }
+.mod-head + .bezel { margin-top: clamp(1.75rem, 3vw, 2.5rem); }
 
 /* 01 · why */
 .reasons { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.5rem, 3vw, 3rem); margin-top: clamp(2rem, 4vw, 3rem); }
