@@ -492,7 +492,18 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
    of equal width whose bars and first lines line up, then the map full width
    underneath. */
 .mod-console { background: linear-gradient(180deg, var(--bg-2), var(--bg)); }
-.console { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2vw, 1.5rem); align-items: start; }
+/* The two bezels are the same height on purpose: they are a pair, and a pair
+   that ends on different lines reads as an accident. Stretching them is only
+   half of it — the message field then grows to take up the slack, so the form
+   fills its box instead of leaving a hole under the note. */
+.console { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2vw, 1.5rem); align-items: stretch; }
+.console-ch, .console-form { display: flex; flex-direction: column; }
+.console-ch .bezel-body, .console-form .bezel-body { flex: 1; }
+@media (min-width: 1025px) {
+  .console-form .cf { height: 100%; grid-template-rows: auto auto 1fr auto auto; }
+  .console-form .cf > label:last-of-type { grid-template-rows: auto 1fr; }
+  .console-form .cf textarea { height: 100%; min-height: 120px; }
+}
 .console-head { grid-column: 1 / -1; max-width: 62ch; margin-bottom: clamp(.5rem, 1.5vw, 1.25rem); }
 .console-map { grid-column: 1 / -1; }
 .channels { display: grid; }
