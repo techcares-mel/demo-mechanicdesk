@@ -238,7 +238,9 @@ const GRAPHITE_FIX = {
    at 0.55 an amber-and-white tape washes out to nothing on paper */
 .tape, .footer > .tape { opacity: 1; }
 .bay-type-img { background: var(--surface); }
-.footer { background: var(--bg-2); border-top: 1px solid var(--line); }
+/* no border on top of the footer: the hazard tape is the line, and a hairline
+   above it made two rules where the design asks for one */
+.footer { background: var(--bg-2); border-top: 0; }
 .footer::before { opacity: .06; }              /* the tyre tread, barely there */
 
 /* ---- ink where there was light ----------------------------------------- */
@@ -311,7 +313,9 @@ const GRAPHITE_FIX = {
    at 0.55 an amber-and-white tape washes out to nothing on paper */
 .tape, .footer > .tape { opacity: 1; }
 .bay-type-img { background: var(--surface); }
-.footer { background: var(--bg-2); border-top: 1px solid var(--line); }
+/* no border on top of the footer: the hazard tape is the line, and a hairline
+   above it made two rules where the design asks for one */
+.footer { background: var(--bg-2); border-top: 0; }
 .footer::before { opacity: .05; }
 :root {
   --carbon: repeating-linear-gradient(45deg, rgba(14,24,38,.03) 0 1px, transparent 1px 3px),

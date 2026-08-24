@@ -819,7 +819,9 @@ ul { margin: 0; padding: 0; list-style: none; }
    at 0.55 an amber-and-white tape washes out to nothing on paper */
 .tape, .footer > .tape { opacity: 1; }
 .bay-type-img { background: var(--surface); }
-.footer { background: var(--bg-2); border-top: 1px solid var(--line); }
+/* no border on top of the footer: the hazard tape is the line, and a hairline
+   above it made two rules where the design asks for one */
+.footer { background: var(--bg-2); border-top: 0; }
 .footer::before { opacity: .06; }              /* the tyre tread, barely there */
 
 /* ---- ink where there was light ----------------------------------------- */
