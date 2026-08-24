@@ -385,6 +385,15 @@ and those are listed explicitly in `themes.cjs` rather than left half-converted 
 - **photography** loses the brightness reductions that were there to sit on black.
 - **translucent white surfaces** (inputs, the segmented control, the drawer, the scrolled nav) become
   translucent ink.
+- **borderless blocks become real cards.** The dark design is deliberately borderless: the Why cards,
+  the review quotes, the blog teasers and the contact info block are plain text stacks with no
+  background, border or padding. Giving them only a shadow on paper made boxes with nothing between
+  the box and the words, so on every light tone they take the whole treatment — white ground,
+  hairline, radius and padding. The blog teaser keeps its image full-bleed and pads its body instead.
+- **the hazard tape** is amber against the darkest ink, which on paper reads as amber-and-navy; on
+  light tones the second stripe is the paper itself. `.footer > .tape` carries its own opacity, so it
+  needs matching specificity or the tape washes out.
+- **the Google Maps embed** on the main page carries a dark-mode inversion filter; it comes off.
 - V3 only: the brushed-chrome headline becomes brushed graphite, and the cursor light (a white
   soft-light wash) is switched off — on paper it only greys the type.
 - **cool** gets its freshness from the ground, not the accent: ice-blue paper and navy ink, with the

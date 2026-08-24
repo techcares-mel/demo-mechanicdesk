@@ -210,7 +210,33 @@ const GRAPHITE_FIX = {
 .drawer { background: rgba(245, 247, 249, 0.98); }
 .cf { background: rgba(18, 24, 33, 0.03); }
 .segmented { background: rgba(18, 24, 33, 0.04); }
-.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(18, 24, 33, 0.4); }
+/* ---- boxes get to be boxes ---------------------------------------------- */
+/* The dark design is borderless on purpose; on paper the same text blocks want
+   a card around them, and a card needs padding or the shadow hugs the words. */
+.card, .quote, .info-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(1.15rem, 1.8vw, 1.6rem);
+  box-shadow: 0 14px 34px -26px rgba(18, 24, 33, 0.45);
+}
+.quote { padding-top: clamp(1.5rem, 2.2vw, 2rem); }     /* room for the “ mark */
+.quote-mark { top: 0.2rem; left: 0.9rem; }
+.blog-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; gap: 0;
+  box-shadow: 0 14px 34px -26px rgba(18, 24, 33, 0.45);
+}
+.blog-img { border-radius: 0; }
+.blog-body { padding: clamp(1.15rem, 1.8vw, 1.6rem); }
+.info-card .disc:last-child .disc-body > :last-child { padding-bottom: 0; }
+
+/* the map is not in dark mode any more */
+.map iframe { filter: none; }
+
+/* ---- the line above the footer: amber and paper, not amber and navy ------ */
+:root { --tape-bg: repeating-linear-gradient(-45deg, var(--accent) 0 6px, #ffffff 6px 12px); }
+/* .footer > .tape carries its own opacity, so it needs matching specificity —
+   at 0.55 an amber-and-white tape washes out to nothing on paper */
+.tape, .footer > .tape { opacity: 1; }
 .bay-type-img { background: var(--surface); }
 .footer { background: var(--bg-2); border-top: 1px solid var(--line); }
 .footer::before { opacity: .06; }              /* the tyre tread, barely there */
@@ -220,7 +246,6 @@ const GRAPHITE_FIX = {
   --carbon: repeating-linear-gradient(45deg, rgba(18,24,33,.03) 0 1px, transparent 1px 3px),
             repeating-linear-gradient(-45deg, rgba(18,24,33,.022) 0 1px, transparent 1px 3px);
   --brushed: repeating-linear-gradient(90deg, rgba(18,24,33,.05) 0 1px, transparent 1px 4px);
-  --tape-bg: repeating-linear-gradient(-45deg, var(--accent) 0 6px, #12181f 6px 12px);
   --dash: repeating-linear-gradient(90deg, rgba(18,24,33,.22) 0 3px, transparent 3px 7px);
 }
 .hero-grid-lines { background-image: linear-gradient(90deg, rgba(18, 24, 33, 0.06) 1px, transparent 1px); }
@@ -258,7 +283,33 @@ const GRAPHITE_FIX = {
 .drawer { background: rgba(241, 245, 251, 0.98); }
 .cf { background: rgba(14, 24, 38, 0.03); }
 .segmented { background: rgba(14, 24, 38, 0.04); }
-.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(14, 24, 38, 0.36); }
+/* ---- boxes get to be boxes ---------------------------------------------- */
+/* The dark design is borderless on purpose; on paper the same text blocks want
+   a card around them, and a card needs padding or the shadow hugs the words. */
+.card, .quote, .info-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(1.15rem, 1.8vw, 1.6rem);
+  box-shadow: 0 14px 34px -26px rgba(14, 24, 38, 0.45);
+}
+.quote { padding-top: clamp(1.5rem, 2.2vw, 2rem); }     /* room for the “ mark */
+.quote-mark { top: 0.2rem; left: 0.9rem; }
+.blog-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; gap: 0;
+  box-shadow: 0 14px 34px -26px rgba(14, 24, 38, 0.45);
+}
+.blog-img { border-radius: 0; }
+.blog-body { padding: clamp(1.15rem, 1.8vw, 1.6rem); }
+.info-card .disc:last-child .disc-body > :last-child { padding-bottom: 0; }
+
+/* the map is not in dark mode any more */
+.map iframe { filter: none; }
+
+/* ---- the line above the footer: amber and paper, not amber and navy ------ */
+:root { --tape-bg: repeating-linear-gradient(-45deg, var(--accent) 0 6px, #ffffff 6px 12px); }
+/* .footer > .tape carries its own opacity, so it needs matching specificity —
+   at 0.55 an amber-and-white tape washes out to nothing on paper */
+.tape, .footer > .tape { opacity: 1; }
 .bay-type-img { background: var(--surface); }
 .footer { background: var(--bg-2); border-top: 1px solid var(--line); }
 .footer::before { opacity: .05; }
@@ -266,7 +317,6 @@ const GRAPHITE_FIX = {
   --carbon: repeating-linear-gradient(45deg, rgba(14,24,38,.03) 0 1px, transparent 1px 3px),
             repeating-linear-gradient(-45deg, rgba(14,24,38,.022) 0 1px, transparent 1px 3px);
   --brushed: repeating-linear-gradient(90deg, rgba(14,24,38,.05) 0 1px, transparent 1px 4px);
-  --tape-bg: repeating-linear-gradient(-45deg, var(--accent) 0 6px, #0e1826 6px 12px);
   --dash: repeating-linear-gradient(90deg, rgba(14,24,38,.22) 0 3px, transparent 3px 7px);
 }
 .hero-grid-lines { background-image: linear-gradient(90deg, rgba(14, 24, 38, 0.06) 1px, transparent 1px); }
@@ -302,7 +352,33 @@ const GRAPHITE_FIX = {
 .drawer { background: rgba(250, 248, 244, 0.98); }
 .cf { background: rgba(26, 23, 19, 0.03); }
 .segmented { background: rgba(26, 23, 19, 0.04); }
-.card, .quote, .blog-card, .info-card { box-shadow: 0 12px 30px -22px rgba(26, 23, 19, 0.35); }
+/* ---- boxes get to be boxes ---------------------------------------------- */
+/* The dark design is borderless on purpose; on paper the same text blocks want
+   a card around them, and a card needs padding or the shadow hugs the words. */
+.card, .quote, .info-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: clamp(1.15rem, 1.8vw, 1.6rem);
+  box-shadow: 0 14px 34px -26px rgba(26, 23, 19, 0.45);
+}
+.quote { padding-top: clamp(1.5rem, 2.2vw, 2rem); }     /* room for the “ mark */
+.quote-mark { top: 0.2rem; left: 0.9rem; }
+.blog-card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; gap: 0;
+  box-shadow: 0 14px 34px -26px rgba(26, 23, 19, 0.45);
+}
+.blog-img { border-radius: 0; }
+.blog-body { padding: clamp(1.15rem, 1.8vw, 1.6rem); }
+.info-card .disc:last-child .disc-body > :last-child { padding-bottom: 0; }
+
+/* the map is not in dark mode any more */
+.map iframe { filter: none; }
+
+/* ---- the line above the footer: amber and paper, not amber and navy ------ */
+:root { --tape-bg: repeating-linear-gradient(-45deg, var(--accent) 0 6px, #ffffff 6px 12px); }
+/* .footer > .tape carries its own opacity, so it needs matching specificity —
+   at 0.55 an amber-and-white tape washes out to nothing on paper */
+.tape, .footer > .tape { opacity: 1; }
 .bay-type-img { background: var(--surface); }
 .bay-type-img img, .blog-img img { filter: none; }
 :root {
