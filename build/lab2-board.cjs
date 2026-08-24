@@ -10,8 +10,8 @@
                      Vehicle Lookup (8 marks)
      · 4 vias        rounded-elbow bridges, inner bus -> outer bus
      · outer bus     the Supplier network + MailChimp + AMS (10 marks)
-     · chords        direct app-to-app links inside a category, lit when one
-                     of its members is selected
+     · chords        optional (chords: false) — direct app-to-app links inside
+                     a category, lit when one of its members is selected
 
    Everything sits on one loop, so every app is genuinely connected to every
    other one and to the centre. Light travels the traces; nothing rotates.
@@ -149,6 +149,9 @@ const node = (it, i, tier, P, A) => {
 module.exports.html = (o) => {
   const P = o && o.prefix !== undefined ? o.prefix : '../';
   const A = (o && o.attr) || 'data-node';
+  /* Both default on for the idea lab; the site turns them off. */
+  const withChords = !(o && o.chords === false);
+  const withBackdrop = !(o && o.backdrop === false);
   const spokes = [
     { d: `M ${HUB.x} ${HUB.y} V ${IN.y}`, len: HUB.y - IN.y },
     { d: `M ${HUB.x} ${HUB.y} V ${IN.y + IN.h}`, len: IN.y + IN.h - HUB.y },
@@ -159,31 +162,31 @@ module.exports.html = (o) => {
 
   return `
 <div class="brd-scroll">
-<div class="brd" data-scope="brd">
-  <i class="brd-dots" aria-hidden="true"></i>
+<div class="brd${withBackdrop ? '' : ' bare'}" data-scope="brd">
+  ${withBackdrop ? '<i class="brd-dots" aria-hidden="true"></i>' : ''}
   <svg class="brd-wires" viewBox="0 0 ${VB.W} ${VB.H}" aria-hidden="true">
-    ${CHORDS.map((c) => `<path class="chord" data-chord="${c.cat}" d="${chord(c.a, c.b, 0.14)}"
-      vector-effect="non-scaling-stroke" fill="none"></path>`).join('')}
+    ${withChords ? CHORDS.map((c) => `<path class="chord" data-chord="${c.cat}" d="${chord(c.a, c.b, 0.14)}"
+      vector-effect="non-scaling-stroke" fill="none"></path>`).join('') : ''}
 
     <path class="bus" d="${rr(OUT)}" vector-effect="non-scaling-stroke" fill="none"></path>
     <path class="bus" d="${rr(IN)}" vector-effect="non-scaling-stroke" fill="none"></path>
 
     ${spokes.map((s, i) => `<path class="spoke" d="${s.d}" vector-effect="non-scaling-stroke" fill="none"></path>
     <path class="pulse p-spoke" d="${s.d}" vector-effect="non-scaling-stroke" fill="none"
-      style="--len:${s.len.toFixed(0)}px;--t:2.4s;--lag:${(i * 0.6).toFixed(2)}s"></path>`).join('')}
+      style="--len:${s.len.toFixed(0)}px;--t:4.8s;--lag:${(i * 1.2).toFixed(2)}s"></path>`).join('')}
 
     ${vias.map((v, i) => `<path class="via" d="${v.d}" vector-effect="non-scaling-stroke" fill="none"></path>
     <path class="pulse p-via" d="${v.d}" vector-effect="non-scaling-stroke" fill="none"
-      style="--len:${v.len.toFixed(0)}px;--t:3.4s;--lag:${(i * 0.85 + 1.2).toFixed(2)}s"></path>`).join('')}
+      style="--len:${v.len.toFixed(0)}px;--t:6.8s;--lag:${(i * 1.7 + 2.4).toFixed(2)}s"></path>`).join('')}
 
     <path class="pulse p-in" d="${rr(IN)}" vector-effect="non-scaling-stroke" fill="none"
-      style="--len:${rrLen(IN).toFixed(0)}px;--t:9s"></path>
+      style="--len:${rrLen(IN).toFixed(0)}px;--t:18s"></path>
     <path class="pulse p-in" d="${rr(IN)}" vector-effect="non-scaling-stroke" fill="none"
-      style="--len:${rrLen(IN).toFixed(0)}px;--t:9s;--lag:4.5s"></path>
+      style="--len:${rrLen(IN).toFixed(0)}px;--t:18s;--lag:9s"></path>
     <path class="pulse p-out" d="${rr(OUT)}" vector-effect="non-scaling-stroke" fill="none"
-      style="--len:${rrLen(OUT).toFixed(0)}px;--t:14s"></path>
+      style="--len:${rrLen(OUT).toFixed(0)}px;--t:28s"></path>
     <path class="pulse p-out" d="${rr(OUT)}" vector-effect="non-scaling-stroke" fill="none"
-      style="--len:${rrLen(OUT).toFixed(0)}px;--t:14s;--lag:7s"></path>
+      style="--len:${rrLen(OUT).toFixed(0)}px;--t:28s;--lag:14s"></path>
   </svg>
 
   <div class="brd-hub">
@@ -213,21 +216,24 @@ module.exports.css = `
   -webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 50%,#000 26%,transparent 82%)}
 .brd::after{content:'';position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1.5;transform:translate(-50%,-50%);
   background:radial-gradient(ellipse,rgba(252,163,17,.13),transparent 66%);pointer-events:none;z-index:-1}
+/* .bare: no dot grid, no bloom — just the traces on the page's own ground */
+.brd.bare::after{display:none}
 /* the wires are a full-size transparent overlay: without this they would
    compete with the marks for clicks */
 .brd-wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 .bus{stroke:rgba(255,255,255,.13);stroke-width:1.5}
 .spoke{stroke:rgba(255,255,255,.12);stroke-width:1.5}
-.via{stroke:rgba(139,92,246,.3);stroke-width:1.5}
+.via{stroke:rgba(255,255,255,.16);stroke-width:1.5}
 .chord{stroke:rgba(255,255,255,.055);stroke-width:1;stroke-dasharray:2 6;transition:stroke .45s ease}
 .chord.lit{stroke:rgba(252,163,17,.65);stroke-dasharray:none;filter:drop-shadow(0 0 5px rgba(252,163,17,.6))}
 .pulse{stroke-width:2.5;stroke-linecap:round;stroke-dasharray:64 9999;stroke-dashoffset:0;
   animation:run var(--t,9s) linear infinite;animation-delay:calc(var(--lag,0s) * -1)}
 @keyframes run{to{stroke-dashoffset:calc((var(--len) + 64px) * -1)}}
-.p-in{stroke:var(--accent);filter:drop-shadow(0 0 7px rgba(252,163,17,.85))}
-.p-out{stroke:var(--cool);filter:drop-shadow(0 0 8px rgba(74,125,255,.85))}
-.p-spoke{stroke:#fff;stroke-dasharray:30 9999;filter:drop-shadow(0 0 6px rgba(255,255,255,.8))}
-.p-via{stroke:var(--violet);stroke-dasharray:38 9999;filter:drop-shadow(0 0 7px rgba(139,92,246,.9))}
+/* one colour for every light on the board: white reads as data moving rather
+   than as four different systems, and it lets the logos keep the only colour */
+.p-in, .p-out, .p-spoke, .p-via { stroke: #fff; filter: drop-shadow(0 0 7px rgba(255,255,255,.85)) }
+.p-spoke{stroke-dasharray:30 9999}
+.p-via{stroke-dasharray:38 9999}
 
 .brd-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:min(.5rem,.66cqw)}
 .brd-chip{width:min(76px,6.34cqw);height:min(76px,6.34cqw);border-radius:min(22px,1.84cqw);display:grid;place-items:center;position:relative;z-index:2;

@@ -15,7 +15,7 @@ runs; upload the folder to any static host and it is live.
 |---|---|
 | `index.html` | The page: structure and every word on it. Blocks are signposted with `<!-- ===== SECTION -->` comments. |
 | `styles.css` | Every style, in labelled sections. The design system is the custom properties in `:root` at the top. |
-| `script.js` | Behaviour, in 15 numbered blocks. Each one is independent and does nothing if its markup is absent. |
+| `script.js` | Behaviour, in 14 numbered blocks. Each one is independent and does nothing if its markup is absent. |
 | `images/` | Photography, partner logos, product screenshots. |
 | `vercel.json` | One line of hosting config (`trailingSlash`). Delete it if you host elsewhere. |
 | `research.json`, `colors.json` | Working files from the build (the researched business data, and the palette read out of the logo). Not used by the page — safe to delete. |
@@ -116,7 +116,6 @@ restyle freely without breaking anything:
 | `data-menu`, `data-menu-open`, `data-menu-close` | Mobile drawer. |
 | `data-region`, `data-price-cell`, `data-month-unit` | Pricing region switcher. |
 | `data-brd-node`, `data-chord` | Circuit board marks and the links between them. |
-| `data-spot` | Container whose cursor position drives the spotlight. |
 | `data-target`, `data-suffix` | Number that counts up when scrolled into view. |
 | `data-year` | Filled with the current year. |
 | `data-tour`, `data-phone` | The product tour and the phone screens. |
@@ -134,7 +133,7 @@ section at the bottom of `styles.css`.
    of `<body>`, and its rule in `styles.css`.
 3. **The contact form does not send anything.** It validates and shows a
    thank-you. Point it at a real endpoint (your own handler, Formspree, Netlify
-   Forms…) and delete block 11 in `script.js`.
+   Forms…) and delete block 10 in `script.js`.
 4. **Check the outbound links.** Sign Up, Login, feature detail pages, partner
    pages and the blog all point at the current mechanicdesk.com.au URLs.
 5. **Photography.** The photos in `images/pexels/` are licensed stock (Pexels

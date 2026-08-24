@@ -124,8 +124,8 @@ const bay = () => `
 
 /* ------------------------------------------------------------ features --- */
 /* Twelve tiles of frosted glass over a slow aurora (the "Aurora glass"
-   treatment from /features/): hovering one clears its own glass so the light
-   behind it comes through, and a spotlight follows the cursor across the grid.
+   treatment from /features/), with the Bento mosaic's hover from the same lab:
+   an accent wipe crosses the tile from the left, the icon lifts and the + turns.
    The detail opens in the page's popup rather than unfolding a panel under the
    grid, so nothing shifts under the reader; the twelve bodies are rendered once
    into a hidden well and cloned in on click (app.js 0b). */
@@ -137,11 +137,12 @@ const features = () => `
       <i class="au-blob b1" aria-hidden="true"></i>
       <i class="au-blob b2" aria-hidden="true"></i>
       <i class="au-blob b3" aria-hidden="true"></i>
-      <div class="au-grid" data-spot>
+      <div class="au-grid">
         ${C.features.items.map((f, i) => `
         <button class="au-tile" data-pop="feat-${slug(f.name)}"
                 aria-haspopup="dialog" aria-label="${esc(f.name)} — read what it covers">
-          <span class="au-no">${n2(i)}</span>
+          <span class="au-wipe" aria-hidden="true"></span>
+          <span class="au-top"><span class="au-no">${n2(i)}</span><span class="au-plus">${icons.plus}</span></span>
           <span class="au-ico">${ico(f.icon, 'ico')}</span>
           <span class="au-name">${esc(f.name)}</span>
         </button>`).join('')}
@@ -194,7 +195,7 @@ const circuit = () => {
       'centered')}
     <div class="int-board reveal">
       <p class="int-hint">All ${items.length} partners — tap one to read it</p>
-      ${board.html({ prefix: '', attr: 'data-brd-node' })}
+      ${board.html({ prefix: '', attr: 'data-brd-node', chords: false, backdrop: false })}
     </div>
 
     <div class="pop-well" hidden>

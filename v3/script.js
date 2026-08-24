@@ -18,22 +18,20 @@
      5   count-up         any [data-target] counts up when it scrolls into view
      6   active nav link  highlights the section currently on screen
      7   disclosures      [data-acc-toggle] opens its [data-acc] parent
-     8   circuit board    lights a partner + its category, opens its popup
-     9   spotlight        the light that follows the cursor over the tiles
-     10  pricing regions  swaps every [data-price-cell] from #pricing-data
-     11  contact form     front end only: shows a thank-you, sends nothing
-     12  product tour     plays images/app/*.png like a video
-     13  phone screens    cycles images/app-mobile/*.png behind the tour
-     14  smooth anchors   offset by the height of the fixed nav
-     15  footer year      fills every [data-year]
+     8   circuit board    lights a partner, opens its popup
+     9   pricing regions  swaps every [data-price-cell] from #pricing-data
+     10  contact form     front end only: shows a thank-you, sends nothing
+     11  product tour     plays images/app/*.png like a video
+     12  phone screens    cycles images/app-mobile/*.png behind the tour
+     13  smooth anchors   offset by the height of the fixed nav
+     14  footer year      fills every [data-year]
 
    BROWSER BASELINE
    Written for browsers from 2020 on: const/let, arrow functions, template
    literals, optional chaining, IntersectionObserver, <dialog>, pointer events,
    CSS custom properties. No polyfills and none needed.
 
-   Motion: blocks 12 and 13 respect prefers-reduced-motion, and block 9 does
-   nothing on touch (a finger has no hover, and it reads as jitter).
+   Motion: blocks 11 and 12 respect prefers-reduced-motion.
    ========================================================================= */
 (function () {
   'use strict';
@@ -213,8 +211,9 @@
   });
 
   /* ── 8. Circuit board (Integrations) ──────────────────────────────────
-     Tapping a partner mark does three things: marks it active, lights the
-     chords that join its category, and opens that partner in the popup.
+     Tapping a partner mark marks it active and opens that partner in the
+     popup. The chord lighting below is inert on this page — the site asks the
+     board for no chords — but it costs nothing and the idea lab still uses it.
      The first mark is selected on load for looks — quietly, without opening
      the popup at anyone. */
   const boardNodes = $$('[data-brd-node]');
@@ -238,35 +237,7 @@
     silent = false;
   }
 
-  /* ── 9. Cursor spotlight (Aurora grid) ────────────────────────────────
-     Writes the pointer's position into --mx / --my on the container; the
-     gradient that uses them lives in styles.css, so the maths is here and the
-     look is there. --spot fades the whole thing in and out. */
-  $$('[data-spot]').forEach((el) => {
-    if (window.matchMedia?.('(pointer: coarse)').matches) return;
-
-    let queued = false;
-    let x = 0;
-    let y = 0;
-
-    el.addEventListener('pointermove', (e) => {
-      const rect = el.getBoundingClientRect();
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => {
-        queued = false;
-        el.style.setProperty('--mx', `${x}px`);
-        el.style.setProperty('--my', `${y}px`);
-      });
-    }, { passive: true });
-
-    el.addEventListener('pointerenter', () => el.style.setProperty('--spot', '1'));
-    el.addEventListener('pointerleave', () => el.style.setProperty('--spot', '0'));
-  });
-
-  /* ── 10. Pricing regions ──────────────────────────────────────────────
+  /* ── 9. Pricing regions ──────────────────────────────────────────────
      The prices for all four regions are in the JSON at the bottom of
      index.html (<script id="pricing-data">). Clicking a region chip rewrites
      every cell that carries data-price-cell, matching on data-plan +
@@ -308,7 +279,7 @@
     regionSelect?.addEventListener('change', () => applyRegion(regionSelect.value));
   }
 
-  /* ── 11. Contact form ─────────────────────────────────────────────────
+  /* ── 10. Contact form ─────────────────────────────────────────────────
      THERE IS NO BACKEND. The form validates in the browser and swaps itself
      for a thank-you note; nothing is sent anywhere. To make it real, point the
      form at your endpoint (or a service like Formspree) and remove this block.
@@ -341,7 +312,7 @@
     });
   }
 
-  /* ── 12. Product tour ─────────────────────────────────────────────────
+  /* ── 11. Product tour ─────────────────────────────────────────────────
      The screens in images/app/ are stacked on top of each other and cross-fade
      in CSS; this only decides which one is active. One requestAnimationFrame
      loop drives the progress bar and the changeover, and it is stopped
@@ -421,7 +392,7 @@
     }
   }
 
-  /* ── 13. Phone screens ────────────────────────────────────────────────
+  /* ── 12. Phone screens ────────────────────────────────────────────────
      The phone in front of the browser window runs on its own slower clock, so
      the two are never in step — it looks alive rather than choreographed. */
   const phone = $('[data-phone]');
@@ -436,7 +407,7 @@
     }
   }
 
-  /* ── 14. Smooth anchors ───────────────────────────────────────────────
+  /* ── 13. Smooth anchors ───────────────────────────────────────────────
      Same-page links stop short of the target by the height of the fixed nav,
      otherwise the heading you clicked hides underneath it. */
   $$('a[href^="#"]').forEach((link) => {
@@ -451,7 +422,7 @@
     });
   });
 
-  /* ── 15. Footer year ──────────────────────────────────────────────────
+  /* ── 14. Footer year ──────────────────────────────────────────────────
      So the copyright line never goes stale. */
   $$('[data-year]').forEach((el) => { el.textContent = new Date().getFullYear(); });
 })();

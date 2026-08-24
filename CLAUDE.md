@@ -111,12 +111,15 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
 
 ### Features — Aurora glass
 
-`#features` is the **Aurora glass** treatment chosen from `/features/`: three slow-drifting lights
-(amber, blue, violet) behind a 6x2 sheet of frosted tiles. Hovering a tile drops its own blur from
-16px to 3px, so that tile clears and lets its patch of aurora through, and a spotlight follows the
-cursor across the grid (`[data-spot]`, `app.js` 9b). The whole effect rests on `backdrop-filter`, so
-the three `.au-blob`s must stay inside `.au` — move them out and there is nothing behind the glass
-to blur.
+`#features` is the **Aurora glass** block from `/features/` — three slow-drifting lights (amber,
+blue, violet) behind a 6x2 sheet of frosted tiles — with the **Bento mosaic's hover** from the same
+lab: an accent wipe crosses the tile from the left (`.au-wipe`, `scaleX` from the left edge), the
+icon plate lifts and turns amber, the `+` rotates, and the tile rises 3px. The aurora's own gestures
+are gone: the tile no longer clears its blur, and the cursor spotlight went with them (the
+`[data-spot]` block has been removed from `app.js`).
+
+The glass rests on `backdrop-filter`, so the three `.au-blob`s must stay inside `.au` — move them out
+and there is nothing behind the glass to blur.
 Clicking a tile opens its detail in the page's popup over the grid rather than unfolding a panel
 underneath it, so the page never shifts under the reader. The twelve bodies — spec plate, icon,
 name, blurb, every bullet, the highlight and the deep link — are rendered once into a hidden
@@ -169,9 +172,16 @@ rounded-rect buses around the MechanicDesk chip: four spokes chip → inner bus,
 vias inner → outer, and a chord between every pair of partners in the same category. Light runs the
 traces (amber on the inner bus, blue on the outer, violet through the vias, white down the spokes);
 nothing rotates. Clicking a mark opens that partner's category, description and link underneath and
-lights its own category's chords and opens that partner in the page's shared popup — `data-brd-node`
-plus `data-pop-body="int-<slug>"`, `app.js` 8c and 0b. "More details" rides at the end of the
-section's sub line.
+opens that partner in the page's shared popup — `data-brd-node` plus
+`data-pop-body="int-<slug>"`, `app.js` 8 and 1. "More details" rides at the end of the section's sub
+line.
+
+The site asks the board for a stripped-back version: `html({ chords: false, backdrop: false })`.
+No chords between same-category partners, no dot grid and no amber bloom — just the traces on the
+page's own ground. The light running them is **half the old speed** (18s inner bus, 28s outer, 4.8s
+spokes, 6.8s vias) and **all one white**, so it reads as data moving rather than four systems, and
+the logos keep the only colour on the board. The idea lab still gets the chords and the backdrop,
+which is what the options are for.
 
 Geometry, layout and CSS live in **`build/lab2-board.cjs`**, shared with the idea lab.
 `html({ prefix, attr })` lets each host ask for its own asset prefix and click hook; `.css` is
