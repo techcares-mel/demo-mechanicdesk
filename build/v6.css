@@ -84,7 +84,7 @@ em { font-style: normal; color: var(--accent); }
 
 /* the instrument voice: every label, ID and unit on the page */
 .mono-label, .mod-id, .mod-meta, .rail-no, .rail-label, .slot-no, .frame-no,
-.tx-id, .post-no, .ch-no, .bezel-id, .bezel-meta, .scope-id, .scope-meta, .pick-tag, .chip, .fine {
+.tx-id, .post-no, .ch-no, .bezel-id, .bezel-meta, .pick-tag, .chip, .fine {
   font-family: var(--mono); font-weight: 400; letter-spacing: 0.14em; text-transform: uppercase;
   font-size: 0.68rem; color: var(--muted); font-variant-numeric: tabular-nums;
 }
@@ -254,8 +254,8 @@ html:not(.booting) .tick { opacity: .55; }
   gap: clamp(1.75rem, 3vw, 2.75rem); align-items: center;
 }
 .deck-copy { position: relative; }
-/* the live view leans into the right margin on wide screens, as on the main page */
-@media (min-width: 1400px) { .deck-art { margin-right: clamp(-5vw, -2.5vw, 0px); } }
+/* No bleed into the right margin: without its bezel the mock is wider than it
+   was, and the phone in front of it would hang off the edge of the window. */
 .deck-eyebrow { display: flex; align-items: center; gap: .9rem; font-family: var(--mono); font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
 .deck-eyebrow .sep { width: 34px; height: 1px; background: var(--line-3); }
 .deck-h1 { margin: 1.4rem 0 0; }
@@ -291,7 +291,7 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
 .deck-cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2.2rem; }
 
 /* the live view: the product tour in a bezel */
-.scope, .bezel {
+.bezel {
   /* the rim is a gradient border: bright where the light lands, gone where it
      does not. padding-box/border-box is what lets one element hold both. */
   border: 1px solid transparent; border-radius: 2px;
@@ -300,9 +300,8 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
     var(--rim) border-box;
   box-shadow: var(--sheen), 0 30px 70px -40px rgba(0, 0, 0, .9);
 }
-.scope { margin-top: 0; }
-.scope-bar, .bezel-bar { display: flex; align-items: center; gap: .8rem; padding: .7rem 1rem; border-bottom: 1px solid var(--line); }
-.scope-rule, .bezel-rule, .mod-rule { position: relative; flex: 1; height: 1px; background: repeating-linear-gradient(90deg, var(--line-2) 0 2px, transparent 2px 6px); }
+.bezel-bar { display: flex; align-items: center; gap: .8rem; padding: .7rem 1rem; border-bottom: 1px solid var(--line); }
+.bezel-rule, .mod-rule { position: relative; flex: 1; height: 1px; background: repeating-linear-gradient(90deg, var(--line-2) 0 2px, transparent 2px 6px); }
 /* the rule lights up left to right as its module arrives */
 .mod-rule::after {
   content: ''; position: absolute; inset: 0; transform: scaleX(0); transform-origin: left;
@@ -310,8 +309,6 @@ html:not(.booting) .chrome::after { animation: sheen 1.5s cubic-bezier(.4, 0, .2
   transition: transform 1.1s var(--ease) .1s;
 }
 .mod-bar.visible .mod-rule::after { transform: scaleX(1); }
-.scope-meta { text-transform: none; letter-spacing: .04em; }
-.scope-body { padding: clamp(1rem, 2.5vw, 2rem) clamp(1rem, 2.5vw, 2rem) 0; }
 .bezel-body { padding: clamp(1rem, 2.5vw, 1.75rem); }
 
 /* -------------------------------------------------- the live view (mock) -- */

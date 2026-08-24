@@ -152,19 +152,10 @@ const hero = () => `
       </div>
     </div>
 
-    <!-- the product tour, in a bezel with its own readout -->
+    <!-- the product tour stands on its own: the browser window it renders is
+         already a frame, so a bezel around it would be a box around a box -->
     <div class="deck-art boot-7">
-      <div class="scope">
-        <div class="scope-bar">
-          <span class="scope-id">LIVE VIEW</span>
-          <span class="scope-rule" aria-hidden="true"></span>
-          <span class="scope-meta">${esc(C.productTour.url)}</span>
-          <span class="led" aria-hidden="true"></span>
-        </div>
-        <div class="scope-body">
-          ${S.productMock({ badge: false })}
-        </div>
-      </div>
+      ${S.productMock({ badge: false })}
     </div>
   </div>
 </section>`;

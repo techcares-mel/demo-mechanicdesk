@@ -304,8 +304,9 @@ page is an instrument cluster.
   shorthand — the shorthand resets `background-clip: text` and the word paints as a solid block.
 - Each module's rule lights up left-to-right as that module arrives (`.mod-bar.visible .mod-rule`).
 - The four-number telemetry strip under the hero was removed at the client's request.
-- **The hero uses the main page's layout**: copy left, the live view right, `.86fr / 1.14fr`,
-  vertically centred. Careful with names — `.deck-grid` is the decorative column-lines layer, so the
+- **The hero uses the main page's layout**: copy left, the product tour right, `.86fr / 1.14fr`,
+  vertically centred. The tour has no frame around it — the browser window it renders is already a
+  frame, so the bezel that used to hold it was a box around a box. Careful with names — `.deck-grid` is the decorative column-lines layer, so the
   layout wrapper is `.deck-cols`; reusing the name made the whole hero paint at half opacity behind
   a mask.
 - **Index numbers are set 50% larger than the labels** around them (`1.02rem` against `0.68rem`):
