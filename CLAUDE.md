@@ -111,15 +111,15 @@ of it showing `images/app-mobile/m1–m3.png`, and a floating notification chip.
 
 ### Features — Aurora glass
 
-`#features` is the **Aurora glass** block from `/features/` — three slow-drifting lights (amber,
-blue, violet) behind a 6x2 sheet of frosted tiles — with the **Bento mosaic's hover** from the same
-lab: an accent wipe crosses the tile from the left (`.au-wipe`, `scaleX` from the left edge), the
-icon plate lifts and turns amber, the `+` rotates, and the tile rises 3px. The aurora's own gestures
-are gone: the tile no longer clears its blur, and the cursor spotlight went with them (the
-`[data-spot]` block has been removed from `app.js`).
+`#features` is the **Bento mosaic** from `/features/`, on this page's 6x2 grid: a solid `--card`
+tile on a `--line` hairline, an amber-tinted icon plate, and on hover an accent wipe crossing from
+the left (`.au-wipe`, `scaleX` from the left edge) while the tile rises 3px, the icon lifts and the
+`+` turns.
 
-The glass rests on `backdrop-filter`, so the three `.au-blob`s must stay inside `.au` — move them out
-and there is nothing behind the glass to blur.
+It started as the Aurora glass block — frosted tiles over three drifting lights — and moved to the
+bento's gestures first, then its background. The lights went with the glass: they only existed to be
+seen through it. The cursor spotlight went too, and its `[data-spot]` block is out of `app.js`. The
+class names still start `au-` because that is what the markup and the popup keys are keyed on.
 Clicking a tile opens its detail in the page's popup over the grid rather than unfolding a panel
 underneath it, so the page never shifts under the reader. The twelve bodies — spec plate, icon,
 name, blurb, every bullet, the highlight and the deep link — are rendered once into a hidden

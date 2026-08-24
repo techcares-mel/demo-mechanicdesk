@@ -123,9 +123,9 @@ const bay = () => `
 </section>`;
 
 /* ------------------------------------------------------------ features --- */
-/* Twelve tiles of frosted glass over a slow aurora (the "Aurora glass"
-   treatment from /features/), with the Bento mosaic's hover from the same lab:
-   an accent wipe crosses the tile from the left, the icon lifts and the + turns.
+/* Twelve tiles, 6x2, with the Bento mosaic's look and gestures from /features/:
+   a solid card on a hairline, an accent wipe crossing from the left on hover,
+   the icon lifting and the + turning.
    The detail opens in the page's popup rather than unfolding a panel under the
    grid, so nothing shifts under the reader; the twelve bodies are rendered once
    into a hidden well and cloned in on click (app.js 0b). */
@@ -134,9 +134,6 @@ const features = () => `
   <div class="wrap">
     ${secHead(C.features.eyebrow, esc(C.features.heading), null, null, 'centered')}
     <div class="au reveal">
-      <i class="au-blob b1" aria-hidden="true"></i>
-      <i class="au-blob b2" aria-hidden="true"></i>
-      <i class="au-blob b3" aria-hidden="true"></i>
       <div class="au-grid">
         ${C.features.items.map((f, i) => `
         <button class="au-tile" data-pop="feat-${slug(f.name)}"

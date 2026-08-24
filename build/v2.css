@@ -319,26 +319,19 @@ ul { margin: 0; padding: 0; list-style: none; }
 .card .link-arrow { margin-top: auto; padding-top: 0.6rem; }
 
 /* -------------------------------------------------------------- features -- */
-/* Aurora glass. Three slow-drifting lights sit behind a sheet of frosted tiles;
-   the tile you point at clears its glass and lets its own patch of aurora
-   through, and a spotlight tracks the cursor across the whole grid. The
-   backdrop-filter is the whole effect — keep the blobs inside .au or there is
-   nothing behind the glass to blur. */
-.au { position: relative; padding: clamp(.75rem, 1.6vw, 1.5rem); border-radius: 22px; overflow: hidden; isolation: isolate; }
-.au-blob { position: absolute; border-radius: 50%; filter: blur(70px); z-index: -1; pointer-events: none; }
-.au-blob.b1 { width: 46%; height: 120%; left: -4%; top: -30%; background: radial-gradient(circle, rgba(252,163,17,.42), transparent 66%); animation: auDrift 30s ease-in-out infinite alternate; }
-.au-blob.b2 { width: 52%; height: 130%; right: -8%; bottom: -40%; background: radial-gradient(circle, rgba(74,125,255,.40), transparent 66%); animation: auDrift 42s ease-in-out infinite alternate-reverse; }
-.au-blob.b3 { width: 38%; height: 100%; left: 36%; top: -14%; background: radial-gradient(circle, rgba(139,92,246,.34), transparent 68%); animation: auDrift 52s ease-in-out infinite alternate; }
-@keyframes auDrift { from { transform: translate3d(-6%, -5%, 0) scale(1); } to { transform: translate3d(8%, 7%, 0) scale(1.22); } }
+/* Twelve tiles from the Bento mosaic in /features/: a solid card on a hairline,
+   and on hover an accent wipe crosses from the left while the icon lifts and
+   the + turns. The block used to be frosted glass over a drifting aurora; the
+   client took the bento's background, and the lights went with the glass — they
+   only existed to be seen through it. */
+.au { position: relative; }
 
 .au-grid { position: relative; display: grid; grid-template-columns: repeat(6, 1fr); gap: clamp(.5rem, .8vw, .8rem); }
 .au-tile {
   position: relative; aspect-ratio: 1; display: grid; grid-template-rows: auto 1fr auto; gap: .4rem;
   padding: clamp(.7rem, 1vw, .9rem); text-align: left; cursor: pointer; color: inherit; overflow: hidden;
-  border-radius: 18px; background: rgba(255,255,255,.055); border: 1px solid rgba(255,255,255,.10);
-  backdrop-filter: blur(16px) saturate(1.25); -webkit-backdrop-filter: blur(16px) saturate(1.25);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 20px 40px -30px #000;
-  transition: transform .4s cubic-bezier(.2,.8,.3,1), border-color .4s ease;
+  border-radius: var(--radius); background: var(--card); border: 1px solid var(--line);
+  transition: transform .35s cubic-bezier(.2,.8,.3,1), border-color .35s ease;
 }
 /* the accent wipe: the Bento mosaic's gesture, on the Aurora block */
 .au-wipe {
@@ -346,7 +339,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   transition: transform .5s cubic-bezier(.2,.8,.3,1);
   background: linear-gradient(90deg, rgba(252,163,17,.22), rgba(252,163,17,.05) 58%, transparent);
 }
-.au-tile:hover, .au-tile:focus-visible { transform: translateY(-3px); border-color: rgba(255,255,255,.24); }
+.au-tile:hover, .au-tile:focus-visible { transform: translateY(-3px); border-color: var(--line-2); }
 .au-tile:hover .au-wipe, .au-tile:focus-visible .au-wipe { transform: scaleX(1); }
 .au-tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .au-top { position: relative; display: flex; align-items: center; justify-content: space-between; }
@@ -357,11 +350,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 .au-ico {
   position: relative; width: clamp(34px, 2.9vw, 40px); aspect-ratio: 1; border-radius: 12px;
   display: grid; place-items: center; align-self: center; justify-self: start;
-  background: rgba(255,255,255,.10); color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.25); transition: transform .35s ease, background .35s ease;
+  background: rgba(252, 163, 17, .1); color: var(--accent);
+  transition: transform .35s ease, background .35s ease, color .35s ease;
 }
 .au-ico svg { width: 18px; height: 18px; }
-.au-tile:hover .au-ico { transform: translateY(-2px) scale(1.06); background: rgba(252,163,17,.32); }
+.au-tile:hover .au-ico { transform: translateY(-2px) scale(1.06); background: rgba(252, 163, 17, .22); }
 .au-name {
   position: relative;
   font-family: var(--head); font-weight: 600; font-size: clamp(.8rem, .85vw, .92rem); line-height: 1.2;
