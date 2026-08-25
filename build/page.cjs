@@ -433,9 +433,9 @@ const footer = () => `
       </div>
     </div>
     <div class="foot-bottom">
-      <!-- the closing year is filled by script.js block 15 so it never goes stale -->
+      <!-- the closing year is filled by script.js block 14 so it never goes stale -->
       <p>${esc(C.brand.copyright).replace(/(\d{4})(?=\.)/, '<span data-year>$1</span>')}</p>
-      <p>Demo build · app screens from MechanicDesk tutorials · workshop photography: Pexels</p>
+      ${C.brand.credit ? `<p>${esc(C.brand.credit)}</p>` : ''}
     </div>
   </div>
 </footer>`;
@@ -444,8 +444,8 @@ module.exports = () => `<!DOCTYPE html>
 <html lang="en">
 <head>
 <!--
-  MechanicDesk — redesign demo. Plain HTML5 + CSS3 + vanilla JS: no framework,
-  no bundler, nothing to install. Open index.html and it runs.
+  MechanicDesk — website. Plain HTML5 + CSS3 + vanilla JS: no framework, no
+  bundler, nothing to install. Open index.html and it runs.
 
     index.html   this file — structure and all copy
     styles.css   every style, in labelled sections
@@ -466,8 +466,7 @@ module.exports = () => `<!DOCTYPE html>
 ${S.head({ fontLinks: FONTS, css: 'styles.css' })}
 </head>
 <body>
-${mark('CHROME', 'demo watermark, scroll-progress bar, back-to-top button')}
-${S.watermark()}
+${mark('CHROME', 'scroll-progress bar, back-to-top button')}
 ${S.chrome()}
 ${mark('NAV', 'links = content.cjs nav[] · mobile drawer is the same list')}
 ${navBar()}

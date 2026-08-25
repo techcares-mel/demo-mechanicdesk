@@ -11,8 +11,10 @@
    chosen. They are all deleted, and this script's job is to make sure they
    stay deleted: it rebuilds the page first, then refuses to write the zip if
    any text file in it still mentions another style, still carries a dark-page
-   colour, or if a folder from one of them has come back. A silent leftover is
-   exactly the kind of thing that would ship otherwise.
+   colour, or if a folder from one of them has come back. It checks the same
+   way for demo markers — the watermark, robots:noindex, demo wording — because
+   this is a production build. A silent leftover is exactly the kind of thing
+   that would ship otherwise.
 
    The zip is written with Node's own zlib — no dependency to install.
    ========================================================================= */
@@ -66,7 +68,11 @@ const FORBIDDEN = [
   [/Flight deck/, 'the V3 design'],
   [/Aurora glass/, 'a deleted features treatment'],
   [/#0b0d0f|#151a1f|#12161a|#0e1114/, 'a colour from the dark palette'],
-  [/rgba\(252, ?163, ?17/, 'the brand amber mixed by hand instead of a token']
+  [/rgba\(252, ?163, ?17/, 'the brand amber mixed by hand instead of a token'],
+  /* this is a production build: no demo markers may come back */
+  [/demo-watermark/, 'the DEMO watermark'],
+  [/content="noindex"/, 'robots:noindex, which would keep Google out'],
+  [/Demo build|Demo form/i, 'demo wording in the page']
 ];
 const FORBIDDEN_DIRS = ['v2', 'v3', 'v3-mid', 'v3-light', 'v3-cool', 'v3-duo',
   'mid', 'light', 'cool', 'duo', 'features', 'integrations', 'integrations2'];
@@ -173,4 +179,4 @@ fs.writeFileSync(outFile, Buffer.concat([...chunks, cd, end]));
 
 const kb = (n) => (n / 1024).toFixed(0) + ' KB';
 console.log(`\n${files.length} files, ${kb(fs.statSync(outFile).size)}  ->  dist/${path.basename(outFile)}`);
-console.log('checks passed: no other design, tone or lab in the package.');
+console.log('checks passed: one design, no demo markers, nothing else in the package.');

@@ -1,7 +1,6 @@
 # MechanicDesk — website
 
-A redesign of mechanicdesk.com.au as a single page. Every word on it is the live
-site's own copy.
+The MechanicDesk website as a single page. Production build.
 
 ---
 
@@ -140,21 +139,24 @@ section at the bottom of `styles.css`.
 
 ## Before this goes live
 
-1. **Remove `<meta name="robots" content="noindex">`** from the `<head>` — it is
-   there because this is a demo, and it stops Google indexing the page.
-2. **Remove the DEMO watermark**: the `<div class="demo-watermark">` near the top
-   of `<body>`, and its rule in `styles.css`.
-3. **The contact form does not send anything.** It validates and shows a
-   thank-you. Point it at a real endpoint (your own handler, Formspree, Netlify
-   Forms…) and delete block 10 in `script.js`.
-4. **Check the outbound links.** Sign Up, Login, feature detail pages, partner
+1. **Wire up the contact form — this is the only thing that is not finished.**
+   It validates in the browser and shows a thank-you, but the message is **not
+   sent anywhere**. Give the `<form>` an `action` (your own handler, Formspree,
+   Netlify Forms…) and delete block 10 in `script.js`. There is a comment
+   saying so in `index.html`, right after the submit button. Left as it is, you
+   will lose enquiries without knowing.
+2. **Check the outbound links.** Sign Up, Login, feature detail pages, partner
    pages and the blog all point at the current mechanicdesk.com.au URLs.
-5. **Photography.** The photos in `images/pexels/` are licensed stock (Pexels
-   licence, credits in `images/pexels/credits.json`). Partner logos in
+3. **Photography.** The photos in `images/pexels/` are licensed stock (Pexels
+   licence, credits in `images/pexels/credits.json`, and one line in the footer
+   — `content.cjs brand.credit`, set it to `''` to drop it). Partner logos in
    `images/logos/` belong to those companies; the product screenshots and
    customer logos are MechanicDesk's own.
-6. Add a `favicon.ico` / `apple-touch-icon` if you want more than the PNG that is
-   linked now.
+4. Add a `favicon.ico` / `apple-touch-icon` if you want more than the PNG that is
+   linked now, and a `sitemap.xml` / `robots.txt` if you care about those.
+
+The page is production-ready otherwise: it is indexable (no `noindex`), carries
+no watermark or demo wording, and nothing on it is placeholder text.
 
 ---
 

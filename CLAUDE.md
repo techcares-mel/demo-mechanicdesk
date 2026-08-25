@@ -1,4 +1,4 @@
-# CLAUDE.md — MechanicDesk redesign
+# CLAUDE.md — MechanicDesk
 
 ## What this is
 
@@ -6,6 +6,15 @@ A redesign of **https://www.mechanicdesk.com.au/** that keeps all of the existin
 replaces the design system. It is one page, rendered from `build/page.cjs` + `build/page.css` into
 the folder root, and it is what gets handed to the client — see `README.md`, which is written for
 them rather than for us.
+
+**This is a production build, not a demo.** The DEMO watermark, `robots: noindex`, the "Demo build"
+credit line and the "demo form" note under the contact form are all gone, and `build/package.cjs`
+fails if any of them come back. What is *not* demo wording and stays, because it is the live site's
+own copy: the **Support/Demo** nav item and section, the **Book a demo** buttons, and "we perform
+all support/demo functions via TeamViewer".
+
+The one thing genuinely unfinished is the contact form: no backend. There is a loud comment in
+`index.html` after the submit button and it is item 1 of the README's go-live list.
 
 **The design**: light and precision-engineered. Paper surfaces (`#f5f7f9`), amber used as a signal
 light rather than decoration, hazard tape, carbon weave, a tyre-tread edge on the footer, and a spec
@@ -31,7 +40,7 @@ point of folding it in — the client is going to edit this stylesheet.
   full footer menu tree.
 - Long copy is never printed by default — it sits behind click-to-open blocks (see below).
 - Deep links (Sign Up, Login, feature detail pages, partner pages, blog, policies) point at the real
-  mechanicdesk.com.au URLs. English only. `DEMO` watermark and `robots: noindex` are on the page.
+  mechanicdesk.com.au URLs. English only.
 
 ## Page order
 
@@ -214,16 +223,16 @@ images/pexels/               licensed photography + credits.json
   blog-vehicle-visuals.jpg   blog cover 1 (technician with a diagnostic tablet)
   blog-time-clocking.jpg     blog cover 2 (punch clock and timecards)
   type-auto|marine|machinery|bikes|tyres.jpg   the five "Suitable for" categories, 4:3
-  auto-workshop-wide.jpg     establishing shot: classic car on a two-post hoist
-  auto-engine-bay.jpg  auto-tools-bench.jpg  auto-tyre-tread.jpg
-  auto-brake-disc.jpg  auto-hands-wrench.jpg
+  auto-tyre-tread.jpg        the texture masked into the top of the footer
 ```
 
 ## Handover package
 
 `node build/package.cjs` writes `dist/mechanicdesk-website.zip` — the site, its images, the
 generator and `README.md`, and nothing else. It refuses to run if any file in the tree still
-mentions another style, so a stray page or a leftover theme cannot ship by accident.
+mentions another style, still carries a dark-palette colour, still has a demo marker (watermark,
+`noindex`, "Demo build"/"Demo form"), or if one of the deleted page folders has come back. A stray
+page or a leftover theme cannot ship by accident.
 
 ## Redeployment
 

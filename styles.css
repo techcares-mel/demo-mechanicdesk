@@ -5,7 +5,7 @@
    changes on every button, icon, link and light on the page.
 
    Reading order below, in the order the page uses them:
-     tokens (:root) · reset · chrome (watermark, progress, back-to-top) · nav ·
+     tokens (:root) · reset · chrome (progress bar, back-to-top) · nav ·
      buttons · hero · product mock · section headings · disclosures · cards ·
      features (the tile grid) · workshop band · integrations (circuit board) ·
      testimonials · pricing table · support · blog · CTA band · contact ·
@@ -112,11 +112,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 #backToTop.visible { opacity: 1; transform: none; pointer-events: auto; }
 #backToTop:hover { background: var(--accent-2); color: #17130a; }
 
-.demo-watermark {
-  position: fixed; right: -54px; top: 50%; transform: translateY(-50%) rotate(90deg);
-  font-family: var(--head); font-size: 92px; font-weight: 700; letter-spacing: 0.2em;
-  color: var(--accent); opacity: 0.10; z-index: 90; pointer-events: none; user-select: none;
-}
 
 /* ------------------------------------------------------------------- nav -- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding-top: 0.8rem; transition: padding 0.25s ease; }
@@ -618,7 +613,6 @@ ul { margin: 0; padding: 0; list-style: none; }
 .cf input:focus, .cf textarea:focus { outline: none; border-color: var(--accent); background: var(--accent-wash); }
 .cf textarea { resize: vertical; }
 .cf-submit { width: 100%; margin-top: 0.1rem; }
-.cf-note { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); text-align: center; }
 .form-thanks {
   background: var(--accent-tint); border-radius: var(--radius);
   padding: 2.25rem 1.75rem; text-align: center; opacity: 0; transform: translateY(10px); transition: all 0.4s ease;
@@ -698,7 +692,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   .bay-types { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .blog-grid { grid-template-columns: 1fr; }
-  .demo-watermark { font-size: 70px; right: -46px; }
   .foot-top { grid-template-columns: 1fr 1fr; }
   .foot-brand { grid-column: 1 / -1; max-width: none; }
 }
@@ -713,7 +706,6 @@ ul { margin: 0; padding: 0; list-style: none; }
     font-size: 0.92rem; border: 1px solid var(--line-2); border-radius: 999px; background: var(--card); color: var(--text);
   }
   .foot-top { grid-template-columns: 1fr; }
-  .demo-watermark { display: none; }
   .au-grid { grid-template-columns: repeat(2, 1fr); }
   .au-tile { aspect-ratio: 1.15; }
   .mock { padding: 0 0 12% 0; }

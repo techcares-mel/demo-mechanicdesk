@@ -64,8 +64,6 @@ const mapsIframe = (h) => '<iframe title="MechanicDesk head office on Google Map
   encodeURIComponent(C.brand.address.oneLine) + '&output=embed" width="100%" height="' + (h || 300) +
   '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="border:0;"></iframe>';
 
-const watermark = () => '<div class="demo-watermark" aria-hidden="true">DEMO</div>';
-
 const chrome = () => [
   '<div id="scrollProgress" aria-hidden="true"></div>',
   '<button id="backToTop" aria-label="Back to top">' + icons.arrow + '</button>'
@@ -94,7 +92,11 @@ const contactForm = () => `
     <textarea name="message" rows="5" required placeholder="Tell us about your workshop"></textarea>
   </label>
   <button type="submit" class="btn btn-primary cf-submit">${esc(C.contact.submit)}</button>
-  <p class="cf-note">Demo form — no message is actually sent.</p>
+  <!-- ============================== READ THIS BEFORE GOING LIVE ==============================
+       This form has NO BACKEND. It validates in the browser and shows a thank-you; the message
+       is not sent anywhere. Give the <form> an action (your own handler, Formspree, Netlify
+       Forms, …) and delete block 10 of script.js, or you will be losing enquiries silently.
+       ======================================================================================== -->
 </form>`;
 
 const pricingDataScript = () => {
@@ -256,15 +258,12 @@ const head = ({ fontLinks, css }) => `<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(C.brand.title)}</title>
 <meta name="description" content="${esc(C.brand.metaDescription)}">
-<meta name="robots" content="noindex">
 <meta property="og:title" content="${esc(C.brand.name)} — ${esc(C.brand.product)}">
 <meta property="og:description" content="${esc(C.brand.heroSub)}">
 <link rel="icon" type="image/png" href="images/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ${fontLinks}
-<link rel="stylesheet" href="${css}">
-<!-- A redesign of mechanicdesk.com.au. Every string on the page is the live
-     site's own copy, kept verbatim. -->`;
+<link rel="stylesheet" href="${css}">`;
 
-module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, markSize, markLift, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };
+module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, markSize, markLift, mapsIframe, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };

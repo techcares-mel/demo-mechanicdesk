@@ -49,7 +49,10 @@ const brand = {
     heading: 'About us',
     body: 'MechanicDesk is a product of Autodeck Pty. Ltd. We are a web based company providing innovative ideas for people and businesses. We are passionate about creating products that help people solve everyday problems and make their lives easier. We will always work hard to please our customers and are always happy to do business with you.'
   },
-  copyright: 'Copyright 2014 - 2026. MechanicDesk. All rights reserved.'
+  copyright: 'Copyright 2014 - 2026. MechanicDesk. All rights reserved.',
+  /* Second line in the footer. The Pexels licence does not require attribution,
+     but the workshop photography is theirs — set this to '' to drop the line. */
+  credit: 'Workshop photography: Pexels'
 };
 
 /* In the order the sections actually appear on the page, so the menu reads as a
