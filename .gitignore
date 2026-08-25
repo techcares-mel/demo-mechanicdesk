@@ -3,3 +3,6 @@ Thumbs.db
 *.log
 
 .vercel
+
+# the handover zip is a build artefact
+dist/

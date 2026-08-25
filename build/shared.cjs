@@ -158,12 +158,6 @@ const productMock = (opts) => {
     </div>
   </div>` : '';
 
-  const badgeEl = o.badge === false ? '' : `
-  <div class="mock-badge">
-    <span class="mba-ico">${icons.bell}</span>
-    <span class="mba-txt"><strong>${esc(T.badge.title)}</strong></span>
-  </div>`;
-
   return `
 <div class="mock${o.wide ? ' mock-wide' : ''}${o.mod ? ' ' + o.mod : ''}">
   <figure class="mock-browser" data-tour>
@@ -186,7 +180,6 @@ const productMock = (opts) => {
     </figcaption>
   </figure>
   ${phoneEl}
-  ${badgeEl}
 </div>`;
 };
 
@@ -257,8 +250,9 @@ const phoneDisclosure = () => disclose({
   body: `<ul class="phone-list">${phoneRows()}</ul>`
 });
 
-/* Head block shared by the concepts (fonts differ, passed in). */
-const head = ({ fontLinks, css, concept, conceptName }) => `<meta charset="UTF-8">
+/* The <head>. Everything in it comes from content.cjs except the font links
+   and the stylesheet name, which the template passes in. */
+const head = ({ fontLinks, css }) => `<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(C.brand.title)}</title>
 <meta name="description" content="${esc(C.brand.metaDescription)}">
@@ -270,6 +264,7 @@ const head = ({ fontLinks, css, concept, conceptName }) => `<meta charset="UTF-8
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ${fontLinks}
 <link rel="stylesheet" href="${css}">
-<!-- Concept ${concept}: ${conceptName} — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->`;
+<!-- A redesign of mechanicdesk.com.au. Every string on the page is the live
+     site's own copy, kept verbatim. -->`;
 
 module.exports = { esc, slug, ico, icons, alphaLogo, markHeight, markSize, markLift, mapsIframe, watermark, chrome, contactForm, pricingDataScript, phoneRows, appBadges, socialLinks, head, productMock, hasImage, disclose, integrationList, planIncludes, phoneDisclosure, C };

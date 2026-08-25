@@ -6,8 +6,17 @@ const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
-const CH = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const SP = 'C:/Users/hueyn/AppData/Local/Temp/claude/c--Users-hueyn-Claude-Projects-Auto-Create-Demo-Websites/29e04439-e4e2-4391-a0f0-a406f1be1a6c/scratchpad';
+const os = require('os');
+
+/* Set CHROME to your browser if it is not in the usual place, and OUT_DIR to
+   where the screenshots should land. */
+const CH = process.env.CHROME || (process.platform === 'win32'
+  ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+  : process.platform === 'darwin'
+    ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+    : 'google-chrome');
+const SP = process.env.OUT_DIR || path.join(os.tmpdir(), 'mechanicdesk-qa');
+fs.mkdirSync(SP, { recursive: true });
 
 const dir = process.argv[2] || '.';
 const shots = process.argv.slice(3);

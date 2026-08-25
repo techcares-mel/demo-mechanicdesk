@@ -1,18 +1,27 @@
-/* Runs a probe script inside integrations/index.html and prints what it found.
-   node build/qa3.cjs <probe.js> [dir]
+/* Runs a probe script inside the built page and prints what it found.
+   node build/probe.cjs <probe.js>
    The probe writes its result with  report(obj)  — the page is then dumped and
    the line pulled back out. */
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
-const CH = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
-const SP = 'C:/Users/hueyn/AppData/Local/Temp/claude/c--Users-hueyn-Claude-Projects-Auto-Create-Demo-Websites/29e04439-e4e2-4391-a0f0-a406f1be1a6c/scratchpad';
+const os = require('os');
+
+/* Set CHROME to your browser if it is not in the usual place, and OUT_DIR to
+   where the screenshots should land. */
+const CH = process.env.CHROME || (process.platform === 'win32'
+  ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+  : process.platform === 'darwin'
+    ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+    : 'google-chrome');
+const SP = process.env.OUT_DIR || path.join(os.tmpdir(), 'mechanicdesk-qa');
+fs.mkdirSync(SP, { recursive: true });
 
 const probe = fs.readFileSync(process.argv[2], 'utf8')
   .replace(/console\.log\('PROBE ' \+ ([^)]+)\)/, "document.title = 'PROBE:' + $1");
 
-const dir = process.argv[3] || 'integrations';
+const dir = process.argv[3] || '.';
 const src = path.join(__dirname, '..', dir, 'index.html');
 const qa = path.join(__dirname, '..', dir, '_probe.html');
 /* The replacement has to go in through a function: a probe that uses a $$

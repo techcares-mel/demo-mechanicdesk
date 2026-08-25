@@ -507,7 +507,6 @@ const productTour = {
     { file: 'm2.png', caption: 'MechanicDesk Mobile' },
     { file: 'm3.png', caption: 'MechanicDesk Mobile' }
   ],
-  badge: { title: 'Service reminder sent', text: 'Email and SMS, straight from the job' },
   source: 'Real screens from the MechanicDesk tutorials and mobile app.'
 };
 

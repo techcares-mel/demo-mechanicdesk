@@ -1,5 +1,5 @@
 /* =========================================================================
-   INTEGRATIONS — 05 "Circuit board"
+   INTEGRATIONS — the circuit board
    The apps are wired to each other, with the MechanicDesk mark still at the
    centre.
 
@@ -10,11 +10,17 @@
                      Vehicle Lookup (8 marks)
      · 4 vias        rounded-elbow bridges, inner bus -> outer bus
      · outer bus     the Supplier network + MailChimp + AMS (10 marks)
-     · chords        optional (chords: false) — direct app-to-app links inside
-                     a category, lit when one of its members is selected
-
    Everything sits on one loop, so every app is genuinely connected to every
    other one and to the centre. Light travels the traces; nothing rotates.
+
+   Two things will break it if they are changed carelessly:
+     · the wire layer is a full-size SVG over the whole board, so it has to
+       stay pointer-events:none or it swallows every click meant for a logo;
+     · .brd is a size container and the marks size themselves in cqw, so they
+       shrink with the board and never collide. Fixed pixel sizes in here
+       would overlap as soon as the board is narrower than 1200px.
+
+   Rendered by build/page.cjs; its CSS is appended to styles.css by build.cjs.
    ========================================================================= */
 const { esc, slug, C, alphaLogo, markSize, markLift } = require('./shared.cjs');
 
@@ -76,15 +82,6 @@ const elbow = (from, to, cr) => {
   };
 };
 
-/* app-to-app chord: a shallow arc bowing towards the centre */
-const chord = (a, b, bow) => {
-  const mx = (a[0] + b[0]) / 2;
-  const my = (a[1] + b[1]) / 2;
-  const cx = mx + (HUB.x - mx) * bow;
-  const cy = my + (HUB.y - my) * bow;
-  return `M ${a[0]} ${a[1]} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${b[0]} ${b[1]}`;
-};
-
 /* ------------------------------------------------------------------- slots */
 /* Inner bus, clockwise from the top-left; then the outer bus the same way.
    Widest marks sit on the horizontal runs, where there is room for them. */
@@ -112,8 +109,8 @@ const pick = (n) => {
   return byName[n];
 };
 
-/* Categories stay contiguous on their bus, so the chords are short and the
-   grouping reads without a legend. */
+/* Categories stay contiguous on their bus, so each group reads as a run of
+   neighbours without needing a legend. */
 const RING_IN = ['Intuit QuickBooks', 'MYOB', 'Xero', 'Till Payments', 'Windcave',
   'Australian Vehicle Lookup', 'CarJam (New Zealand only)',
   'MyCarCheck (United Kingdom only)'].map(pick);
@@ -124,34 +121,24 @@ const AT = {};
 RING_IN.forEach((it, i) => { AT[it.name] = SLOT_IN[i]; });
 RING_OUT.forEach((it, i) => { AT[it.name] = SLOT_OUT[i]; });
 
-/* every same-category pair that is adjacent on its bus */
-const CHORDS = [];
-[RING_IN, RING_OUT].forEach((ring) => ring.forEach((it, i) => {
-  const next = ring[(i + 1) % ring.length];
-  if (next.catKey === it.catKey) CHORDS.push({ cat: it.catKey, a: AT[it.name], b: AT[next.name] });
-}));
-
-const mark = (it, P) => it.file
-  ? `<img class="mk${markLift(it.file) ? ' lift' : ''}" src="${P}${alphaLogo(it.file)}"
+const mark = (it) => it.file
+  ? `<img class="mk${markLift(it.file) ? ' lift' : ''}" src="${alphaLogo(it.file)}"
        alt="" loading="lazy" style="--h:${size(it).h}px;--hn:${size(it).h}">`
   : `<em class="mk is-text">${esc(it.name.split(' ')[0])}</em>`;
 
-const node = (it, i, tier, P, A) => {
+/* Each mark is a button, placed as a percentage of the board so it holds its
+   position at every width. data-brd-node is what app.js listens for. */
+const node = (it, i, tier) => {
   const p = AT[it.name];
   return `
-    <button class="brd-node node ${tier}" ${A}="${it.key}" data-cat="${it.catKey}"
+    <button class="brd-node node ${tier}" data-brd-node="${it.key}" data-cat="${it.catKey}"
             aria-label="${esc(it.name)}"
             style="left:${((p[0] / VB.W) * 100).toFixed(3)}%;top:${((p[1] / VB.H) * 100).toFixed(3)}%;--lag:${(i * 0.5).toFixed(2)}s">
-      ${mark(it, P)}
+      ${mark(it)}
     </button>`;
 };
 
-module.exports.html = (o) => {
-  const P = o && o.prefix !== undefined ? o.prefix : '../';
-  const A = (o && o.attr) || 'data-node';
-  /* Both default on for the idea lab; the site turns them off. */
-  const withChords = !(o && o.chords === false);
-  const withBackdrop = !(o && o.backdrop === false);
+module.exports.html = () => {
   const spokes = [
     { d: `M ${HUB.x} ${HUB.y} V ${IN.y}`, len: HUB.y - IN.y },
     { d: `M ${HUB.x} ${HUB.y} V ${IN.y + IN.h}`, len: IN.y + IN.h - HUB.y },
@@ -162,12 +149,8 @@ module.exports.html = (o) => {
 
   return `
 <div class="brd-scroll">
-<div class="brd${withBackdrop ? '' : ' bare'}" data-scope="brd">
-  ${withBackdrop ? '<i class="brd-dots" aria-hidden="true"></i>' : ''}
+<div class="brd" data-scope="brd">
   <svg class="brd-wires" viewBox="0 0 ${VB.W} ${VB.H}" aria-hidden="true">
-    ${withChords ? CHORDS.map((c) => `<path class="chord" data-chord="${c.cat}" d="${chord(c.a, c.b, 0.14)}"
-      vector-effect="non-scaling-stroke" fill="none"></path>`).join('') : ''}
-
     <path class="bus" d="${rr(OUT)}" vector-effect="non-scaling-stroke" fill="none"></path>
     <path class="bus" d="${rr(IN)}" vector-effect="non-scaling-stroke" fill="none"></path>
 
@@ -192,12 +175,12 @@ module.exports.html = (o) => {
   <div class="brd-hub">
     <i class="brd-halo" aria-hidden="true"></i>
     <i class="brd-ping" aria-hidden="true"></i>
-    <div class="brd-chip"><img src="${P}images/logo.png" alt="MechanicDesk" width="36" height="37"></div>
+    <div class="brd-chip"><img src="images/logo.png" alt="MechanicDesk" width="36" height="37"></div>
     <span class="brd-chip-label">MechanicDesk</span>
   </div>
 
-  ${RING_IN.map((it, i) => node(it, i, 'in', P, A)).join('')}
-  ${RING_OUT.map((it, i) => node(it, i, 'out', P, A)).join('')}
+  ${RING_IN.map((it, i) => node(it, i, 'in')).join('')}
+  ${RING_OUT.map((it, i) => node(it, i, 'out')).join('')}
 </div>
 </div>`;
 };
@@ -209,53 +192,44 @@ module.exports.css = `
 /* 1cqw is 12px at the 1200px design width, so every mark keeps its share
    of the board instead of a fixed size — no overlap at any width. */
 .brd .mk{height:calc(var(--hn,30) * 1cqw / 12)}
-.brd-dots{position:absolute;inset:0;pointer-events:none;
-  background-image:radial-gradient(circle,rgba(255,255,255,.115) 1px,transparent 1.4px);
-  background-size:34px 34px;
-  mask-image:radial-gradient(ellipse 74% 74% at 50% 50%,#000 26%,transparent 82%);
-  -webkit-mask-image:radial-gradient(ellipse 74% 74% at 50% 50%,#000 26%,transparent 82%)}
-.brd::after{content:'';position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1.5;transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse,rgba(252,163,17,.13),transparent 66%);pointer-events:none;z-index:-1}
-/* .bare: no dot grid, no bloom — just the traces on the page's own ground */
-.brd.bare::after{display:none}
 /* the wires are a full-size transparent overlay: without this they would
    compete with the marks for clicks */
 .brd-wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.bus{stroke:rgba(255,255,255,.13);stroke-width:1.5}
-.spoke{stroke:rgba(255,255,255,.12);stroke-width:1.5}
-.via{stroke:rgba(255,255,255,.16);stroke-width:1.5}
-.chord{stroke:rgba(255,255,255,.055);stroke-width:1;stroke-dasharray:2 6;transition:stroke .45s ease}
-.chord.lit{stroke:rgba(252,163,17,.65);stroke-dasharray:none;filter:drop-shadow(0 0 5px rgba(252,163,17,.6))}
+.bus{stroke:rgba(18,24,33,.16);stroke-width:1.5}
+.spoke{stroke:rgba(18,24,33,.15);stroke-width:1.5}
+.via{stroke:rgba(18,24,33,.18);stroke-width:1.5}
 .pulse{stroke-width:2.5;stroke-linecap:round;stroke-dasharray:64 9999;stroke-dashoffset:0;
   animation:run var(--t,9s) linear infinite;animation-delay:calc(var(--lag,0s) * -1)}
 @keyframes run{to{stroke-dashoffset:calc((var(--len) + 64px) * -1)}}
-/* one colour for every light on the board: white reads as data moving rather
+/* one colour for every light on the board: it reads as data moving rather
    than as four different systems, and it lets the logos keep the only colour */
-.p-in, .p-out, .p-spoke, .p-via { stroke: #fff; filter: drop-shadow(0 0 7px rgba(255,255,255,.85)) }
+.p-in, .p-out, .p-spoke, .p-via { stroke: var(--accent); filter: drop-shadow(0 0 6px rgba(217,122,6,.55)) }
 .p-spoke{stroke-dasharray:30 9999}
 .p-via{stroke-dasharray:38 9999}
 
 .brd-hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:min(.5rem,.66cqw)}
 .brd-chip{width:min(76px,6.34cqw);height:min(76px,6.34cqw);border-radius:min(22px,1.84cqw);display:grid;place-items:center;position:relative;z-index:2;
-  background:linear-gradient(160deg,#1b2026,#0c0f12);box-shadow:0 0 0 1px rgba(255,255,255,.14),0 18px 40px rgba(0,0,0,.6)}
+  background:#fff;box-shadow:0 0 0 1px rgba(18,24,33,.12),0 18px 40px -18px rgba(18,24,33,.35)}
 .brd-chip img{width:min(36px,3cqw)}
 .brd-chip-label{font-family:var(--mono);font-size:min(.7rem,.93cqw);letter-spacing:.14em;text-transform:uppercase;color:var(--text);
-  background:rgba(11,13,15,.75);padding:.2rem .55rem;border-radius:999px;z-index:2}
+  background:rgba(255,255,255,.85);padding:.2rem .55rem;border-radius:999px;z-index:2}
 .brd-halo{position:absolute;left:50%;top:0;width:min(190px,15.8cqw);aspect-ratio:1;transform:translate(-50%,-57px);border-radius:50%;
-  background:conic-gradient(from 0deg,transparent 0 62%,rgba(252,163,17,.5) 78%,transparent 88%);
-  filter:blur(9px);animation:hubspin 7s linear infinite}
+  background:conic-gradient(from 0deg,transparent 0 62%,rgba(217,122,6,.5) 78%,transparent 88%);
+  filter:blur(9px);opacity:.5;animation:hubspin 7s linear infinite}
 @keyframes hubspin{to{transform:translate(-50%,-57px) rotate(360deg)}}
 .brd-ping{position:absolute;left:50%;top:min(38px,3.17cqw);width:min(76px,6.34cqw);aspect-ratio:1;
   margin:min(-38px,-3.17cqw) 0 0 min(-38px,-3.17cqw);border-radius:min(24px,2cqw);
-  border:1px solid rgba(252,163,17,.5);animation:chipping 3.6s ease-out infinite}
+  border:1px solid rgba(217,122,6,.45);animation:chipping 3.6s ease-out infinite}
 @keyframes chipping{0%{transform:scale(1);opacity:.85}70%{transform:scale(2.5);opacity:0}100%{opacity:0}}
 
 .brd-node{z-index:3}
+/* a light halo lifts each mark off the paper; on the dark design this was a
+   dark one. .active is set by app.js on the selected mark. */
 .brd-node .mk{animation:breathe 6.5s ease-in-out infinite;animation-delay:calc(var(--lag,0s) * -1);
-  filter:brightness(1.14) saturate(1.05) drop-shadow(0 0 9px #0b0d0f) drop-shadow(0 0 5px #0b0d0f) drop-shadow(0 8px 16px rgba(0,0,0,.7))}
+  filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 4px #fff) drop-shadow(0 6px 12px rgba(18,24,33,.18))}
 @keyframes breathe{0%,100%{opacity:.86}50%{opacity:1}}
-.brd-node:hover .mk,.brd-node.on .mk{animation:none;opacity:1;transform:scale(1.15);
-  filter:brightness(1.32) saturate(1.14) drop-shadow(0 0 9px #0b0d0f) drop-shadow(0 0 12px rgba(252,163,17,.5))}
+.brd-node:hover .mk,.brd-node.active .mk{animation:none;opacity:1;transform:scale(1.15);
+  filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 14px rgba(217,122,6,.45))}
 
 @media (prefers-reduced-motion:reduce){
   .pulse,.brd-halo,.brd-ping,.brd-node .mk{animation:none!important}

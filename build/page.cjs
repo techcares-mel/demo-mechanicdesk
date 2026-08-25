@@ -1,11 +1,19 @@
 /* =========================================================================
-   MECHANICDESK — "GRAPHITE" (the chosen design, rendered as the site root)
-   Dark, precision-engineered. Graphite surfaces, orange as a signal light.
-   Automotive cues: hazard tape, carbon weave, tyre-tread edge, spec plates.
-   Few borders, few boxes; long copy sits behind click-to-open blocks.
+   MECHANICDESK — the page.
+
+   This file is the markup: one function per block, in the order they appear,
+   assembled at the bottom. It prints strings — no framework, no JSX, no
+   virtual DOM. Words and data come from content.cjs; the design lives in
+   page.css. Run  node build/build.cjs  to write index.html.
+
+   The look: light and precision-engineered. Paper surfaces, amber used as a
+   signal light rather than decoration, and automotive cues — hazard tape,
+   carbon weave, a tyre-tread edge on the footer, a spec plate on every
+   module. Deliberately few boxes: sections are separated by space and
+   hairlines, and long copy sits behind click-to-open blocks.
    ========================================================================= */
 const S = require('./shared.cjs');
-const board = require('./lab2-board.cjs');
+const board = require('./board.cjs');
 const { esc, ico, icons, C, slug, alphaLogo, markHeight, markSize } = S;
 
 const FONTS = '<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">';
@@ -82,7 +90,7 @@ const hero = () => `
       </div>
     </div>
     <div class="hero-art reveal d2">
-      ${S.productMock({ badge: false })}
+      ${S.productMock()}
     </div>
   </div>
 </section>`;
@@ -168,12 +176,10 @@ const features = () => `
 
 /* ------------------------------------------------------- integrations ---- */
 /* The circuit board: the eighteen partners wired to each other on two buses
-   around the MechanicDesk chip, with light running the traces and a link
-   between every partner in the same category. Geometry, layout solving and
-   CSS all live in build/lab2-board.cjs (shared with the idea lab); this page
-   asks for root-relative assets and the data-brd-* hook that app.js 8c uses:
-   tapping a mark lights it and its category, and opens that partner in the
-   page's shared popup. */
+   around the MechanicDesk chip, with light running the traces. Geometry,
+   layout solving and CSS all live in build/board.cjs. Tapping a mark selects
+   it and opens that partner in the page's shared popup (app.js 8), out of the
+   hidden .pop-well below. */
 const circuit = () => {
   const items = [];
   C.integrations.categories.forEach((g) => g.items.forEach((it) => items.push({ ...it, cat: g.name })));
@@ -192,7 +198,7 @@ const circuit = () => {
       'centered')}
     <div class="int-board reveal">
       <p class="int-hint">All ${items.length} partners — tap one to read it</p>
-      ${board.html({ prefix: '', attr: 'data-brd-node', chords: false, backdrop: false })}
+      ${board.html()}
     </div>
 
     <div class="pop-well" hidden>
@@ -245,9 +251,10 @@ const proven = () => {
 };
 
 /* ------------------------------------------------------------- pricing --- */
-/* Spec-sheet comparison table (the layout from the Blueprint concept), in the
-   graphite palette: one row per attribute, plans as columns, first column
-   sticky so the table stays readable while it scrolls on small screens. */
+/* Pricing as a spec sheet rather than four cards: one row per attribute, the
+   plans as columns, and the first column sticky so the row labels stay put
+   while the table scrolls sideways on a phone. The region chips rewrite every
+   [data-price-cell] from the JSON at the foot of the page (app.js 9). */
 const pricing = () => {
   const P = C.pricing;
   const au = P.data.australia;
@@ -446,19 +453,19 @@ module.exports = () => `<!DOCTYPE html>
     images/      photography, partner logos, product screens
 
   GENERATED FILE. It is rendered from build/ (Node):
-    build/content.cjs   every string and number on the page
-    build/v2.cjs        this markup
-    build/v2.css        styles.css
-    build/app.js        script.js
+    build/content.cjs      every string and number on the page
+    build/page.cjs         this markup
+    build/page.css         styles.css
+    build/app.js           script.js
     node build/build.cjs   re-renders all three
 
   Editing index.html / styles.css / script.js directly is fine if you are not
   going to use the build — but the next \`node build/build.cjs\` overwrites them.
   See README.md.
 -->
-${S.head({ fontLinks: FONTS, css: 'styles.css', concept: 'Graphite', conceptName: 'dark precision industrial — redesign demo of mechanicdesk.com.au' })}
+${S.head({ fontLinks: FONTS, css: 'styles.css' })}
 </head>
-<body class="v2">
+<body>
 ${mark('CHROME', 'demo watermark, scroll-progress bar, back-to-top button')}
 ${S.watermark()}
 ${S.chrome()}
@@ -469,13 +476,13 @@ ${mark('HERO', 'brand.heroLead / heroSub / cta · the browser + phone mock is sh
 ${hero()}
 ${mark('WHY', 'pillars.items[] — three cards, icon names come from icons.cjs')}
 ${pillars()}
-${mark('INTEGRATIONS', 'integrations.categories[] · the board is lab2-board.cjs; its CSS is appended to styles.css. Marks are images/logos-alpha (background stripped)')}
+${mark('INTEGRATIONS', 'integrations.categories[] · the board is build/board.cjs; its CSS is appended to styles.css. Marks are images/logos-alpha (background stripped)')}
 ${circuit()}
 ${mark('SUITABLE FOR', 'suitable.items[] — photos in images/pexels')}
 ${bay()}
 ${mark('TESTIMONIALS', 'proven.reviews[] — real reviews, three shown, the rest behind the disclosure')}
 ${proven()}
-${mark('FEATURES', 'features.items[] — Aurora glass tiles; each tile opens its body from the hidden .pop-well in the same section')}
+${mark('FEATURES', 'features.items[] — twelve tiles; each opens its body from the hidden .pop-well in this section')}
 ${features()}
 ${mark('PRICING', 'pricing.plans[] x pricing.data[region] · the region switcher swaps every [data-price-cell] from the JSON at the end of this file')}
 ${pricing()}

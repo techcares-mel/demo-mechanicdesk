@@ -11,10 +11,10 @@
     images/      photography, partner logos, product screens
 
   GENERATED FILE. It is rendered from build/ (Node):
-    build/content.cjs   every string and number on the page
-    build/v2.cjs        this markup
-    build/v2.css        styles.css
-    build/app.js        script.js
+    build/content.cjs      every string and number on the page
+    build/page.cjs         this markup
+    build/page.css         styles.css
+    build/app.js           script.js
     node build/build.cjs   re-renders all three
 
   Editing index.html / styles.css / script.js directly is fine if you are not
@@ -33,9 +33,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<!-- Concept Graphite: dark precision industrial — redesign demo of mechanicdesk.com.au — redesign demo of mechanicdesk.com.au. Content preserved verbatim. -->
+<!-- A redesign of mechanicdesk.com.au. Every string on the page is the live
+     site's own copy, kept verbatim. -->
 </head>
-<body class="v2">
+<body>
 
 <!-- ===== CHROME ================== demo watermark, scroll-progress bar, back-to-top button -->
 <div class="demo-watermark" aria-hidden="true">DEMO</div>
@@ -158,7 +159,6 @@
       </div>
     </div>
   </div>
-  
 </div>
     </div>
   </div>
@@ -196,7 +196,7 @@
   </div>
 </section>
 
-<!-- ===== INTEGRATIONS ============ integrations.categories[] · the board is lab2-board.cjs; its CSS is appended to styles.css. Marks are images/logos-alpha (background stripped) -->
+<!-- ===== INTEGRATIONS ============ integrations.categories[] · the board is build/board.cjs; its CSS is appended to styles.css. Marks are images/logos-alpha (background stripped) -->
 
 <section id="integrations" class="sec sec-integrations">
   <div class="wrap">
@@ -212,11 +212,8 @@
       <p class="int-hint">All 18 partners — tap one to read it</p>
       
 <div class="brd-scroll">
-<div class="brd bare" data-scope="brd">
-  
+<div class="brd" data-scope="brd">
   <svg class="brd-wires" viewBox="0 0 1200 660" aria-hidden="true">
-    
-
     <path class="bus" d="M 210 56 H 990 A 140 140 0 0 1 1130 196 V 464 A 140 140 0 0 1 990 604 H 210 A 140 140 0 0 1 70 464 V 196 A 140 140 0 0 1 210 56 Z" vector-effect="non-scaling-stroke" fill="none"></path>
     <path class="bus" d="M 360 150 H 840 A 90 90 0 0 1 930 240 V 420 A 90 90 0 0 1 840 510 H 360 A 90 90 0 0 1 270 420 V 240 A 90 90 0 0 1 360 150 Z" vector-effect="non-scaling-stroke" fill="none"></path>
 
@@ -726,7 +723,7 @@
   </div>
 </section>
 
-<!-- ===== FEATURES ================ features.items[] — Aurora glass tiles; each tile opens its body from the hidden .pop-well in the same section -->
+<!-- ===== FEATURES ================ features.items[] — twelve tiles; each opens its body from the hidden .pop-well in this section -->
 
 <section id="features" class="sec sec-features">
   <div class="wrap">

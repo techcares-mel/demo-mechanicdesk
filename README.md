@@ -1,7 +1,7 @@
 # MechanicDesk — website
 
-A redesign of mechanicdesk.com.au as a single page. Everything on it is real
-content from the live site.
+A redesign of mechanicdesk.com.au as a single page. Every word on it is the live
+site's own copy.
 
 ---
 
@@ -17,8 +17,7 @@ runs; upload the folder to any static host and it is live.
 | `styles.css` | Every style, in labelled sections. The design system is the custom properties in `:root` at the top. |
 | `script.js` | Behaviour, in 14 numbered blocks. Each one is independent and does nothing if its markup is absent. |
 | `images/` | Photography, partner logos, product screenshots. |
-| `vercel.json` | One line of hosting config (`trailingSlash`). Delete it if you host elsewhere. |
-| `research.json`, `colors.json` | Working files from the build (the researched business data, and the palette read out of the logo). Not used by the page — safe to delete. |
+| `vercel.json` | One line of hosting config. Delete it if you host somewhere other than Vercel. |
 
 Browser baseline: anything from 2020 onwards (Chrome/Edge 88+, Safari 14+,
 Firefox 85+). The code uses `const`/`let`, arrow functions, optional chaining,
@@ -36,8 +35,8 @@ Fine for copy changes, new sections, restyling. `index.html`, `styles.css` and
 
 ### B. Use the generator in `build/` (Node)
 
-The three files are **generated**. If you are going to keep using the
-generator, edit these instead and re-render:
+The three files are **generated**. If you are going to keep using the generator,
+edit these instead and re-render:
 
 ```bash
 node build/build.cjs     # writes index.html, styles.css and script.js
@@ -46,13 +45,21 @@ node build/build.cjs     # writes index.html, styles.css and script.js
 | Source | Produces |
 |---|---|
 | `build/content.cjs` | **Every string and number on the page** — copy, prices, phone numbers, features, partners, reviews. |
-| `build/v2.cjs` | `index.html` |
-| `build/v2.css` | `styles.css` |
+| `build/page.cjs` | `index.html` |
+| `build/page.css` | `styles.css` |
 | `build/app.js` | `script.js` |
-| `build/lab2-board.cjs` | The Integrations circuit board — markup **and** the CSS that is appended to `styles.css`. |
+| `build/board.cjs` | The Integrations circuit board — its markup **and** the CSS that gets appended to `styles.css`. |
 | `build/shared.cjs` | Reusable fragments: the product tour, the contact form, disclosures, the `<head>`. |
 | `build/icons.cjs` | Every inline SVG icon, by name. |
-| `build/themes.cjs` | The alternate colour tones (mid / light) for both designs. |
+
+Three more scripts are tools rather than sources, and are only needed when you
+change assets:
+
+| Script | Run it when |
+|---|---|
+| `build/logos-alpha.cjs` | You add a partner logo — strips its background into `images/logos-alpha/`. |
+| `build/normalize-slides.cjs` | You add a product screenshot — pads or crops it to the tour's canvas. |
+| `build/qa.cjs`, `build/probe.cjs` | You want headless-Chrome screenshots or an in-page check. Needs Chrome; set `CHROME` and `OUT_DIR` if it is not in the usual place. |
 
 > **The one thing to know:** `node build/build.cjs` overwrites `index.html`,
 > `styles.css` and `script.js`. Pick one way of working. If you edit the three
@@ -84,16 +91,21 @@ node build/logos-alpha.cjs    # strips the logo background, writes images/logos-
 node build/build.cjs
 ```
 
-Then give it a slot in `build/lab2-board.cjs` (`RING_IN` / `RING_OUT`) — the
-board's layout is a fixed set of positions, not automatic.
+Then give it a slot in `build/board.cjs` (`RING_IN` / `RING_OUT`) — the board's
+layout is a fixed set of positions, not automatic.
 
 **Swap a photo** — drop the new file into `images/pexels/` (or wherever the
 original lives) with the same filename and it is picked up. Different filename:
 update it in `content.cjs`.
 
-**Change the colours or fonts** — `styles.css`, the `:root` block at the top.
-`--accent` is the orange; the greys are `--bg`, `--surface`, `--card`. Fonts are
-loaded in the `<head>` of `index.html`.
+**Change the colours** — `styles.css`, the `:root` block at the top. `--accent`
+is the amber, and the four `--accent-*` tints below it are derived from it;
+nothing in the stylesheet mixes the colour by hand, so changing those five
+lines re-brands the whole page. The greys are `--bg`, `--surface`, `--card` and
+`--line`.
+
+**Change the fonts** — the Google Fonts `<link>` in the `<head>` of
+`index.html`, and `--head` / `--sans` / `--mono` in `:root`.
 
 **Remove a whole section** — delete its `<section>` from `index.html` (each one
 is signposted). Nothing in `script.js` will break: every block checks for its
@@ -116,7 +128,7 @@ restyle freely without breaking anything:
 | `data-nav`, `data-navlink` | The fixed nav, and the links that highlight as you scroll. |
 | `data-menu`, `data-menu-open`, `data-menu-close` | Mobile drawer. |
 | `data-region`, `data-price-cell`, `data-month-unit` | Pricing region switcher. |
-| `data-brd-node`, `data-chord` | Circuit board marks and the links between them. |
+| `data-brd-node` | A partner mark on the circuit board. |
 | `data-target`, `data-suffix` | Number that counts up when scrolled into view. |
 | `data-year` | Filled with the current year. |
 | `data-tour`, `data-phone` | The product tour and the phone screens. |
@@ -140,36 +152,19 @@ section at the bottom of `styles.css`.
 5. **Photography.** The photos in `images/pexels/` are licensed stock (Pexels
    licence, credits in `images/pexels/credits.json`). Partner logos in
    `images/logos/` belong to those companies; the product screenshots and
-   customer photos are MechanicDesk's own.
-6. Add a `favicon.ico`/`apple-touch-icon` if you want more than the PNG that is
+   customer logos are MechanicDesk's own.
+6. Add a `favicon.ico` / `apple-touch-icon` if you want more than the PNG that is
    linked now.
-
----
-
-## Extra pages in this folder
-
-Comparison pages used while choosing the design. All `noindex`, none linked from
-the site, and all safe to delete along with their `build/lab*.cjs` generators:
-
-| Path | What it shows |
-|---|---|
-| `/features/` | Five treatments for the Features block. Aurora glass is the one now on the page. |
-| `/integrations/` | Five treatments for the Integrations block. The circuit board is the one now on the page. |
-| `/integrations2/` | Seven tidier treatments for the same block, for when the board reads as too busy. |
-| `/v2/` | The same page with a 3D layer over it (tilt, depth, parallax) and a toggle to switch it off. |
-| `/v3/` | A different design of the same content — "Flight deck": the page as an instrument cluster. |
-| `/mid/`, `/light/`, `/cool/`, `/duo/` | The main design in four more tones — lifted graphite, paper, cool ice-blue, and a warm-paper/dark-band split. |
-| `/v3-mid/`, `/v3-light/`, `/v3-cool/`, `/v3-duo/` | V3 in the same four tones. |
 
 ---
 
 ## Hosting
 
-It is a static folder — anything will serve it. Currently on Vercel:
+It is a static folder — anything will serve it: Vercel, Netlify, Cloudflare
+Pages, S3, or plain Apache/nginx. Nothing runs on the server.
+
+On Vercel:
 
 ```bash
 vercel --prod --yes
 ```
-
-`vercel.json` sets `trailingSlash: true`, which is what keeps the relative
-`styles.css` working inside the subfolders above.

@@ -212,22 +212,15 @@
 
   /* ── 8. Circuit board (Integrations) ──────────────────────────────────
      Tapping a partner mark marks it active and opens that partner in the
-     popup. The chord lighting below is inert on this page — the site asks the
-     board for no chords — but it costs nothing and the idea lab still uses it.
-     The first mark is selected on load for looks — quietly, without opening
-     the popup at anyone. */
+     popup. The first mark is selected on load for looks — quietly, without
+     opening the popup at anyone. */
   const boardNodes = $$('[data-brd-node]');
   if (boardNodes.length) {
-    const chords = $$('[data-chord]');
     let silent = false;
 
     const selectPartner = (node) => {
       const key = node.getAttribute('data-brd-node');
-      const category = node.getAttribute('data-cat');
       boardNodes.forEach((other) => other.classList.toggle('active', other === node));
-      chords.forEach((chord) => {
-        chord.classList.toggle('lit', Boolean(category) && chord.getAttribute('data-chord') === category);
-      });
       if (!silent) openPop(`int-${key}`, node);
     };
 
