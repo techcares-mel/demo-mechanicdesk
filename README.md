@@ -16,7 +16,7 @@ runs; upload the folder to any static host and it is live.
 | `styles.css` | Every style, in labelled sections. The design system is the custom properties in `:root` at the top. |
 | `script.js` | Behaviour, in 14 numbered blocks. Each one is independent and does nothing if its markup is absent. |
 | `images/` | Photography, partner logos, product screenshots. |
-| `vercel.json` | One line of hosting config. Delete it if you host somewhere other than Vercel. |
+| `vercel.json` | One line of Vercel config. Only needed if you host on Vercel — delete it otherwise. |
 
 Browser baseline: anything from 2020 onwards (Chrome/Edge 88+, Safari 14+,
 Firefox 85+). The code uses `const`/`let`, arrow functions, optional chaining,
@@ -160,13 +160,101 @@ no watermark or demo wording, and nothing on it is placeholder text.
 
 ---
 
-## Hosting
+## Putting it online
 
-It is a static folder — anything will serve it: Vercel, Netlify, Cloudflare
-Pages, S3, or plain Apache/nginx. Nothing runs on the server.
+**The server needs nothing.** No Node, no PHP, no database, no build step. These
+are static files — every host on earth serves them, and the page runs the same
+opened straight off a USB stick.
 
-On Vercel:
+### What to upload
 
-```bash
-vercel --prod --yes
+Four things:
+
 ```
+index.html
+styles.css
+script.js
+images/
+```
+
+That is 4.4 MB in total. Also upload `vercel.json` **only** if you are on Vercel.
+
+Do **not** upload `build/` or `README.md`. `build/` is the generator — it is
+source code, it is no use to a web server, and nothing on the page asks for it.
+Keep it in version control, not on the host. (If it does end up there it is
+harmless, just dead weight.)
+
+Every path in the page is relative, so it works at the root of a domain
+(`example.com/`) **or** in any subfolder (`example.com/au/workshop-software/`)
+with no changes. That has been tested from a nested folder, not assumed.
+
+### Three ways to do it — pick one
+
+**1. Drag and drop (about two minutes, no tools)**
+
+Go to [Netlify Drop](https://app.netlify.com/drop), Cloudflare Pages or Vercel,
+drag the folder onto the page, and it is live on a temporary URL straight away.
+Add the real domain afterwards in the host's dashboard. No git, no command line,
+no account setup beyond signing in. Best way to get it in front of people today.
+
+**2. The hosting you already have (cPanel / FTP / SFTP)**
+
+Upload the four items above into the web root — usually `public_html` or
+`www`. To try it before replacing the current site, put it in a subfolder
+(`public_html/new/`) and visit `yourdomain.com/new/`; when you are happy, move
+the files up a level. Keep a copy of the old site until you have checked the new
+one on a phone.
+
+**3. Git, with automatic deploys**
+
+Push the folder to GitHub/GitLab, then connect the repo in Vercel, Netlify or
+Cloudflare Pages. When they ask for build settings:
+
+- **Build command:** leave it empty
+- **Output / publish directory:** `.` (the repo root)
+- **Framework preset:** None / Other
+
+Every push to the main branch then republishes the site by itself. This is the
+one to choose if the site will keep changing.
+
+### The domain and HTTPS
+
+All three hosts above give you a free certificate and renew it themselves — you
+point the domain at them (a CNAME, or their nameservers) and they do the rest.
+On your own server, HTTPS is whatever your host provides, usually Let's Encrypt
+in one click from the control panel.
+
+### The one thing that needs something on the server
+
+**The contact form.** Everything else on the page is finished, but the form has
+no backend (see the top of the go-live list above). How you fix it depends where
+you host:
+
+| Host | What to do |
+|---|---|
+| **Netlify** | Add `netlify` to the `<form>` tag. That is the whole job — submissions appear in the Netlify dashboard and can be emailed to you. |
+| **Vercel / Cloudflare Pages** | Point the form at a form service (Formspree, Basin, Formsubmit) — one attribute — or write a small serverless function. |
+| **Your own server** | A short PHP (or similar) script that emails the fields. Set `<form action="contact.php" method="post">`. |
+
+Whichever route: once the form really posts, delete **block 10** in `script.js`,
+because that is what currently stops the submit and fakes the thank-you.
+
+### What the page fetches from the internet at run time
+
+Only three things, and everything else is served from your own folder:
+
+- `fonts.googleapis.com` and `fonts.gstatic.com` — the three typefaces.
+- `maps.google.com` — the map iframe in the Contact section.
+
+If your IT policy forbids third-party requests, the fonts can be downloaded into
+`images/` (or a `fonts/` folder) and linked locally, and the map can be replaced
+with a static image and a link. Nothing else on the page phones home.
+
+### After it is up, check these
+
+1. Open it on a phone — the menu, the board (it scrolls sideways), the tables.
+2. Click a feature tile: the popup opens.
+3. Switch the pricing region: every price changes.
+4. Tap a partner logo on the board: its popup opens.
+5. The map loads in Contact.
+6. Submit the form — and confirm the message actually arrives.

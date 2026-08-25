@@ -234,7 +234,19 @@ mentions another style, still carries a dark-palette colour, still has a demo ma
 `noindex`, "Demo build"/"Demo form"), or if one of the deleted page folders has come back. A stray
 page or a leftover theme cannot ship by accident.
 
-## Redeployment
+## Deployment
+
+**The client's own instructions are in `README.md` → "Putting it online"**: what to upload (the four
+items — `index.html`, `styles.css`, `script.js`, `images/`, 4.4 MB, and `vercel.json` only on
+Vercel), the three routes (drag-and-drop onto Netlify Drop, FTP into `public_html`, or git with
+automatic deploys), the domain and certificate, and per-host instructions for wiring up the form.
+`build/` is deliberately *not* uploaded — it is source, and nothing on the page requests it.
+
+Two facts worth not re-deriving: every asset path on the page is relative, so it runs at a domain
+root or at any subfolder depth (tested from a nested folder, not assumed); and the only things it
+fetches at run time are Google Fonts and the Maps iframe.
+
+## Redeployment (our demo host)
 
 From the project root (one level up):
 

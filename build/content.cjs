@@ -212,9 +212,6 @@ const proven = {
   note: 'Hear it from those who use MechanicDesk every day',
   moreLabel: 'More happy customers',
   moreUrl: u('testimonials.html'),
-  /* Real reviews, verbatim from the site's own javascripts/testimonials.js
-     (the carousel data behind testimonials.html). 32 exist; these nine are the
-     shortest, spread across AU and NZ. Nothing here is invented. */
   /* Real reviews, verbatim from the site's own javascripts/testimonials.js —
      the carousel data behind testimonials.html. 32 exist there; these nine are
      the shortest, spread across AU and NZ. Nothing here is invented. */
